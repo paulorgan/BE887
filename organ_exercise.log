@@ -1,0 +1,3337 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\prorgan\Box\Classes\BE 887\Exercise\organ_exercise.log
+  log type:  text
+ opened on:  20 Sep 2018, 18:55:15
+
+. 
+. * load data
+. use "data1980s_share.dta"
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen landlocked = n_landlock==2
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen island = n_islands==2
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. rename ln_distance dist
+
+. rename legalsystem_same legal
+
+. rename common_lang lang
+
+. rename religion_same religion
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen landlock = n_landlock==2
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. reg ln_trade dist border island landlock legal lang colonial cu fta religion, r
+
+Linear regression                               Number of obs     =    110,697
+                                                F(10, 110686)     =    1017.48
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0722
+                                                Root MSE          =     3.0762
+
+------------------------------------------------------------------------------
+             |               Robust
+    ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        dist |  -.4879986   .0128002   -38.12   0.000    -.5130867   -.4629104
+      border |   2.012081   .0660616    30.46   0.000     1.882601    2.141561
+      island |  -.8367648   .0483155   -17.32   0.000    -.9314626   -.7420671
+    landlock |  -1.252296   .0672427   -18.62   0.000    -1.384091   -1.120501
+       legal |  -.2562175   .0218588   -11.72   0.000    -.2990605   -.2133745
+        lang |  -.5710848   .0224177   -25.47   0.000    -.6150233   -.5271464
+    colonial |   3.625486   .0493814    73.42   0.000       3.5287    3.722273
+          cu |  -.7198805   .1175075    -6.13   0.000    -.9501935   -.4895675
+         fta |   2.321992   .0919641    25.25   0.000     2.141744     2.50224
+    religion |  -.5169957   .0306991   -16.84   0.000    -.5771655   -.4568259
+       _cons |   10.44232   .0566353   184.38   0.000     10.33132    10.55333
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. reg ln_trade dist border island landlock legal lang colonial cu fta religion if year==1986, r
+
+Linear regression                               Number of obs     =     11,146
+                                                F(10, 11135)      =     107.51
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0763
+                                                Root MSE          =     3.0589
+
+------------------------------------------------------------------------------
+             |               Robust
+    ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        dist |  -.4299015   .0408098   -10.53   0.000    -.5098959   -.3499071
+      border |   2.150962   .2071836    10.38   0.000     1.744846    2.557079
+      island |   -.939144   .1514154    -6.20   0.000    -1.235945    -.642343
+    landlock |  -1.190172    .210827    -5.65   0.000     -1.60343   -.7769133
+       legal |   -.156097   .0682861    -2.29   0.022    -.2899498   -.0222442
+        lang |  -.7080435   .0699889   -10.12   0.000    -.8452342   -.5708529
+    colonial |   3.690983   .1563455    23.61   0.000     3.384518    3.997447
+          cu |  -.9984376   .3988137    -2.50   0.012    -1.780183   -.2166923
+         fta |   2.540175   .2694193     9.43   0.000     2.012065    3.068284
+    religion |  -.5571015   .0968063    -5.75   0.000     -.746859    -.367344
+       _cons |    10.1426   .1806325    56.15   0.000     9.788525    10.49667
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. reg ln_trade dist border island landlock legal lang colonial cu fta religion...
+religion... invalid name
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. reg ln_trade dist border island landlock legal lang colonial cu fta religion \\
+\ invalid name
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. reg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> if year==1986, r
+
+Linear regression                               Number of obs     =     11,146
+                                                F(10, 11135)      =     107.51
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0763
+                                                Root MSE          =     3.0589
+
+------------------------------------------------------------------------------
+             |               Robust
+    ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        dist |  -.4299015   .0408098   -10.53   0.000    -.5098959   -.3499071
+      border |   2.150962   .2071836    10.38   0.000     1.744846    2.557079
+      island |   -.939144   .1514154    -6.20   0.000    -1.235945    -.642343
+    landlock |  -1.190172    .210827    -5.65   0.000     -1.60343   -.7769133
+       legal |   -.156097   .0682861    -2.29   0.022    -.2899498   -.0222442
+        lang |  -.7080435   .0699889   -10.12   0.000    -.8452342   -.5708529
+    colonial |   3.690983   .1563455    23.61   0.000     3.384518    3.997447
+          cu |  -.9984376   .3988137    -2.50   0.012    -1.780183   -.2166923
+         fta |   2.540175   .2694193     9.43   0.000     2.012065    3.068284
+    religion |  -.5571015   .0968063    -5.75   0.000     -.746859    -.367344
+       _cons |    10.1426   .1806325    56.15   0.000     9.788525    10.49667
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. areg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> if year==1986, a(expcode, impcode) r
+absorb() does not contain a valid varname
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen pair = expcode+"to"+impcode
+type mismatch
+r(109);
+
+end of do-file
+
+r(109);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen pair = expcode + "to" + impcode
+type mismatch
+r(109);
+
+end of do-file
+
+r(109);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen pair = expcode + "-" + impcode
+type mismatch
+r(109);
+
+end of do-file
+
+r(109);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. gen pair = expcode + impcode
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. xtreg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> if year==1986, fe i(expcode) i(impcode) cluster(pair)
+option i() not allowed
+r(198);
+
+end of do-file
+
+r(198);
+
+. help xtreg
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. xtreg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> i.expcode i.impcode if year==1986, fe vce(cluster pair)
+panels are not nested within clusters
+r(498);
+
+end of do-file
+
+r(498);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. xtreg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> i.expcode i.impcode if year==1986, fe vce(robuse)
+vcetype 'robuse' not allowed
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. xtreg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+note: 130120.expcode omitted because of collinearity
+note: 134340.expcode omitted because of collinearity
+note: 135040.expcode omitted because of collinearity
+note: 137320.expcode omitted because of collinearity
+note: 137360.expcode omitted because of collinearity
+note: 137880.expcode omitted because of collinearity
+note: 138180.expcode omitted because of collinearity
+note: 141200.expcode omitted because of collinearity
+note: 141400.expcode omitted because of collinearity
+note: 141480.expcode omitted because of collinearity
+note: 142660.expcode omitted because of collinearity
+note: 160240.expcode omitted because of collinearity
+note: 161080.expcode omitted because of collinearity
+note: 161740.expcode omitted because of collinearity
+note: 161800.expcode omitted because of collinearity
+note: 162040.expcode omitted because of collinearity
+note: 162260.expcode omitted because of collinearity
+note: 162300.expcode omitted because of collinearity
+note: 162620.expcode omitted because of collinearity
+note: 162700.expcode omitted because of collinearity
+note: 162880.expcode omitted because of collinearity
+note: 163240.expcode omitted because of collinearity
+note: 163840.expcode omitted because of collinearity
+note: 164040.expcode omitted because of collinearity
+note: 164300.expcode omitted because of collinearity
+note: 164500.expcode omitted because of collinearity
+note: 164540.expcode omitted because of collinearity
+note: 164660.expcode omitted because of collinearity
+note: 164780.expcode omitted because of collinearity
+note: 164800.expcode omitted because of collinearity
+note: 165080.expcode omitted because of collinearity
+note: 165620.expcode omitted because of collinearity
+note: 165660.expcode omitted because of collinearity
+note: 166240.expcode omitted because of collinearity
+note: 166380.expcode omitted because of collinearity
+note: 166460.expcode omitted because of collinearity
+note: 166860.expcode omitted because of collinearity
+note: 166900.expcode omitted because of collinearity
+note: 166940.expcode omitted because of collinearity
+note: 167060.expcode omitted because of collinearity
+note: 167160.expcode omitted because of collinearity
+note: 167680.expcode omitted because of collinearity
+note: 168000.expcode omitted because of collinearity
+note: 168340.expcode omitted because of collinearity
+note: 168540.expcode omitted because of collinearity
+note: 168940.expcode omitted because of collinearity
+note: 211240.expcode omitted because of collinearity
+note: 218400.expcode omitted because of collinearity
+note: 220600.expcode omitted because of collinearity
+note: 223040.expcode omitted because of collinearity
+note: 330320.expcode omitted because of collinearity
+note: 330680.expcode omitted because of collinearity
+note: 330760.expcode omitted because of collinearity
+note: 331520.expcode omitted because of collinearity
+note: 331700.expcode omitted because of collinearity
+note: 332180.expcode omitted because of collinearity
+note: 334840.expcode omitted because of collinearity
+note: 336000.expcode omitted because of collinearity
+note: 336040.expcode omitted because of collinearity
+note: 338580.expcode omitted because of collinearity
+note: 338620.expcode omitted because of collinearity
+note: 341880.expcode omitted because of collinearity
+note: 342220.expcode omitted because of collinearity
+note: 343200.expcode omitted because of collinearity
+note: 343400.expcode omitted because of collinearity
+note: 345580.expcode omitted because of collinearity
+note: 350440.expcode omitted because of collinearity
+note: 350520.expcode omitted because of collinearity
+note: 351360.expcode omitted because of collinearity
+note: 351920.expcode omitted because of collinearity
+note: 352140.expcode omitted because of collinearity
+note: 353120.expcode omitted because of collinearity
+note: 353320.expcode omitted because of collinearity
+note: 353880.expcode omitted because of collinearity
+note: 355320.expcode omitted because of collinearity
+note: 356580.expcode omitted because of collinearity
+note: 357800.expcode omitted because of collinearity
+note: 357960.expcode omitted because of collinearity
+note: 360840.expcode omitted because of collinearity
+note: 362540.expcode omitted because of collinearity
+note: 363280.expcode omitted because of collinearity
+note: 365900.expcode omitted because of collinearity
+note: 367400.expcode omitted because of collinearity
+note: 413760.expcode omitted because of collinearity
+note: 413920.expcode omitted because of collinearity
+note: 440480.expcode omitted because of collinearity
+note: 441960.expcode omitted because of collinearity
+note: 443640.expcode omitted because of collinearity
+note: 443680.expcode omitted because of collinearity
+note: 444000.expcode omitted because of collinearity
+note: 444140.expcode omitted because of collinearity
+note: 444220.expcode omitted because of collinearity
+note: 445120.expcode omitted because of collinearity
+note: 446340.expcode omitted because of collinearity
+note: 446820.expcode omitted because of collinearity
+note: 447600.expcode omitted because of collinearity
+note: 447840.expcode omitted because of collinearity
+note: 447920.expcode omitted because of collinearity
+note: 448870.expcode omitted because of collinearity
+note: 450040.expcode omitted because of collinearity
+note: 450500.expcode omitted because of collinearity
+note: 450640.expcode omitted because of collinearity
+note: 450960.expcode omitted because of collinearity
+note: 451040.expcode omitted because of collinearity
+note: 451160.expcode omitted because of collinearity
+note: 451440.expcode omitted because of collinearity
+note: 453440.expcode omitted because of collinearity
+note: 453560.expcode omitted because of collinearity
+note: 453600.expcode omitted because of collinearity
+note: 454100.expcode omitted because of collinearity
+note: 454180.expcode omitted because of collinearity
+note: 454580.expcode omitted because of collinearity
+note: 454620.expcode omitted because of collinearity
+note: 455240.expcode omitted because of collinearity
+note: 455860.expcode omitted because of collinearity
+note: 456080.expcode omitted because of collinearity
+note: 457020.expcode omitted because of collinearity
+note: 457640.expcode omitted because of collinearity
+note: 458960.expcode omitted because of collinearity
+note: 481560.expcode omitted because of collinearity
+note: 484080.expcode omitted because of collinearity
+note: 484960.expcode omitted because of collinearity
+note: 487040.expcode omitted because of collinearity
+note: 530560.expcode omitted because of collinearity
+note: 532080.expcode omitted because of collinearity
+note: 532500.expcode omitted because of collinearity
+note: 532800.expcode omitted because of collinearity
+note: 533000.expcode omitted because of collinearity
+note: 533720.expcode omitted because of collinearity
+note: 533800.expcode omitted because of collinearity
+note: 535280.expcode omitted because of collinearity
+note: 536200.expcode omitted because of collinearity
+note: 537240.expcode omitted because of collinearity
+note: 538260.expcode omitted because of collinearity
+note: 550400.expcode omitted because of collinearity
+note: 552460.expcode omitted because of collinearity
+note: 553520.expcode omitted because of collinearity
+note: 555780.expcode omitted because of collinearity
+note: 557520.expcode omitted because of collinearity
+note: 557560.expcode omitted because of collinearity
+note: 574700.expcode omitted because of collinearity
+note: 580080.expcode omitted because of collinearity
+note: 581000.expcode omitted because of collinearity
+note: 582000.expcode omitted because of collinearity
+note: 583480.expcode omitted because of collinearity
+note: 586160.expcode omitted because of collinearity
+note: 586420.expcode omitted because of collinearity
+note: 598900.expcode omitted because of collinearity
+note: 688100.expcode omitted because of collinearity
+note: 710360.expcode omitted because of collinearity
+note: 715540.expcode omitted because of collinearity
+note: 720900.expcode omitted because of collinearity
+note: 722420.expcode omitted because of collinearity
+note: 722960.expcode omitted because of collinearity
+note: 725400.expcode omitted because of collinearity
+note: 725980.expcode omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     11,146
+Group variable: expcode                         Number of groups  =        157
+
+R-sq:                                           Obs per group:
+     within  = 0.6083                                         min =          3
+     between = 0.4506                                         avg =       71.0
+     overall = 0.2003                                         max =        156
+
+                                                F(156,156)        =          .
+corr(u_i, Xb)  = -0.3874                        Prob > F          =          .
+
+                                                                                          (Std. Err. adjusted for 157 clusters in expcode)
+------------------------------------------------------------------------------------------------------------------------------------------
+                                                                         |               Robust
+                                                                ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------------------------------------------------------------+----------------------------------------------------------------
+                                                                    dist |  -1.176233   .0517671   -22.72   0.000    -1.278487   -1.073978
+                                                                  border |   .4578363   .1742116     2.63   0.009     .1137183    .8019543
+                                                                  island |   .3905513   .1528521     2.56   0.012     .0886245    .6924781
+                                                                landlock |   .5613842   .2035514     2.76   0.007     .1593117    .9634566
+                                                                   legal |   .4859488   .0716035     6.79   0.000     .3445113    .6273863
+                                                                    lang |   .1763616    .087722     2.01   0.046     .0030854    .3496378
+                                                                colonial |   1.299236   .1498155     8.67   0.000     1.003307    1.595164
+                                                                      cu |   1.363871   .4920232     2.77   0.006     .3919833    2.335758
+                                                                     fta |   .7587149    .315032     2.41   0.017     .1364361    1.380994
+                                                                religion |   .1018044   .1275015     0.80   0.426    -.1500476    .3536565
+                                                                         |
+                                                                 expcode |
+                                                                ALGERIA  |          0  (omitted)
+                                                           LIBY ARAB JM  |          0  (omitted)
+                                                                MOROCCO  |          0  (omitted)
+                                                         WESTERN SAHARA  |          0  (omitted)
+                                                                  SUDAN  |          0  (omitted)
+                                                                TUNISIA  |          0  (omitted)
+                                                                  EGYPT  |          0  (omitted)
+                                                               CAMEROON  |          0  (omitted)
+                                                      CENTRAL AFR. REP.  |          0  (omitted)
+                                                                   CHAD  |          0  (omitted)
+                                                                  GABON  |          0  (omitted)
+                                                                 ANGOLA  |          0  (omitted)
+                                                                BURUNDI  |          0  (omitted)
+                                                                COMOROS  |          0  (omitted)
+                                                                  ZAIRE  |          0  (omitted)
+                                                                  BENIN  |          0  (omitted)
+                                                             EQ. GUINEA  |          0  (omitted)
+                                                               ETHIOPIA  |          0  (omitted)
+                                                               DJIBOUTI  |          0  (omitted)
+                                                                 GAMBIA  |          0  (omitted)
+                                                                  GHANA  |          0  (omitted)
+                                                                 GUINEA  |          0  (omitted)
+                                                          COTE D'IVOIRE  |          0  (omitted)
+                                                                  KENYA  |          0  (omitted)
+                                                                LIBERIA  |          0  (omitted)
+                                                             MADAGASCAR  |          0  (omitted)
+                                                                 MALAWI  |          0  (omitted)
+                                                                   MALI  |          0  (omitted)
+                                                             MAURITANIA  |          0  (omitted)
+                                                              MAURITIUS  |          0  (omitted)
+                                                             MOZAMBIQUE  |          0  (omitted)
+                                                                  NIGER  |          0  (omitted)
+                                                                NIGERIA  |          0  (omitted)
+                                    GUINEA-BISSAU (includes CAPE VERDE)  |          0  (omitted)
+                                                                REUNION  |          0  (omitted)
+                                                                 RWANDA  |          0  (omitted)
+                                                                SENEGAL  |          0  (omitted)
+                                                             SEYCHELLES  |          0  (omitted)
+                                                           SIERRA LEONE  |          0  (omitted)
+                                                                SOMALIA  |          0  (omitted)
+                                                               ZIMBABWE  |          0  (omitted)
+                                                                   TOGO  |          0  (omitted)
+                                                                 UGANDA  |          0  (omitted)
+                                                       UNTD RP TANZANIA  |          0  (omitted)
+                                                           BURKINA FASO  |          0  (omitted)
+                                                                 ZAMBIA  |          0  (omitted)
+                                                                 CANADA  |          0  (omitted)
+                                                                    USA  |          0  (omitted)
+                                                                BERMUDA  |          0  (omitted)
+                                                              GREENLAND  |          0  (omitted)
+                                                              ARGENTINA  |          0  (omitted)
+                                                                BOLIVIA  |          0  (omitted)
+                                                                 BRAZIL  |          0  (omitted)
+                                                                  CHILE  |          0  (omitted)
+                                                               COLOMBIA  |          0  (omitted)
+                                                                ECUADOR  |          0  (omitted)
+                                                                 MEXICO  |          0  (omitted)
+                                                               PARAGUAY  |          0  (omitted)
+                                                                   PERU  |          0  (omitted)
+                                                                URUGUAY  |          0  (omitted)
+                                                              VENEZUELA  |          0  (omitted)
+                                                             COSTA RICA  |          0  (omitted)
+                                                            EL SALVADOR  |          0  (omitted)
+                                                              GUATEMALA  |          0  (omitted)
+                                                               HONDURAS  |          0  (omitted)
+                                                              NICARAGUA  |          0  (omitted)
+                                                                BAHAMAS  |          0  (omitted)
+                                                               BARBADOS  |          0  (omitted)
+                                                           CAYMAN ISLDS  |          0  (omitted)
+                                                                   CUBA  |          0  (omitted)
+                                                           DOMINICAN RP  |          0  (omitted)
+                                       GUADELOUPE (includes MARTINIQUE)  |          0  (omitted)
+                                                                  HAITI  |          0  (omitted)
+                                                                JAMAICA  |          0  (omitted)
+                                                          NETH ANTILLES  |          0  (omitted)
+ST KITTS NEV (includes DOMINICA, MONTSERRAT, ST LUCA,ST VINCT, GRENADA)  |          0  (omitted)
+                                                        TRINIDAD-TOBAGO  |          0  (omitted)
+                                                       TURKS CAICOS ISL  |          0  (omitted)
+                                                                 BELIZE  |          0  (omitted)
+                                                          FRENCH GUIANA  |          0  (omitted)
+                                                                 GUYANA  |          0  (omitted)
+                                                                 PANAMA  |          0  (omitted)
+                                                                SURINAM  |          0  (omitted)
+                                                                 ISRAEL  |          0  (omitted)
+                                                                  JAPAN  |          0  (omitted)
+                                                                BAHRAIN  |          0  (omitted)
+                                                                 CYPRUS  |          0  (omitted)
+                                                                   IRAN  |          0  (omitted)
+                                                                   IRAQ  |          0  (omitted)
+                                                                 JORDAN  |          0  (omitted)
+                                                                 KUWAIT  |          0  (omitted)
+                                                                LEBANON  |          0  (omitted)
+                                                                   OMAN  |          0  (omitted)
+                                                                  QATAR  |          0  (omitted)
+                                                           SAUDI ARABIA  |          0  (omitted)
+                                                           SYRN ARAB RP  |          0  (omitted)
+                                                           UNTD ARAB EM  |          0  (omitted)
+                                                                 TURKEY  |          0  (omitted)
+                                                                  YEMEN  |          0  (omitted)
+                                                            AFGHANISTAN  |          0  (omitted)
+                                                             BANGLADESH  |          0  (omitted)
+                                                                 BHUTAN  |          0  (omitted)
+                                                                 BRUNEI  |          0  (omitted)
+                                                        MYANMAR (BURMA)  |          0  (omitted)
+                                                               CAMBODIA  |          0  (omitted)
+                                                              SRI LANKA  |          0  (omitted)
+                                                              HONG KONG  |          0  (omitted)
+                                                                  INDIA  |          0  (omitted)
+                                             INDONESIA (includes MACAU)  |          0  (omitted)
+                                                       KOREA RP (SOUTH)  |          0  (omitted)
+                                                           LAOS P.DEM.R  |          0  (omitted)
+                                                               MALAYSIA  |          0  (omitted)
+                                                               MALDIVES  |          0  (omitted)
+                                                                  NEPAL  |          0  (omitted)
+                                                               PAKISTAN  |          0  (omitted)
+                                                            PHILIPPINES  |          0  (omitted)
+                                                              SINGAPORE  |          0  (omitted)
+                                                               THAILAND  |          0  (omitted)
+                                                                 TAIWAN  |          0  (omitted)
+                                                                  CHINA  |          0  (omitted)
+                                                   KOREA D P RP (NORTH)  |          0  (omitted)
+                                                               MONGOLIA  |          0  (omitted)
+                                                                VIETNAM  |          0  (omitted)
+                                                           BELGIUM-LUX.  |          0  (omitted)
+                                         DENMARK (includes FAROE ISLDS)  |          0  (omitted)
+                                                                 FRANCE  |          0  (omitted)
+                                                                GERMANY  |          0  (omitted)
+                                                                 GREECE  |          0  (omitted)
+                                                                IRELAND  |          0  (omitted)
+                                                                  ITALY  |          0  (omitted)
+                                                            NETHERLANDS  |          0  (omitted)
+                                                               PORTUGAL  |          0  (omitted)
+                                                                  SPAIN  |          0  (omitted)
+                                                         UNITED KINGDOM  |          0  (omitted)
+                                                                AUSTRIA  |          0  (omitted)
+                                                                FINLAND  |          0  (omitted)
+                                                                ICELAND  |          0  (omitted)
+                                                                 NORWAY  |          0  (omitted)
+                                                                 SWEDEN  |          0  (omitted)
+                                                            SWITZERLAND  |          0  (omitted)
+                                                                  MALTA  |          0  (omitted)
+                                                                ALBANIA  |          0  (omitted)
+                                                               BULGARIA  |          0  (omitted)
+                                                         CZECHOSLOVAKIA  |          0  (omitted)
+                                                                HUNGARY  |          0  (omitted)
+                                                                 POLAND  |          0  (omitted)
+                                                                ROMANIA  |          0  (omitted)
+                             FM YUGOSLAVIA (includes CROATIA, SLOVENIA)  |          0  (omitted)
+                                                                FM USSR  |          0  (omitted)
+                                                              AUSTRALIA  |          0  (omitted)
+                                                            NEW ZEALAND  |          0  (omitted)
+                                                          SOLOMON ISLDS  |          0  (omitted)
+                                                                   FIJI  |          0  (omitted)
+                       KIRIBATI (includes SOLOMON ISLDS, TONGA, TUVALU)  |          0  (omitted)
+                         NEW CALEDONIA (includes FR POLYNESIA, VANUATA)  |          0  (omitted)
+                                                         PAPUA N.GUINEA  |          0  (omitted)
+                                                                         |
+                                                                 impcode |
+                                                                ALGERIA  |  -.0444247   .3358682    -0.13   0.895    -.7078611    .6190116
+                                                           LIBY ARAB JM  |  -.3472482   .3516809    -0.99   0.325    -1.041919    .3474228
+                                                                MOROCCO  |  -.3001436   .3269816    -0.92   0.360    -.9460262    .3457391
+                                                         WESTERN SAHARA  |  -4.131925   .7514669    -5.50   0.000    -5.616288   -2.647562
+                                                                  SUDAN  |  -1.587657   .3373386    -4.71   0.000    -2.253998   -.9213167
+                                                                TUNISIA  |  -1.104602   .3154404    -3.50   0.001    -1.727687   -.4815161
+                                                                  EGYPT  |   .3970966   .3378627     1.18   0.242    -.2702794    1.064473
+                                                               CAMEROON  |   -2.07996   .3240611    -6.42   0.000    -2.720074   -1.439846
+                                                      CENTRAL AFR. REP.  |  -4.221535   .3647954   -11.57   0.000    -4.942111   -3.500959
+                                                                   CHAD  |   -4.84254   .3841596   -12.61   0.000    -5.601366   -4.083715
+                                                                  CONGO  |  -2.949421   .4028542    -7.32   0.000    -3.745174   -2.153668
+                                                                  GABON  |  -2.515276   .3410145    -7.38   0.000    -3.188878   -1.841675
+                                                                 ANGOLA  |   -1.46513   .4003981    -3.66   0.000    -2.256032    -.674229
+                                                                BURUNDI  |  -3.926401    .335314   -11.71   0.000    -4.588743   -3.264059
+                                                                COMOROS  |  -4.425957   .4996657    -8.86   0.000     -5.41294   -3.438973
+                                                                  ZAIRE  |   -1.77258      .3608    -4.91   0.000    -2.485264   -1.059896
+                                                                  BENIN  |  -2.642418   .3565147    -7.41   0.000    -3.346637   -1.938199
+                                                             EQ. GUINEA  |  -5.447019   .5055642   -10.77   0.000    -6.445654   -4.448384
+                                                               ETHIOPIA  |  -1.661609   .3566275    -4.66   0.000     -2.36605   -.9571669
+                                                               DJIBOUTI  |  -3.311146   .3382076    -9.79   0.000    -3.979204   -2.643089
+                                                                 GAMBIA  |  -3.646384   .4038455    -9.03   0.000    -4.444095   -2.848673
+                                                                  GHANA  |  -2.154106    .338775    -6.36   0.000    -2.823284   -1.484927
+                                                                 GUINEA  |  -2.588608   .3662803    -7.07   0.000    -3.312117     -1.8651
+                                                          COTE D'IVOIRE  |  -1.285535    .363086    -3.54   0.001    -2.002735   -.5683362
+                                                                  KENYA  |  -1.030813   .3071749    -3.36   0.001    -1.637572   -.4240545
+                                                                LIBERIA  |  -1.328888   .3791241    -3.51   0.001    -2.077767   -.5800093
+                                                             MADAGASCAR  |  -2.923814    .375846    -7.78   0.000    -3.666218    -2.18141
+                                                                 MALAWI  |  -3.135114   .3182196    -9.85   0.000    -3.763689   -2.506538
+                                                                   MALI  |  -3.351063   .3851047    -8.70   0.000    -4.111756   -2.590371
+                                                             MAURITANIA  |  -3.370428   .4457181    -7.56   0.000    -4.250849   -2.490006
+                                                              MAURITIUS  |  -2.140467   .3509202    -6.10   0.000    -2.833635   -1.447299
+                                                             MOZAMBIQUE  |  -1.766633   .3926841    -4.50   0.000    -2.542297   -.9909689
+                                                                  NIGER  |  -3.588437    .379724    -9.45   0.000    -4.338501   -2.838373
+                                                                NIGERIA  |  -.5326102   .3363651    -1.58   0.115    -1.197028    .1318075
+                                    GUINEA-BISSAU (includes CAPE VERDE)  |  -2.859758   .3829902    -7.47   0.000    -3.616273   -2.103242
+                                                                REUNION  |   -2.04267   .3749005    -5.45   0.000    -2.783206   -1.302134
+                                                                 RWANDA  |  -3.398551   .3862198    -8.80   0.000    -4.161446   -2.635655
+                                                                SENEGAL  |  -2.241964   .3282335    -6.83   0.000     -2.89032   -1.593609
+                                                             SEYCHELLES  |   -3.79138    .410532    -9.24   0.000    -4.602299   -2.980461
+                                                           SIERRA LEONE  |  -3.556163   .3334519   -10.66   0.000    -4.214826   -2.897499
+                                                                SOMALIA  |  -2.761328   .3399909    -8.12   0.000    -3.432908   -2.089748
+                                                               ZIMBABWE  |  -2.154177   .2976474    -7.24   0.000    -2.742116   -1.566237
+                                                                   TOGO  |  -2.850733   .3613288    -7.89   0.000    -3.564461   -2.137005
+                                                                 UGANDA  |  -3.278126   .3628533    -9.03   0.000    -3.994865   -2.561386
+                                                       UNTD RP TANZANIA  |  -1.583806   .3575006    -4.43   0.000    -2.289973   -.8776398
+                                                           BURKINA FASO  |  -3.655895   .3636535   -10.05   0.000    -4.374215   -2.937575
+                                                                 ZAMBIA  |  -2.276362   .3206234    -7.10   0.000    -2.909685   -1.643039
+                                                                 CANADA  |   2.355143   .3026402     7.78   0.000     1.757342    2.952945
+                                                                    USA  |   5.102423   .3114856    16.38   0.000      4.48715    5.717697
+                                                                BERMUDA  |  -2.636322   .3565419    -7.39   0.000    -3.340595    -1.93205
+                                                              GREENLAND  |  -4.000696    .415045    -9.64   0.000     -4.82053   -3.180863
+                                                              ARGENTINA  |  -.0695013   .2835624    -0.25   0.807    -.6296185    .4906159
+                                                                BOLIVIA  |  -2.336932   .3021788    -7.73   0.000    -2.933822   -1.740041
+                                                                 BRAZIL  |    1.18901   .3027615     3.93   0.000     .5909695    1.787052
+                                                                  CHILE  |  -.1170171   .3009188    -0.39   0.698    -.7114182     .477384
+                                                               COLOMBIA  |  -.7848666   .2776525    -2.83   0.005     -1.33331   -.2364232
+                                                                ECUADOR  |  -.9051767   .2814535    -3.22   0.002    -1.461128   -.3492252
+                                                                 MEXICO  |  -.0356771   .2756592    -0.13   0.897    -.5801833     .508829
+                                                               PARAGUAY  |  -2.911611   .3328394    -8.75   0.000    -3.569065   -2.254158
+                                                                   PERU  |    -.51024   .2758762    -1.85   0.066    -1.055175    .0346947
+                                                                URUGUAY  |  -1.377808   .2991514    -4.61   0.000    -1.968718    -.786898
+                                                              VENEZUELA  |  -.1645582   .2740294    -0.60   0.549    -.7058451    .3767287
+                                                             COSTA RICA  |  -1.747492   .3358903    -5.20   0.000    -2.410972   -1.084012
+                                                            EL SALVADOR  |  -2.225479   .3281548    -6.78   0.000    -2.873679   -1.577279
+                                                              GUATEMALA  |  -1.793643    .286558    -6.26   0.000    -2.359677   -1.227608
+                                                               HONDURAS  |  -2.161501   .3212685    -6.73   0.000    -2.796099   -1.526903
+                                                              NICARAGUA  |   -1.59677   .3884085    -4.11   0.000    -2.363988    -.829551
+                                                                BAHAMAS  |  -1.373664   .4111403    -3.34   0.001    -2.185784   -.5615434
+                                                               BARBADOS  |   -2.44444   .3374799    -7.24   0.000     -3.11106    -1.77782
+                                                           CAYMAN ISLDS  |  -3.738355    .340657   -10.97   0.000    -4.411251    -3.06546
+                                                                   CUBA  |   -.631047   .4690606    -1.35   0.180    -1.557576    .2954825
+                                                           DOMINICAN RP  |  -1.691212   .3230542    -5.24   0.000    -2.329337   -1.053087
+                                       GUADELOUPE (includes MARTINIQUE)  |  -2.041389   .3174999    -6.43   0.000    -2.668542   -1.414235
+                                                                  HAITI  |  -2.600202   .3088935    -8.42   0.000    -3.210356   -1.990049
+                                                                JAMAICA  |  -2.138209   .3383314    -6.32   0.000    -2.806511   -1.469907
+                                                          NETH ANTILLES  |   -2.35827   .3435563    -6.86   0.000    -3.036892   -1.679647
+ST KITTS NEV (includes DOMINICA, MONTSERRAT, ST LUCA,ST VINCT, GRENADA)  |  -2.482005   .3852369    -6.44   0.000    -3.242959   -1.721051
+                                                        TRINIDAD-TOBAGO  |  -1.817932    .307513    -5.91   0.000    -2.425359   -1.210506
+                                                       TURKS CAICOS ISL  |  -4.708089   .8418273    -5.59   0.000     -6.37094   -3.045238
+                                                                 BELIZE  |  -3.987339   .3496643   -11.40   0.000    -4.678027   -3.296652
+                                                          FRENCH GUIANA  |  -3.695169   .3640214   -10.15   0.000    -4.414215   -2.976122
+                                                                 GUYANA  |  -3.143335   .3922352    -8.01   0.000    -3.918112   -2.368558
+                                                                 PANAMA  |  -.7527035   .3381321    -2.23   0.027    -1.420612   -.0847953
+                                                                SURINAM  |  -3.451781   .4019491    -8.59   0.000    -4.245746   -2.657815
+                                                                 ISRAEL  |  -.3848699   .3445472    -1.12   0.266     -1.06545    .2957098
+                                                                  JAPAN  |   4.359683    .322932    13.50   0.000     3.721799    4.997566
+                                                                BAHRAIN  |  -1.776408     .32226    -5.51   0.000    -2.412965   -1.139852
+                                                                 CYPRUS  |  -1.869844   .3214557    -5.82   0.000    -2.504812   -1.234877
+                                                                   IRAN  |   .8176731   .3488191     2.34   0.020      .128655    1.506691
+                                                                   IRAQ  |   .4009283   .3325997     1.21   0.230    -.2560518    1.057908
+                                                                 JORDAN  |  -.9310555   .3086972    -3.02   0.003    -1.540821   -.3212898
+                                                                 KUWAIT  |   .0787264   .3172022     0.25   0.804    -.5478392     .705292
+                                                                LEBANON  |  -1.410161   .3221845    -4.38   0.000    -2.046568   -.7737536
+                                                                   OMAN  |  -1.298675   .3328903    -3.90   0.000    -1.956229   -.6411211
+                                                                  QATAR  |  -1.567482   .3249878    -4.82   0.000    -2.209426   -.9255377
+                                                           SAUDI ARABIA  |   1.220014   .3188969     3.83   0.000     .5901011    1.849927
+                                                           SYRN ARAB RP  |  -1.066047   .3484786    -3.06   0.003    -1.754392   -.3777011
+                                                           UNTD ARAB EM  |  -.0084738   .3198513    -0.03   0.979    -.6402721    .6233245
+                                                                 TURKEY  |   .4137827   .2972967     1.39   0.166    -.1734637    1.001029
+                                                                  YEMEN  |  -.5124647   .3195148    -1.60   0.111    -1.143598    .1186689
+                                                            AFGHANISTAN  |  -2.321179   .4054379    -5.73   0.000    -3.122036   -1.520323
+                                                             BANGLADESH  |  -.5851659   .3454159    -1.69   0.092    -1.267462    .0971298
+                                                                 BHUTAN  |  -5.256131   .4936703   -10.65   0.000    -6.231271    -4.28099
+                                                                 BRUNEI  |  -2.786597   .3814546    -7.31   0.000     -3.54008   -2.033115
+                                                        MYANMAR (BURMA)  |  -2.245703   .3843848    -5.84   0.000    -3.004973   -1.486433
+                                                               CAMBODIA  |  -5.200231   .5196337   -10.01   0.000    -6.226657   -4.173805
+                                                              SRI LANKA  |  -.8233466   .3318148    -2.48   0.014    -1.478776    -.167917
+                                                              HONG KONG  |   1.099308    .278556     3.95   0.000     .5490803    1.649537
+                                                                  INDIA  |   1.494837   .3309026     4.52   0.000     .8412092    2.148465
+                                             INDONESIA (includes MACAU)  |   .5369764   .2899238     1.85   0.066    -.0357064    1.109659
+                                                       KOREA RP (SOUTH)  |    1.95762   .3336373     5.87   0.000     1.298591     2.61665
+                                                           LAOS P.DEM.R  |  -5.150107   .4373808   -11.77   0.000     -6.01406   -4.286154
+                                                               MALAYSIA  |   .5964239   .2965483     2.01   0.046     .0106558    1.182192
+                                                               MALDIVES  |  -4.728819   .4495499   -10.52   0.000    -5.616809   -3.840829
+                                                                  NEPAL  |  -3.106415   .3536385    -8.78   0.000    -3.804953   -2.407878
+                                                               PAKISTAN  |    .227476   .3073613     0.74   0.460    -.3796508    .8346029
+                                                            PHILIPPINES  |  -.0304872   .3208789    -0.10   0.924    -.6643152    .6033408
+                                                              SINGAPORE  |   1.116834   .3032731     3.68   0.000     .5177825    1.715885
+                                                               THAILAND  |   1.016774   .3157126     3.22   0.002      .393151    1.640397
+                                                                 TAIWAN  |    2.20255   .3226938     6.83   0.000     1.565137    2.839963
+                                                                  CHINA  |   2.547384   .3156555     8.07   0.000     1.923874    3.170894
+                                                   KOREA D P RP (NORTH)  |  -1.093428   .4136076    -2.64   0.009    -1.910422   -.2764338
+                                                               MONGOLIA  |  -4.108813   .5382054    -7.63   0.000    -5.171924   -3.045703
+                                                                VIETNAM  |  -2.395879   .4531219    -5.29   0.000    -3.290925   -1.500833
+                                                           BELGIUM-LUX.  |   2.350725   .2945775     7.98   0.000      1.76885    2.932601
+                                         DENMARK (includes FAROE ISLDS)  |    .747945    .301098     2.48   0.014     .1531899      1.3427
+                                                                 FRANCE  |   3.291966   .2945241    11.18   0.000     2.710196    3.873736
+                                                                GERMANY  |   4.037292   .2983216    13.53   0.000     3.448021    4.626563
+                                                                 GREECE  |   .1970667   .2904087     0.68   0.498     -.376574    .7707074
+                                                                IRELAND  |   .0063665   .2937747     0.02   0.983     -.573923    .5866559
+                                                                  ITALY  |    3.05356    .306916     9.95   0.000     2.447312    3.659807
+                                                            NETHERLANDS  |    2.62019   .3045715     8.60   0.000     2.018574    3.221806
+                                                               PORTUGAL  |   .7003693   .3035927     2.31   0.022     .1006864    1.300052
+                                                                  SPAIN  |   2.103294   .2970029     7.08   0.000     1.516628     2.68996
+                                                         UNITED KINGDOM  |    3.14684     .29971    10.50   0.000     2.554827    3.738853
+                                                                AUSTRIA  |    .667098   .3065545     2.18   0.031     .0615647    1.272631
+                                                                FINLAND  |   .7666669   .3221199     2.38   0.019     .1303875    1.402946
+                                                                ICELAND  |  -2.235712   .3055565    -7.32   0.000    -2.839274    -1.63215
+                                                                 NORWAY  |   .5231038   .3200444     1.63   0.104    -.1090759    1.155283
+                                                                 SWEDEN  |   1.432526     .29698     4.82   0.000     .8459053    2.019147
+                                                            SWITZERLAND  |   1.401392   .2978543     4.70   0.000     .8130445     1.98974
+                                                                  MALTA  |  -2.407534   .3147569    -7.65   0.000    -3.029269   -1.785798
+                                                                ALBANIA  |  -4.069085   .4503896    -9.03   0.000    -4.958734   -3.179436
+                                                               BULGARIA  |  -.1995563   .3667841    -0.54   0.587    -.9240602    .5249477
+                                                         CZECHOSLOVAKIA  |   .9538611    .383312     2.49   0.014     .1967097    1.711012
+                                                                HUNGARY  |   .3017725   .3547412     0.85   0.396    -.3989434    1.002488
+                                                                 POLAND  |   .5572444   .3511146     1.59   0.115    -.1363078    1.250797
+                                                                ROMANIA  |   .0180693   .3712759     0.05   0.961    -.7153073    .7514459
+                             FM YUGOSLAVIA (includes CROATIA, SLOVENIA)  |   .8651971   .3175682     2.72   0.007     .2379085    1.492486
+                                                                FM USSR  |   3.220366    .362458     8.88   0.000     2.504407    3.936325
+                                                              AUSTRALIA  |    1.48487   .2789193     5.32   0.000     .9339241    2.035816
+                                                            NEW ZEALAND  |   .3507168   .2895856     1.21   0.228    -.2212981    .9227317
+                                                          SOLOMON ISLDS  |  -4.180036   .4048611   -10.32   0.000    -4.979753   -3.380319
+                                                                   FIJI  |  -2.534632   .3279893    -7.73   0.000    -3.182505   -1.886759
+                       KIRIBATI (includes SOLOMON ISLDS, TONGA, TUVALU)  |  -4.684859   .4116415   -11.38   0.000    -5.497969   -3.871749
+                         NEW CALEDONIA (includes FR POLYNESIA, VANUATA)  |  -1.781001   .3529372    -5.05   0.000    -2.478154   -1.083849
+                                                         PAPUA N.GUINEA  |  -2.174598   .3363966    -6.46   0.000    -2.839078   -1.510118
+                                                                         |
+                                                                   _cons |   12.92239   .3295999    39.21   0.000     12.27133    13.57344
+-------------------------------------------------------------------------+----------------------------------------------------------------
+                                                                 sigma_u |  2.5036364
+                                                                 sigma_e |  1.7405187
+                                                                     rho |  .67417342   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. quietly xtreg ln_trade dist border island landlock legal lang colonial cu fta religion ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. esimtates table b(%9.4f) se(%9.4f) p keep (`vars')
+command esimtates is unrecognized
+r(199);
+
+end of do-file
+
+r(199);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table b(%9.4f) se(%9.4f) p keep (`vars')
+estimation result b(%9.4f) not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. estimates table b se p keep (`vars')
+estimation result b not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table b se p keep (`vars')
+estimation result b not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table keep (`vars')
+estimation result keep not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+      border |  .45783629  
+      island |  .39055129  
+    landlock |  .56138418  
+       legal |  .48594879  
+        lang |  .17636158  
+    colonial |  1.2992357  
+          cu |  1.3638706  
+         fta |   .7587149  
+    religion |  .10180442  
+---------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table se p, keep (`vars')
+estimation result se not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. estimates table, keep(`vars') stats(b se p)
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+     expcode |
+    ALGERIA  |  (omitted)  
+LIBY ARAB..  |  (omitted)  
+    MOROCCO  |  (omitted)  
+WESTERN S..  |  (omitted)  
+      SUDAN  |  (omitted)  
+    TUNISIA  |  (omitted)  
+      EGYPT  |  (omitted)  
+   CAMEROON  |  (omitted)  
+CENTRAL A..  |  (omitted)  
+       CHAD  |  (omitted)  
+      GABON  |  (omitted)  
+     ANGOLA  |  (omitted)  
+    BURUNDI  |  (omitted)  
+    COMOROS  |  (omitted)  
+      ZAIRE  |  (omitted)  
+      BENIN  |  (omitted)  
+ EQ. GUINEA  |  (omitted)  
+   ETHIOPIA  |  (omitted)  
+   DJIBOUTI  |  (omitted)  
+     GAMBIA  |  (omitted)  
+      GHANA  |  (omitted)  
+     GUINEA  |  (omitted)  
+COTE D'IV..  |  (omitted)  
+      KENYA  |  (omitted)  
+    LIBERIA  |  (omitted)  
+ MADAGASCAR  |  (omitted)  
+     MALAWI  |  (omitted)  
+       MALI  |  (omitted)  
+ MAURITANIA  |  (omitted)  
+  MAURITIUS  |  (omitted)  
+ MOZAMBIQUE  |  (omitted)  
+      NIGER  |  (omitted)  
+    NIGERIA  |  (omitted)  
+GUINEA-B..)  |  (omitted)  
+    REUNION  |  (omitted)  
+     RWANDA  |  (omitted)  
+    SENEGAL  |  (omitted)  
+ SEYCHELLES  |  (omitted)  
+SIERRA LE..  |  (omitted)  
+    SOMALIA  |  (omitted)  
+   ZIMBABWE  |  (omitted)  
+       TOGO  |  (omitted)  
+     UGANDA  |  (omitted)  
+UNTD RP T..  |  (omitted)  
+BURKINA F..  |  (omitted)  
+     ZAMBIA  |  (omitted)  
+     CANADA  |  (omitted)  
+        USA  |  (omitted)  
+    BERMUDA  |  (omitted)  
+  GREENLAND  |  (omitted)  
+  ARGENTINA  |  (omitted)  
+    BOLIVIA  |  (omitted)  
+     BRAZIL  |  (omitted)  
+      CHILE  |  (omitted)  
+   COLOMBIA  |  (omitted)  
+    ECUADOR  |  (omitted)  
+     MEXICO  |  (omitted)  
+   PARAGUAY  |  (omitted)  
+       PERU  |  (omitted)  
+    URUGUAY  |  (omitted)  
+  VENEZUELA  |  (omitted)  
+ COSTA RICA  |  (omitted)  
+EL SALVADOR  |  (omitted)  
+  GUATEMALA  |  (omitted)  
+   HONDURAS  |  (omitted)  
+  NICARAGUA  |  (omitted)  
+    BAHAMAS  |  (omitted)  
+   BARBADOS  |  (omitted)  
+CAYMAN IS..  |  (omitted)  
+       CUBA  |  (omitted)  
+DOMINICAN..  |  (omitted)  
+GUADELOU..)  |  (omitted)  
+      HAITI  |  (omitted)  
+    JAMAICA  |  (omitted)  
+NETH ANTI..  |  (omitted)  
+ST KITTS..)  |  (omitted)  
+TRINIDAD-~O  |  (omitted)  
+TURKS CAI..  |  (omitted)  
+     BELIZE  |  (omitted)  
+FRENCH GU..  |  (omitted)  
+     GUYANA  |  (omitted)  
+     PANAMA  |  (omitted)  
+    SURINAM  |  (omitted)  
+     ISRAEL  |  (omitted)  
+      JAPAN  |  (omitted)  
+    BAHRAIN  |  (omitted)  
+     CYPRUS  |  (omitted)  
+       IRAN  |  (omitted)  
+       IRAQ  |  (omitted)  
+     JORDAN  |  (omitted)  
+     KUWAIT  |  (omitted)  
+    LEBANON  |  (omitted)  
+       OMAN  |  (omitted)  
+      QATAR  |  (omitted)  
+SAUDI ARA..  |  (omitted)  
+SYRN ARAB..  |  (omitted)  
+UNTD ARAB..  |  (omitted)  
+     TURKEY  |  (omitted)  
+      YEMEN  |  (omitted)  
+AFGHANISTAN  |  (omitted)  
+ BANGLADESH  |  (omitted)  
+     BHUTAN  |  (omitted)  
+     BRUNEI  |  (omitted)  
+MYANMAR ..)  |  (omitted)  
+   CAMBODIA  |  (omitted)  
+  SRI LANKA  |  (omitted)  
+  HONG KONG  |  (omitted)  
+      INDIA  |  (omitted)  
+INDONESI..)  |  (omitted)  
+KOREA RP..)  |  (omitted)  
+LAOS P.DE..  |  (omitted)  
+   MALAYSIA  |  (omitted)  
+   MALDIVES  |  (omitted)  
+      NEPAL  |  (omitted)  
+   PAKISTAN  |  (omitted)  
+PHILIPPINES  |  (omitted)  
+  SINGAPORE  |  (omitted)  
+   THAILAND  |  (omitted)  
+     TAIWAN  |  (omitted)  
+      CHINA  |  (omitted)  
+KOREA D ..)  |  (omitted)  
+   MONGOLIA  |  (omitted)  
+    VIETNAM  |  (omitted)  
+BELGIUM-L~.  |  (omitted)  
+DENMARK ..)  |  (omitted)  
+     FRANCE  |  (omitted)  
+    GERMANY  |  (omitted)  
+     GREECE  |  (omitted)  
+    IRELAND  |  (omitted)  
+      ITALY  |  (omitted)  
+NETHERLANDS  |  (omitted)  
+   PORTUGAL  |  (omitted)  
+      SPAIN  |  (omitted)  
+UNITED KI..  |  (omitted)  
+    AUSTRIA  |  (omitted)  
+    FINLAND  |  (omitted)  
+    ICELAND  |  (omitted)  
+     NORWAY  |  (omitted)  
+     SWEDEN  |  (omitted)  
+SWITZERLAND  |  (omitted)  
+      MALTA  |  (omitted)  
+    ALBANIA  |  (omitted)  
+   BULGARIA  |  (omitted)  
+CZECHOSLO~A  |  (omitted)  
+    HUNGARY  |  (omitted)  
+     POLAND  |  (omitted)  
+    ROMANIA  |  (omitted)  
+FM YUGOS..)  |  (omitted)  
+    FM USSR  |  (omitted)  
+  AUSTRALIA  |  (omitted)  
+NEW ZEALAND  |  (omitted)  
+SOLOMON I..  |  (omitted)  
+       FIJI  |  (omitted)  
+KIRIBATI..)  |  (omitted)  
+NEW CALE..)  |  (omitted)  
+PAPUA N.G..  |  (omitted)  
+             |
+     impcode |
+    ALGERIA  |  .57352745  
+LIBY ARAB..  |  .38857994  
+    MOROCCO  |  .22538991  
+WESTERN S..  | -3.5167897  
+      SUDAN  | -.98785835  
+    TUNISIA  | -.41698371  
+      EGYPT  |  1.0348892  
+   CAMEROON  | -1.2215157  
+CENTRAL A..  | -3.5466691  
+       CHAD  | -4.0777241  
+      CONGO  | -2.4721171  
+      GABON  | -1.9990867  
+     ANGOLA  | -1.3413759  
+    BURUNDI  | -3.5279446  
+    COMOROS  | -3.9824944  
+      ZAIRE  | -1.5010278  
+      BENIN  | -2.0033028  
+ EQ. GUINEA  | -4.7570612  
+   ETHIOPIA  | -1.0160018  
+   DJIBOUTI  |  -2.588784  
+     GAMBIA  | -3.2177463  
+      GHANA  | -1.6887491  
+     GUINEA  | -2.1002991  
+COTE D'IV..  | -.83940743  
+      KENYA  | -.41343965  
+    LIBERIA  | -.99015525  
+ MADAGASCAR  |  -2.587662  
+     MALAWI  |    -2.4713  
+       MALI  | -2.5082113  
+ MAURITANIA  | -2.7390186  
+  MAURITIUS  | -1.7706572  
+ MOZAMBIQUE  | -1.5848452  
+      NIGER  |  -2.812801  
+    NIGERIA  |  .07485721  
+GUINEA-B..)  | -2.5543737  
+    REUNION  | -1.5804953  
+     RWANDA  | -2.9803956  
+    SENEGAL  | -1.5449437  
+ SEYCHELLES  |  -3.168629  
+SIERRA LE..  |  -3.176418  
+    SOMALIA  | -2.1895827  
+   ZIMBABWE  | -1.7156446  
+       TOGO  |  -2.020938  
+     UGANDA  | -2.7638679  
+UNTD RP T..  |  -1.205378  
+BURKINA F..  |  -2.919815  
+     ZAMBIA  | -1.8666896  
+     CANADA  |  1.7227881  
+        USA  |  4.5838584  
+    BERMUDA  |  -2.330611  
+  GREENLAND  | -3.6658945  
+  ARGENTINA  | -.13020448  
+    BOLIVIA  |  -2.219882  
+     BRAZIL  |  1.2821315  
+      CHILE  | -.32489095  
+   COLOMBIA  |   -.585933  
+    ECUADOR  | -.83024413  
+     MEXICO  | -.26328992  
+   PARAGUAY  | -2.7048245  
+       PERU  | -.51734439  
+    URUGUAY  | -1.5445734  
+  VENEZUELA  |  .23895802  
+ COSTA RICA  | -1.3484893  
+EL SALVADOR  | -1.6946005  
+  GUATEMALA  | -1.4988043  
+   HONDURAS  | -1.6885233  
+  NICARAGUA  | -1.1464515  
+    BAHAMAS  | -.96776667  
+   BARBADOS  | -1.7984729  
+CAYMAN IS..  | -3.0908658  
+       CUBA  | -.56813984  
+DOMINICAN..  | -1.2648668  
+GUADELOU..)  | -1.6497938  
+      HAITI  |  -2.225656  
+    JAMAICA  | -1.6478557  
+NETH ANTI..  | -1.6333147  
+ST KITTS..)  | -1.9227682  
+TRINIDAD-~O  | -1.2713807  
+TURKS CAI..  | -4.8543445  
+     BELIZE  | -3.6108682  
+FRENCH GU..  |  -3.362716  
+     GUYANA  | -2.6742977  
+     PANAMA  | -.39396348  
+    SURINAM  |  -2.986608  
+     ISRAEL  |  .01957022  
+      JAPAN  |  3.5396393  
+    BAHRAIN  | -.96721429  
+     CYPRUS  | -1.0493638  
+       IRAN  |  1.2379072  
+       IRAQ  |  .96040528  
+     JORDAN  | -.19339645  
+     KUWAIT  |  .60767355  
+    LEBANON  | -.61487335  
+       OMAN  | -.68503019  
+      QATAR  | -1.0034099  
+SAUDI ARA..  |  1.8289078  
+SYRN ARAB..  | -.18121999  
+UNTD ARAB..  |  .62845027  
+     TURKEY  |   1.161139  
+      YEMEN  | -.02453363  
+AFGHANISTAN  | -1.8386479  
+ BANGLADESH  |  -.2548336  
+     BHUTAN  | -4.8854715  
+     BRUNEI  | -2.2960523  
+MYANMAR ..)  | -2.0612689  
+   CAMBODIA  | -4.9626624  
+  SRI LANKA  | -.50931747  
+  HONG KONG  |  .89338434  
+      INDIA  |  1.5749533  
+INDONESI..)  |  .29567775  
+KOREA RP..)  |  1.1912926  
+LAOS P.DE..  |  -4.924422  
+   MALAYSIA  |  .61013291  
+   MALDIVES  | -4.0838719  
+      NEPAL  | -2.7514149  
+   PAKISTAN  |  .53607354  
+PHILIPPINES  | -.13749739  
+  SINGAPORE  |  .99349691  
+   THAILAND  |  1.0790505  
+     TAIWAN  |  1.6163987  
+      CHINA  |  2.2143846  
+KOREA D ..)  | -1.5410615  
+   MONGOLIA  | -4.2732691  
+    VIETNAM  | -2.2481669  
+BELGIUM-L~.  |  2.6347618  
+DENMARK ..)  |   .9565007  
+     FRANCE  |  3.9055549  
+    GERMANY  |  4.1124567  
+     GREECE  |  .85898326  
+    IRELAND  |  .28620208  
+      ITALY  |  3.4735426  
+NETHERLANDS  |  2.8979863  
+   PORTUGAL  |  1.0929194  
+      SPAIN  |  2.5654614  
+UNITED KI..  |    3.75347  
+    AUSTRIA  |  .93687523  
+    FINLAND  |  .78540647  
+    ICELAND  | -2.0456462  
+     NORWAY  |   .6050516  
+     SWEDEN  |  1.3187973  
+SWITZERLAND  |  1.6342238  
+      MALTA  | -1.5566199  
+    ALBANIA  | -3.0461637  
+   BULGARIA  |  .41413782  
+CZECHOSLO~A  |  1.5833129  
+    HUNGARY  |  .88744053  
+     POLAND  |  1.0457943  
+    ROMANIA  |  .70993719  
+FM YUGOS..)  |  1.3149236  
+    FM USSR  |   2.647451  
+  AUSTRALIA  |  .92516132  
+NEW ZEALAND  | -.35121288  
+SOLOMON I..  | -3.7265179  
+       FIJI  | -2.7397287  
+KIRIBATI..)  | -4.3321992  
+NEW CALE..)  | -2.0589364  
+PAPUA N.G..  | -2.1777548  
+             |
+       _cons |  8.1671313  
+-------------+-------------
+           b |             
+          se |             
+           p |          .  
+---------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. estimates table, keep (`vars') stats(b se p)
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+     expcode |
+    ALGERIA  |  (omitted)  
+LIBY ARAB..  |  (omitted)  
+    MOROCCO  |  (omitted)  
+WESTERN S..  |  (omitted)  
+      SUDAN  |  (omitted)  
+    TUNISIA  |  (omitted)  
+      EGYPT  |  (omitted)  
+   CAMEROON  |  (omitted)  
+CENTRAL A..  |  (omitted)  
+       CHAD  |  (omitted)  
+      GABON  |  (omitted)  
+     ANGOLA  |  (omitted)  
+    BURUNDI  |  (omitted)  
+    COMOROS  |  (omitted)  
+      ZAIRE  |  (omitted)  
+      BENIN  |  (omitted)  
+ EQ. GUINEA  |  (omitted)  
+   ETHIOPIA  |  (omitted)  
+   DJIBOUTI  |  (omitted)  
+     GAMBIA  |  (omitted)  
+      GHANA  |  (omitted)  
+     GUINEA  |  (omitted)  
+COTE D'IV..  |  (omitted)  
+      KENYA  |  (omitted)  
+    LIBERIA  |  (omitted)  
+ MADAGASCAR  |  (omitted)  
+     MALAWI  |  (omitted)  
+       MALI  |  (omitted)  
+ MAURITANIA  |  (omitted)  
+  MAURITIUS  |  (omitted)  
+ MOZAMBIQUE  |  (omitted)  
+      NIGER  |  (omitted)  
+    NIGERIA  |  (omitted)  
+GUINEA-B..)  |  (omitted)  
+    REUNION  |  (omitted)  
+     RWANDA  |  (omitted)  
+    SENEGAL  |  (omitted)  
+ SEYCHELLES  |  (omitted)  
+SIERRA LE..  |  (omitted)  
+    SOMALIA  |  (omitted)  
+   ZIMBABWE  |  (omitted)  
+       TOGO  |  (omitted)  
+     UGANDA  |  (omitted)  
+UNTD RP T..  |  (omitted)  
+BURKINA F..  |  (omitted)  
+     ZAMBIA  |  (omitted)  
+     CANADA  |  (omitted)  
+        USA  |  (omitted)  
+    BERMUDA  |  (omitted)  
+  GREENLAND  |  (omitted)  
+  ARGENTINA  |  (omitted)  
+    BOLIVIA  |  (omitted)  
+     BRAZIL  |  (omitted)  
+      CHILE  |  (omitted)  
+   COLOMBIA  |  (omitted)  
+    ECUADOR  |  (omitted)  
+     MEXICO  |  (omitted)  
+   PARAGUAY  |  (omitted)  
+       PERU  |  (omitted)  
+    URUGUAY  |  (omitted)  
+  VENEZUELA  |  (omitted)  
+ COSTA RICA  |  (omitted)  
+EL SALVADOR  |  (omitted)  
+  GUATEMALA  |  (omitted)  
+   HONDURAS  |  (omitted)  
+  NICARAGUA  |  (omitted)  
+    BAHAMAS  |  (omitted)  
+   BARBADOS  |  (omitted)  
+CAYMAN IS..  |  (omitted)  
+       CUBA  |  (omitted)  
+DOMINICAN..  |  (omitted)  
+GUADELOU..)  |  (omitted)  
+      HAITI  |  (omitted)  
+    JAMAICA  |  (omitted)  
+NETH ANTI..  |  (omitted)  
+ST KITTS..)  |  (omitted)  
+TRINIDAD-~O  |  (omitted)  
+TURKS CAI..  |  (omitted)  
+     BELIZE  |  (omitted)  
+FRENCH GU..  |  (omitted)  
+     GUYANA  |  (omitted)  
+     PANAMA  |  (omitted)  
+    SURINAM  |  (omitted)  
+     ISRAEL  |  (omitted)  
+      JAPAN  |  (omitted)  
+    BAHRAIN  |  (omitted)  
+     CYPRUS  |  (omitted)  
+       IRAN  |  (omitted)  
+       IRAQ  |  (omitted)  
+     JORDAN  |  (omitted)  
+     KUWAIT  |  (omitted)  
+    LEBANON  |  (omitted)  
+       OMAN  |  (omitted)  
+      QATAR  |  (omitted)  
+SAUDI ARA..  |  (omitted)  
+SYRN ARAB..  |  (omitted)  
+UNTD ARAB..  |  (omitted)  
+     TURKEY  |  (omitted)  
+      YEMEN  |  (omitted)  
+AFGHANISTAN  |  (omitted)  
+ BANGLADESH  |  (omitted)  
+     BHUTAN  |  (omitted)  
+     BRUNEI  |  (omitted)  
+MYANMAR ..)  |  (omitted)  
+   CAMBODIA  |  (omitted)  
+  SRI LANKA  |  (omitted)  
+  HONG KONG  |  (omitted)  
+      INDIA  |  (omitted)  
+INDONESI..)  |  (omitted)  
+KOREA RP..)  |  (omitted)  
+LAOS P.DE..  |  (omitted)  
+   MALAYSIA  |  (omitted)  
+   MALDIVES  |  (omitted)  
+      NEPAL  |  (omitted)  
+   PAKISTAN  |  (omitted)  
+PHILIPPINES  |  (omitted)  
+  SINGAPORE  |  (omitted)  
+   THAILAND  |  (omitted)  
+     TAIWAN  |  (omitted)  
+      CHINA  |  (omitted)  
+KOREA D ..)  |  (omitted)  
+   MONGOLIA  |  (omitted)  
+    VIETNAM  |  (omitted)  
+BELGIUM-L~.  |  (omitted)  
+DENMARK ..)  |  (omitted)  
+     FRANCE  |  (omitted)  
+    GERMANY  |  (omitted)  
+     GREECE  |  (omitted)  
+    IRELAND  |  (omitted)  
+      ITALY  |  (omitted)  
+NETHERLANDS  |  (omitted)  
+   PORTUGAL  |  (omitted)  
+      SPAIN  |  (omitted)  
+UNITED KI..  |  (omitted)  
+    AUSTRIA  |  (omitted)  
+    FINLAND  |  (omitted)  
+    ICELAND  |  (omitted)  
+     NORWAY  |  (omitted)  
+     SWEDEN  |  (omitted)  
+SWITZERLAND  |  (omitted)  
+      MALTA  |  (omitted)  
+    ALBANIA  |  (omitted)  
+   BULGARIA  |  (omitted)  
+CZECHOSLO~A  |  (omitted)  
+    HUNGARY  |  (omitted)  
+     POLAND  |  (omitted)  
+    ROMANIA  |  (omitted)  
+FM YUGOS..)  |  (omitted)  
+    FM USSR  |  (omitted)  
+  AUSTRALIA  |  (omitted)  
+NEW ZEALAND  |  (omitted)  
+SOLOMON I..  |  (omitted)  
+       FIJI  |  (omitted)  
+KIRIBATI..)  |  (omitted)  
+NEW CALE..)  |  (omitted)  
+PAPUA N.G..  |  (omitted)  
+             |
+     impcode |
+    ALGERIA  |  .57352745  
+LIBY ARAB..  |  .38857994  
+    MOROCCO  |  .22538991  
+WESTERN S..  | -3.5167897  
+      SUDAN  | -.98785835  
+    TUNISIA  | -.41698371  
+      EGYPT  |  1.0348892  
+   CAMEROON  | -1.2215157  
+CENTRAL A..  | -3.5466691  
+       CHAD  | -4.0777241  
+      CONGO  | -2.4721171  
+      GABON  | -1.9990867  
+     ANGOLA  | -1.3413759  
+    BURUNDI  | -3.5279446  
+    COMOROS  | -3.9824944  
+      ZAIRE  | -1.5010278  
+      BENIN  | -2.0033028  
+ EQ. GUINEA  | -4.7570612  
+   ETHIOPIA  | -1.0160018  
+   DJIBOUTI  |  -2.588784  
+     GAMBIA  | -3.2177463  
+      GHANA  | -1.6887491  
+     GUINEA  | -2.1002991  
+COTE D'IV..  | -.83940743  
+      KENYA  | -.41343965  
+    LIBERIA  | -.99015525  
+ MADAGASCAR  |  -2.587662  
+     MALAWI  |    -2.4713  
+       MALI  | -2.5082113  
+ MAURITANIA  | -2.7390186  
+  MAURITIUS  | -1.7706572  
+ MOZAMBIQUE  | -1.5848452  
+      NIGER  |  -2.812801  
+    NIGERIA  |  .07485721  
+GUINEA-B..)  | -2.5543737  
+    REUNION  | -1.5804953  
+     RWANDA  | -2.9803956  
+    SENEGAL  | -1.5449437  
+ SEYCHELLES  |  -3.168629  
+SIERRA LE..  |  -3.176418  
+    SOMALIA  | -2.1895827  
+   ZIMBABWE  | -1.7156446  
+       TOGO  |  -2.020938  
+     UGANDA  | -2.7638679  
+UNTD RP T..  |  -1.205378  
+BURKINA F..  |  -2.919815  
+     ZAMBIA  | -1.8666896  
+     CANADA  |  1.7227881  
+        USA  |  4.5838584  
+    BERMUDA  |  -2.330611  
+  GREENLAND  | -3.6658945  
+  ARGENTINA  | -.13020448  
+    BOLIVIA  |  -2.219882  
+     BRAZIL  |  1.2821315  
+      CHILE  | -.32489095  
+   COLOMBIA  |   -.585933  
+    ECUADOR  | -.83024413  
+     MEXICO  | -.26328992  
+   PARAGUAY  | -2.7048245  
+       PERU  | -.51734439  
+    URUGUAY  | -1.5445734  
+  VENEZUELA  |  .23895802  
+ COSTA RICA  | -1.3484893  
+EL SALVADOR  | -1.6946005  
+  GUATEMALA  | -1.4988043  
+   HONDURAS  | -1.6885233  
+  NICARAGUA  | -1.1464515  
+    BAHAMAS  | -.96776667  
+   BARBADOS  | -1.7984729  
+CAYMAN IS..  | -3.0908658  
+       CUBA  | -.56813984  
+DOMINICAN..  | -1.2648668  
+GUADELOU..)  | -1.6497938  
+      HAITI  |  -2.225656  
+    JAMAICA  | -1.6478557  
+NETH ANTI..  | -1.6333147  
+ST KITTS..)  | -1.9227682  
+TRINIDAD-~O  | -1.2713807  
+TURKS CAI..  | -4.8543445  
+     BELIZE  | -3.6108682  
+FRENCH GU..  |  -3.362716  
+     GUYANA  | -2.6742977  
+     PANAMA  | -.39396348  
+    SURINAM  |  -2.986608  
+     ISRAEL  |  .01957022  
+      JAPAN  |  3.5396393  
+    BAHRAIN  | -.96721429  
+     CYPRUS  | -1.0493638  
+       IRAN  |  1.2379072  
+       IRAQ  |  .96040528  
+     JORDAN  | -.19339645  
+     KUWAIT  |  .60767355  
+    LEBANON  | -.61487335  
+       OMAN  | -.68503019  
+      QATAR  | -1.0034099  
+SAUDI ARA..  |  1.8289078  
+SYRN ARAB..  | -.18121999  
+UNTD ARAB..  |  .62845027  
+     TURKEY  |   1.161139  
+      YEMEN  | -.02453363  
+AFGHANISTAN  | -1.8386479  
+ BANGLADESH  |  -.2548336  
+     BHUTAN  | -4.8854715  
+     BRUNEI  | -2.2960523  
+MYANMAR ..)  | -2.0612689  
+   CAMBODIA  | -4.9626624  
+  SRI LANKA  | -.50931747  
+  HONG KONG  |  .89338434  
+      INDIA  |  1.5749533  
+INDONESI..)  |  .29567775  
+KOREA RP..)  |  1.1912926  
+LAOS P.DE..  |  -4.924422  
+   MALAYSIA  |  .61013291  
+   MALDIVES  | -4.0838719  
+      NEPAL  | -2.7514149  
+   PAKISTAN  |  .53607354  
+PHILIPPINES  | -.13749739  
+  SINGAPORE  |  .99349691  
+   THAILAND  |  1.0790505  
+     TAIWAN  |  1.6163987  
+      CHINA  |  2.2143846  
+KOREA D ..)  | -1.5410615  
+   MONGOLIA  | -4.2732691  
+    VIETNAM  | -2.2481669  
+BELGIUM-L~.  |  2.6347618  
+DENMARK ..)  |   .9565007  
+     FRANCE  |  3.9055549  
+    GERMANY  |  4.1124567  
+     GREECE  |  .85898326  
+    IRELAND  |  .28620208  
+      ITALY  |  3.4735426  
+NETHERLANDS  |  2.8979863  
+   PORTUGAL  |  1.0929194  
+      SPAIN  |  2.5654614  
+UNITED KI..  |    3.75347  
+    AUSTRIA  |  .93687523  
+    FINLAND  |  .78540647  
+    ICELAND  | -2.0456462  
+     NORWAY  |   .6050516  
+     SWEDEN  |  1.3187973  
+SWITZERLAND  |  1.6342238  
+      MALTA  | -1.5566199  
+    ALBANIA  | -3.0461637  
+   BULGARIA  |  .41413782  
+CZECHOSLO~A  |  1.5833129  
+    HUNGARY  |  .88744053  
+     POLAND  |  1.0457943  
+    ROMANIA  |  .70993719  
+FM YUGOS..)  |  1.3149236  
+    FM USSR  |   2.647451  
+  AUSTRALIA  |  .92516132  
+NEW ZEALAND  | -.35121288  
+SOLOMON I..  | -3.7265179  
+       FIJI  | -2.7397287  
+KIRIBATI..)  | -4.3321992  
+NEW CALE..)  | -2.0589364  
+PAPUA N.G..  | -2.1777548  
+             |
+       _cons |  8.1671313  
+-------------+-------------
+           b |             
+          se |             
+           p |          .  
+---------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, keep (`vars') stats(b se p)
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+      border |  .45783629  
+      island |  .39055129  
+    landlock |  .56138418  
+       legal |  .48594879  
+        lang |  .17636158  
+    colonial |  1.2992357  
+          cu |  1.3638706  
+         fta |   .7587149  
+    religion |  .10180442  
+-------------+-------------
+           b |             
+          se |             
+           p |          .  
+---------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table b se p, keep (`vars')
+estimation result b not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se p keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |   .0517671  
+             |     0.0000  
+      border |  .45783629  
+             |  .17421158  
+             |     0.0094  
+      island |  .39055129  
+             |   .1528521  
+             |     0.0116  
+    landlock |  .56138418  
+             |  .20355135  
+             |     0.0065  
+       legal |  .48594879  
+             |  .07160348  
+             |     0.0000  
+        lang |  .17636158  
+             |    .087722  
+             |     0.0461  
+    colonial |  1.2992357  
+             |   .1498155  
+             |     0.0000  
+          cu |  1.3638706  
+             |  .49202321  
+             |     0.0063  
+         fta |   .7587149  
+             |  .31503202  
+             |     0.0172  
+    religion |  .10180442  
+             |  .12750147  
+             |     0.4258  
+---------------------------
+             legend: b/se/p
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+     expcode |
+    ALGERIA  |  (omitted)  
+             |             
+LIBY ARAB..  |  (omitted)  
+             |             
+    MOROCCO  |  (omitted)  
+             |             
+WESTERN S..  |  (omitted)  
+             |             
+      SUDAN  |  (omitted)  
+             |             
+    TUNISIA  |  (omitted)  
+             |             
+      EGYPT  |  (omitted)  
+             |             
+   CAMEROON  |  (omitted)  
+             |             
+CENTRAL A..  |  (omitted)  
+             |             
+       CHAD  |  (omitted)  
+             |             
+      GABON  |  (omitted)  
+             |             
+     ANGOLA  |  (omitted)  
+             |             
+    BURUNDI  |  (omitted)  
+             |             
+    COMOROS  |  (omitted)  
+             |             
+      ZAIRE  |  (omitted)  
+             |             
+      BENIN  |  (omitted)  
+             |             
+ EQ. GUINEA  |  (omitted)  
+             |             
+   ETHIOPIA  |  (omitted)  
+             |             
+   DJIBOUTI  |  (omitted)  
+             |             
+     GAMBIA  |  (omitted)  
+             |             
+      GHANA  |  (omitted)  
+             |             
+     GUINEA  |  (omitted)  
+             |             
+COTE D'IV..  |  (omitted)  
+             |             
+      KENYA  |  (omitted)  
+             |             
+    LIBERIA  |  (omitted)  
+             |             
+ MADAGASCAR  |  (omitted)  
+             |             
+     MALAWI  |  (omitted)  
+             |             
+       MALI  |  (omitted)  
+             |             
+ MAURITANIA  |  (omitted)  
+             |             
+  MAURITIUS  |  (omitted)  
+             |             
+ MOZAMBIQUE  |  (omitted)  
+             |             
+      NIGER  |  (omitted)  
+             |             
+    NIGERIA  |  (omitted)  
+             |             
+GUINEA-B..)  |  (omitted)  
+             |             
+    REUNION  |  (omitted)  
+             |             
+     RWANDA  |  (omitted)  
+             |             
+    SENEGAL  |  (omitted)  
+             |             
+ SEYCHELLES  |  (omitted)  
+             |             
+SIERRA LE..  |  (omitted)  
+             |             
+    SOMALIA  |  (omitted)  
+             |             
+   ZIMBABWE  |  (omitted)  
+             |             
+       TOGO  |  (omitted)  
+             |             
+     UGANDA  |  (omitted)  
+             |             
+UNTD RP T..  |  (omitted)  
+             |             
+BURKINA F..  |  (omitted)  
+             |             
+     ZAMBIA  |  (omitted)  
+             |             
+     CANADA  |  (omitted)  
+             |             
+        USA  |  (omitted)  
+             |             
+    BERMUDA  |  (omitted)  
+             |             
+  GREENLAND  |  (omitted)  
+             |             
+  ARGENTINA  |  (omitted)  
+             |             
+    BOLIVIA  |  (omitted)  
+             |             
+     BRAZIL  |  (omitted)  
+             |             
+      CHILE  |  (omitted)  
+             |             
+   COLOMBIA  |  (omitted)  
+             |             
+    ECUADOR  |  (omitted)  
+             |             
+     MEXICO  |  (omitted)  
+             |             
+   PARAGUAY  |  (omitted)  
+             |             
+       PERU  |  (omitted)  
+             |             
+    URUGUAY  |  (omitted)  
+             |             
+  VENEZUELA  |  (omitted)  
+             |             
+ COSTA RICA  |  (omitted)  
+             |             
+EL SALVADOR  |  (omitted)  
+             |             
+  GUATEMALA  |  (omitted)  
+             |             
+   HONDURAS  |  (omitted)  
+             |             
+  NICARAGUA  |  (omitted)  
+             |             
+    BAHAMAS  |  (omitted)  
+             |             
+   BARBADOS  |  (omitted)  
+             |             
+CAYMAN IS..  |  (omitted)  
+             |             
+       CUBA  |  (omitted)  
+             |             
+DOMINICAN..  |  (omitted)  
+             |             
+GUADELOU..)  |  (omitted)  
+             |             
+      HAITI  |  (omitted)  
+             |             
+    JAMAICA  |  (omitted)  
+             |             
+NETH ANTI..  |  (omitted)  
+             |             
+ST KITTS..)  |  (omitted)  
+             |             
+TRINIDAD-~O  |  (omitted)  
+             |             
+TURKS CAI..  |  (omitted)  
+             |             
+     BELIZE  |  (omitted)  
+             |             
+FRENCH GU..  |  (omitted)  
+             |             
+     GUYANA  |  (omitted)  
+             |             
+     PANAMA  |  (omitted)  
+             |             
+    SURINAM  |  (omitted)  
+             |             
+     ISRAEL  |  (omitted)  
+             |             
+      JAPAN  |  (omitted)  
+             |             
+    BAHRAIN  |  (omitted)  
+             |             
+     CYPRUS  |  (omitted)  
+             |             
+       IRAN  |  (omitted)  
+             |             
+       IRAQ  |  (omitted)  
+             |             
+     JORDAN  |  (omitted)  
+             |             
+     KUWAIT  |  (omitted)  
+             |             
+    LEBANON  |  (omitted)  
+             |             
+       OMAN  |  (omitted)  
+             |             
+      QATAR  |  (omitted)  
+             |             
+SAUDI ARA..  |  (omitted)  
+             |             
+SYRN ARAB..  |  (omitted)  
+             |             
+UNTD ARAB..  |  (omitted)  
+             |             
+     TURKEY  |  (omitted)  
+             |             
+      YEMEN  |  (omitted)  
+             |             
+AFGHANISTAN  |  (omitted)  
+             |             
+ BANGLADESH  |  (omitted)  
+             |             
+     BHUTAN  |  (omitted)  
+             |             
+     BRUNEI  |  (omitted)  
+             |             
+MYANMAR ..)  |  (omitted)  
+             |             
+   CAMBODIA  |  (omitted)  
+             |             
+  SRI LANKA  |  (omitted)  
+             |             
+  HONG KONG  |  (omitted)  
+             |             
+      INDIA  |  (omitted)  
+             |             
+INDONESI..)  |  (omitted)  
+             |             
+KOREA RP..)  |  (omitted)  
+             |             
+LAOS P.DE..  |  (omitted)  
+             |             
+   MALAYSIA  |  (omitted)  
+             |             
+   MALDIVES  |  (omitted)  
+             |             
+      NEPAL  |  (omitted)  
+             |             
+   PAKISTAN  |  (omitted)  
+             |             
+PHILIPPINES  |  (omitted)  
+             |             
+  SINGAPORE  |  (omitted)  
+             |             
+   THAILAND  |  (omitted)  
+             |             
+     TAIWAN  |  (omitted)  
+             |             
+      CHINA  |  (omitted)  
+             |             
+KOREA D ..)  |  (omitted)  
+             |             
+   MONGOLIA  |  (omitted)  
+             |             
+    VIETNAM  |  (omitted)  
+             |             
+BELGIUM-L~.  |  (omitted)  
+             |             
+DENMARK ..)  |  (omitted)  
+             |             
+     FRANCE  |  (omitted)  
+             |             
+    GERMANY  |  (omitted)  
+             |             
+     GREECE  |  (omitted)  
+             |             
+    IRELAND  |  (omitted)  
+             |             
+      ITALY  |  (omitted)  
+             |             
+NETHERLANDS  |  (omitted)  
+             |             
+   PORTUGAL  |  (omitted)  
+             |             
+      SPAIN  |  (omitted)  
+             |             
+UNITED KI..  |  (omitted)  
+             |             
+    AUSTRIA  |  (omitted)  
+             |             
+    FINLAND  |  (omitted)  
+             |             
+    ICELAND  |  (omitted)  
+             |             
+     NORWAY  |  (omitted)  
+             |             
+     SWEDEN  |  (omitted)  
+             |             
+SWITZERLAND  |  (omitted)  
+             |             
+      MALTA  |  (omitted)  
+             |             
+    ALBANIA  |  (omitted)  
+             |             
+   BULGARIA  |  (omitted)  
+             |             
+CZECHOSLO~A  |  (omitted)  
+             |             
+    HUNGARY  |  (omitted)  
+             |             
+     POLAND  |  (omitted)  
+             |             
+    ROMANIA  |  (omitted)  
+             |             
+FM YUGOS..)  |  (omitted)  
+             |             
+    FM USSR  |  (omitted)  
+             |             
+  AUSTRALIA  |  (omitted)  
+             |             
+NEW ZEALAND  |  (omitted)  
+             |             
+SOLOMON I..  |  (omitted)  
+             |             
+       FIJI  |  (omitted)  
+             |             
+KIRIBATI..)  |  (omitted)  
+             |             
+NEW CALE..)  |  (omitted)  
+             |             
+PAPUA N.G..  |  (omitted)  
+             |             
+             |
+     impcode |
+    ALGERIA  |  .57352745  
+             |  .38174869  
+LIBY ARAB..  |  .38857994  
+             |  .39532693  
+    MOROCCO  |  .22538991  
+             |  .34339738  
+WESTERN S..  | -3.5167897  
+             |   .5849876  
+      SUDAN  | -.98785835  
+             |  .38279893  
+    TUNISIA  | -.41698371  
+             |  .33798619  
+      EGYPT  |  1.0348892  
+             |  .36088582  
+   CAMEROON  | -1.2215157  
+             |  .35957276  
+CENTRAL A..  | -3.5466691  
+             |  .45377851  
+       CHAD  | -4.0777241  
+             |  .49699838  
+      CONGO  | -2.4721171  
+             |  .47322895  
+      GABON  | -1.9990867  
+             |  .40442718  
+     ANGOLA  | -1.3413759  
+             |  .43566232  
+    BURUNDI  | -3.5279446  
+             |  .38062899  
+    COMOROS  | -3.9824944  
+             |  .61753401  
+      ZAIRE  | -1.5010278  
+             |  .37601287  
+      BENIN  | -2.0033028  
+             |   .4053627  
+ EQ. GUINEA  | -4.7570612  
+             |  .64970909  
+   ETHIOPIA  | -1.0160018  
+             |  .37448645  
+   DJIBOUTI  |  -2.588784  
+             |  .38913267  
+     GAMBIA  | -3.2177463  
+             |    .446275  
+      GHANA  | -1.6887491  
+             |  .37173995  
+     GUINEA  | -2.1002991  
+             |  .43205483  
+COTE D'IV..  | -.83940743  
+             |  .40692791  
+      KENYA  | -.41343965  
+             |  .33691553  
+    LIBERIA  | -.99015525  
+             |  .39668141  
+ MADAGASCAR  |  -2.587662  
+             |  .42183849  
+     MALAWI  |    -2.4713  
+             |  .39020657  
+       MALI  | -2.5082113  
+             |  .44831957  
+ MAURITANIA  | -2.7390186  
+             |   .5072712  
+  MAURITIUS  | -1.7706572  
+             |  .39750369  
+ MOZAMBIQUE  | -1.5848452  
+             |  .41414566  
+      NIGER  |  -2.812801  
+             |  .42805993  
+    NIGERIA  |  .07485721  
+             |  .36897079  
+GUINEA-B..)  | -2.5543737  
+             |  .44542007  
+    REUNION  | -1.5804953  
+             |  .43076035  
+     RWANDA  | -2.9803956  
+             |  .43573662  
+    SENEGAL  | -1.5449437  
+             |  .35816639  
+ SEYCHELLES  |  -3.168629  
+             |  .45982628  
+SIERRA LE..  |  -3.176418  
+             |  .36728819  
+    SOMALIA  | -2.1895827  
+             |  .41193728  
+   ZIMBABWE  | -1.7156446  
+             |  .34192754  
+       TOGO  |  -2.020938  
+             |   .3952258  
+     UGANDA  | -2.7638679  
+             |  .40990472  
+UNTD RP T..  |  -1.205378  
+             |  .38876968  
+BURKINA F..  |  -2.919815  
+             |   .4462062  
+     ZAMBIA  | -1.8666896  
+             |   .3395048  
+     CANADA  |  1.7227881  
+             |  .33845251  
+        USA  |  4.5838584  
+             |  .34452358  
+    BERMUDA  |  -2.330611  
+             |  .41011434  
+  GREENLAND  | -3.6658945  
+             |  .47561507  
+  ARGENTINA  | -.13020448  
+             |  .36086872  
+    BOLIVIA  |  -2.219882  
+             |  .35694747  
+     BRAZIL  |  1.2821315  
+             |  .33831704  
+      CHILE  | -.32489095  
+             |  .34816743  
+   COLOMBIA  |   -.585933  
+             |  .35606597  
+    ECUADOR  | -.83024413  
+             |   .3553618  
+     MEXICO  | -.26328992  
+             |  .33017385  
+   PARAGUAY  | -2.7048245  
+             |  .37758981  
+       PERU  | -.51734439  
+             |  .34443397  
+    URUGUAY  | -1.5445734  
+             |  .33521562  
+  VENEZUELA  |  .23895802  
+             |  .33496128  
+ COSTA RICA  | -1.3484893  
+             |  .47873745  
+EL SALVADOR  | -1.6946005  
+             |  .49084978  
+  GUATEMALA  | -1.4988043  
+             |  .40563003  
+   HONDURAS  | -1.6885233  
+             |  .42690807  
+  NICARAGUA  | -1.1464515  
+             |  .48273747  
+    BAHAMAS  | -.96776667  
+             |  .41483102  
+   BARBADOS  | -1.7984729  
+             |  .44179018  
+CAYMAN IS..  | -3.0908658  
+             |  .48959796  
+       CUBA  | -.56813984  
+             |  .48075594  
+DOMINICAN..  | -1.2648668  
+             |  .42004423  
+GUADELOU..)  | -1.6497938  
+             |  .39713101  
+      HAITI  |  -2.225656  
+             |  .39566347  
+    JAMAICA  | -1.6478557  
+             |  .42759682  
+NETH ANTI..  | -1.6333147  
+             |  .44824015  
+ST KITTS..)  | -1.9227682  
+             |  .47616806  
+TRINIDAD-~O  | -1.2713807  
+             |    .400006  
+TURKS CAI..  | -4.8543445  
+             |  .73558443  
+     BELIZE  | -3.6108682  
+             |  .48901614  
+FRENCH GU..  |  -3.362716  
+             |  .44664525  
+     GUYANA  | -2.6742977  
+             |  .53193976  
+     PANAMA  | -.39396348  
+             |   .3996994  
+    SURINAM  |  -2.986608  
+             |  .49718383  
+     ISRAEL  |  .01957022  
+             |  .36061904  
+      JAPAN  |  3.5396393  
+             |  .34461803  
+    BAHRAIN  | -.96721429  
+             |  .37619884  
+     CYPRUS  | -1.0493638  
+             |  .35878234  
+       IRAN  |  1.2379072  
+             |  .38875588  
+       IRAQ  |  .96040528  
+             |  .38883979  
+     JORDAN  | -.19339645  
+             |  .35936082  
+     KUWAIT  |  .60767355  
+             |  .36134004  
+    LEBANON  | -.61487335  
+             |  .38637554  
+       OMAN  | -.68503019  
+             |  .38232126  
+      QATAR  | -1.0034099  
+             |  .37663619  
+SAUDI ARA..  |  1.8289078  
+             |  .36945877  
+SYRN ARAB..  | -.18121999  
+             |  .38408272  
+UNTD ARAB..  |  .62845027  
+             |  .37952878  
+     TURKEY  |   1.161139  
+             |   .3305531  
+      YEMEN  | -.02453363  
+             |  .37461641  
+AFGHANISTAN  | -1.8386479  
+             |  .47272264  
+ BANGLADESH  |  -.2548336  
+             |  .39374757  
+     BHUTAN  | -4.8854715  
+             |  .51272137  
+     BRUNEI  | -2.2960523  
+             |  .49383089  
+MYANMAR ..)  | -2.0612689  
+             |  .45496341  
+   CAMBODIA  | -4.9626624  
+             |  .57115595  
+  SRI LANKA  | -.50931747  
+             |   .3970815  
+  HONG KONG  |  .89338434  
+             |  .33377455  
+      INDIA  |  1.5749533  
+             |  .36138504  
+INDONESI..)  |  .29567775  
+             |  .32526742  
+KOREA RP..)  |  1.1912926  
+             |  .36128655  
+LAOS P.DE..  |  -4.924422  
+             |  .55940501  
+   MALAYSIA  |  .61013291  
+             |  .35462841  
+   MALDIVES  | -4.0838719  
+             |  .54298958  
+      NEPAL  | -2.7514149  
+             |  .42534969  
+   PAKISTAN  |  .53607354  
+             |   .3565904  
+PHILIPPINES  | -.13749739  
+             |  .36395349  
+  SINGAPORE  |  .99349691  
+             |  .36003221  
+   THAILAND  |  1.0790505  
+             |  .35938985  
+     TAIWAN  |  1.6163987  
+             |  .35623543  
+      CHINA  |  2.2143846  
+             |  .36923192  
+KOREA D ..)  | -1.5410615  
+             |  .45000741  
+   MONGOLIA  | -4.2732691  
+             |  .58142517  
+    VIETNAM  | -2.2481669  
+             |  .56440845  
+BELGIUM-L~.  |  2.6347618  
+             |  .30799475  
+DENMARK ..)  |   .9565007  
+             |  .31955102  
+     FRANCE  |  3.9055549  
+             |  .31159636  
+    GERMANY  |  4.1124567  
+             |  .30996284  
+     GREECE  |  .85898326  
+             |   .3167969  
+    IRELAND  |  .28620208  
+             |  .31266788  
+      ITALY  |  3.4735426  
+             |  .32552123  
+NETHERLANDS  |  2.8979863  
+             |  .31286153  
+   PORTUGAL  |  1.0929194  
+             |  .31330616  
+      SPAIN  |  2.5654614  
+             |  .31724317  
+UNITED KI..  |    3.75347  
+             |   .2997765  
+    AUSTRIA  |  .93687523  
+             |  .32352069  
+    FINLAND  |  .78540647  
+             |  .33847999  
+    ICELAND  | -2.0456462  
+             |  .33156553  
+     NORWAY  |   .6050516  
+             |  .33652682  
+     SWEDEN  |  1.3187973  
+             |  .32194279  
+SWITZERLAND  |  1.6342238  
+             |  .31241631  
+      MALTA  | -1.5566199  
+             |  .33820432  
+    ALBANIA  | -3.0461637  
+             |  .56876043  
+   BULGARIA  |  .41413782  
+             |  .40247189  
+CZECHOSLO~A  |  1.5833129  
+             |  .40058254  
+    HUNGARY  |  .88744053  
+             |  .37663466  
+     POLAND  |  1.0457943  
+             |  .38750575  
+    ROMANIA  |  .70993719  
+             |  .40862563  
+FM YUGOS..)  |  1.3149236  
+             |  .33851107  
+    FM USSR  |   2.647451  
+             |  .40119527  
+  AUSTRALIA  |  .92516132  
+             |  .33041805  
+NEW ZEALAND  | -.35121288  
+             |  .33949339  
+SOLOMON I..  | -3.7265179  
+             |  .59994993  
+       FIJI  | -2.7397287  
+             |  .44564852  
+KIRIBATI..)  | -4.3321992  
+             |  .64027007  
+NEW CALE..)  | -2.0589364  
+             |  .44117446  
+PAPUA N.G..  | -2.1777548  
+             |  .43405267  
+             |
+       _cons |  8.1671313  
+             |  .28985947  
+---------------------------
+               legend: b/se
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |   .0517671  
+      border |  .45783629  
+             |  .17421158  
+      island |  .39055129  
+             |   .1528521  
+    landlock |  .56138418  
+             |  .20355135  
+       legal |  .48594879  
+             |  .07160348  
+        lang |  .17636158  
+             |    .087722  
+    colonial |  1.2992357  
+             |   .1498155  
+          cu |  1.3638706  
+             |  .49202321  
+         fta |   .7587149  
+             |  .31503202  
+    religion |  .10180442  
+             |  .12750147  
+---------------------------
+               legend: b/se
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(cluster pair)
+panels are not nested within clusters
+r(498);
+
+end of do-file
+
+r(498);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |   .0517671  
+      border |  .45783629  
+             |  .17421158  
+      island |  .39055129  
+             |   .1528521  
+    landlock |  .56138418  
+             |  .20355135  
+       legal |  .48594879  
+             |  .07160348  
+        lang |  .17636158  
+             |    .087722  
+    colonial |  1.2992357  
+             |   .1498155  
+          cu |  1.3638706  
+             |  .49202321  
+         fta |   .7587149  
+             |  .31503202  
+    religion |  .10180442  
+             |  .12750147  
+---------------------------
+               legend: b/se
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |   .0517671  
+      border |  .45783629  
+             |  .17421158  
+      island |  .39055129  
+             |   .1528521  
+    landlock |  .56138418  
+             |  .20355135  
+       legal |  .48594879  
+             |  .07160348  
+        lang |  .17636158  
+             |    .087722  
+    colonial |  1.2992357  
+             |   .1498155  
+          cu |  1.3638706  
+             |  .49202321  
+         fta |   .7587149  
+             |  .31503202  
+    religion |  .10180442  
+             |  .12750147  
+---------------------------
+               legend: b/se
+
+. 
+. areg ln_trade `vars' if year==1986, a(expcode) a(impcode) vce(r)
+option a() not allowed
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. xtset year
+       panel variable:  year (balanced)
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |          0  
+      border |  .45783629  
+             |          0  
+      island |  .39055129  
+             |          0  
+    landlock |  .56138418  
+             |          0  
+       legal |  .48594879  
+             |          0  
+        lang |  .17636158  
+             |          0  
+    colonial |  1.2992357  
+             |          0  
+          cu |  1.3638706  
+             |          0  
+         fta |   .7587149  
+             |          0  
+    religion |  .10180442  
+             |          0  
+---------------------------
+               legend: b/se
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. xtset year
+       panel variable:  year (balanced)
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(cluster pair)
+panels are not nested within clusters
+r(498);
+
+end of do-file
+
+r(498);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. quietly xtreg ln_trade `vars' ///
+> i.pair if year==1986, fe vce(cluster pair)
+maxvar too small
+    You have attempted to use an interaction with too many levels or attempted to fit a model with too many variables.  You need to increase maxvar; it is currently
+    5000.  Use set maxvar; see help maxvar.
+
+    If you are using factor variables and included an interaction that has lots of missing cells, either increase maxvar or set emptycells drop to reduce the required
+    matrix size; see help set emptycells.
+
+    If you are using factor variables, you might have accidentally treated a continuous variable as a categorical, resulting in lots of categories.  Use the c. operator
+    on such variables.
+r(907);
+
+end of do-file
+
+r(907);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. xtset year
+       panel variable:  year (balanced)
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+     expcode |
+    ALGERIA  | -.14034251  
+             |          0  
+LIBY ARAB..  |  1.0804782  
+             |          0  
+    MOROCCO  | -.77393672  
+             |          0  
+WESTERN S..  | -5.9734905  
+             |          0  
+      SUDAN  | -2.7184447  
+             |          0  
+    TUNISIA  | -1.6161451  
+             |          0  
+      EGYPT  | -1.3859803  
+             |          0  
+   CAMEROON  | -2.1352144  
+             |          0  
+CENTRAL A..  | -3.2681751  
+             |          0  
+       CHAD  | -3.7209411  
+             |          0  
+      GABON  | -1.5755528  
+             |          0  
+     ANGOLA  | -1.7335614  
+             |          0  
+    BURUNDI  | -3.9945343  
+             |          0  
+    COMOROS  | -5.9280145  
+             |          0  
+      ZAIRE  | -1.7915316  
+             |          0  
+      BENIN  | -3.6196089  
+             |          0  
+ EQ. GUINEA  | -4.8149182  
+             |          0  
+   ETHIOPIA  | -2.4541103  
+             |          0  
+   DJIBOUTI  | -5.3204549  
+             |          0  
+     GAMBIA  | -5.1662852  
+             |          0  
+      GHANA  | -2.4220505  
+             |          0  
+     GUINEA  | -3.3801834  
+             |          0  
+COTE D'IV..  | -.97565925  
+             |          0  
+      KENYA  | -1.1011666  
+             |          0  
+    LIBERIA  | -2.0182358  
+             |          0  
+ MADAGASCAR  | -2.7254318  
+             |          0  
+     MALAWI  | -2.1737528  
+             |          0  
+       MALI  | -3.1678837  
+             |          0  
+ MAURITANIA  |   -3.29306  
+             |          0  
+  MAURITIUS  |  -2.408554  
+             |          0  
+ MOZAMBIQUE  |  -3.379161  
+             |          0  
+      NIGER  | -4.8268327  
+             |          0  
+    NIGERIA  | -1.2676349  
+             |          0  
+GUINEA-B..)  | -4.3861297  
+             |          0  
+    REUNION  | -3.8434694  
+             |          0  
+     RWANDA  | -3.0396636  
+             |          0  
+    SENEGAL  | -1.8301562  
+             |          0  
+ SEYCHELLES  | -5.8349388  
+             |          0  
+SIERRA LE..  | -4.3493527  
+             |          0  
+    SOMALIA  | -4.7296924  
+             |          0  
+   ZIMBABWE  | -1.2645973  
+             |          0  
+       TOGO  |    -2.4127  
+             |          0  
+     UGANDA  | -2.6521603  
+             |          0  
+UNTD RP T..  | -2.2927588  
+             |          0  
+BURKINA F..  | -4.4398464  
+             |          0  
+     ZAMBIA  | -2.2269995  
+             |          0  
+     CANADA  |  1.7677988  
+             |          0  
+        USA  |  4.1665446  
+             |          0  
+    BERMUDA  | -4.1880196  
+             |          0  
+  GREENLAND  | -3.0430976  
+             |          0  
+  ARGENTINA  |  .56941246  
+             |          0  
+    BOLIVIA  | -2.5804503  
+             |          0  
+     BRAZIL  |  1.9108712  
+             |          0  
+      CHILE  |  -.3844872  
+             |          0  
+   COLOMBIA  | -.69645666  
+             |          0  
+    ECUADOR  | -1.5625915  
+             |          0  
+     MEXICO  | -.17131181  
+             |          0  
+   PARAGUAY  | -2.3119098  
+             |          0  
+       PERU  | -.82737243  
+             |          0  
+    URUGUAY  | -1.3310069  
+             |          0  
+  VENEZUELA  |  -.0901886  
+             |          0  
+ COSTA RICA  | -1.4778493  
+             |          0  
+EL SALVADOR  | -2.2572346  
+             |          0  
+  GUATEMALA  | -1.4700549  
+             |          0  
+   HONDURAS  | -1.6146752  
+             |          0  
+  NICARAGUA  | -2.3147491  
+             |          0  
+    BAHAMAS  | -2.0363472  
+             |          0  
+   BARBADOS  | -3.3492394  
+             |          0  
+CAYMAN IS..  | -5.1844702  
+             |          0  
+       CUBA  | -1.9740043  
+             |          0  
+DOMINICAN..  | -2.3384202  
+             |          0  
+GUADELOU..)  | -3.6183688  
+             |          0  
+      HAITI  | -3.8241221  
+             |          0  
+    JAMAICA  | -1.6394279  
+             |          0  
+NETH ANTI..  | -.62132573  
+             |          0  
+ST KITTS..)  | -3.1704915  
+             |          0  
+TRINIDAD-~O  | -1.9469296  
+             |          0  
+TURKS CAI..  | -5.5869122  
+             |          0  
+     BELIZE  | -4.1282526  
+             |          0  
+FRENCH GU..  | -4.3019365  
+             |          0  
+     GUYANA  | -2.9192512  
+             |          0  
+     PANAMA  | -1.7982124  
+             |          0  
+    SURINAM  |  -2.672122  
+             |          0  
+     ISRAEL  | -.09715322  
+             |          0  
+      JAPAN  |  4.0078777  
+             |          0  
+    BAHRAIN  | -2.3221661  
+             |          0  
+     CYPRUS  | -2.4775774  
+             |          0  
+       IRAN  | -.07153482  
+             |          0  
+       IRAQ  | -1.3909046  
+             |          0  
+     JORDAN  | -1.7009492  
+             |          0  
+     KUWAIT  | -.57545566  
+             |          0  
+    LEBANON  | -2.7888029  
+             |          0  
+       OMAN  | -2.6158747  
+             |          0  
+      QATAR  | -1.3271007  
+             |          0  
+SAUDI ARA..  |  .61106892  
+             |          0  
+SYRN ARAB..  | -1.8353352  
+             |          0  
+UNTD ARAB..  | -.16023552  
+             |          0  
+     TURKEY  | -.18607264  
+             |          0  
+      YEMEN  | -3.6355393  
+             |          0  
+AFGHANISTAN  | -3.5405503  
+             |          0  
+ BANGLADESH  | -1.2310294  
+             |          0  
+     BHUTAN  | -6.0506554  
+             |          0  
+     BRUNEI  | -3.2660138  
+             |          0  
+MYANMAR ..)  | -2.2450362  
+             |          0  
+   CAMBODIA  | -5.7388462  
+             |          0  
+  SRI LANKA  |  -1.524548  
+             |          0  
+  HONG KONG  |   1.716643  
+             |          0  
+      INDIA  |  .30975937  
+             |          0  
+INDONESI..)  |  -.1401787  
+             |          0  
+KOREA RP..)  |  1.7643972  
+             |          0  
+LAOS P.DE..  | -5.4044496  
+             |          0  
+   MALAYSIA  |  .26579042  
+             |          0  
+   MALDIVES  | -5.5967314  
+             |          0  
+      NEPAL  | -3.8003737  
+             |          0  
+   PAKISTAN  | -.36285878  
+             |          0  
+PHILIPPINES  | -1.2306148  
+             |          0  
+  SINGAPORE  |  1.3355823  
+             |          0  
+   THAILAND  |  .47126378  
+             |          0  
+     TAIWAN  |  1.6247101  
+             |          0  
+      CHINA  |  .44686038  
+             |          0  
+KOREA D ..)  | -1.9563023  
+             |          0  
+   MONGOLIA  |   -4.59461  
+             |          0  
+    VIETNAM  | -2.7509494  
+             |          0  
+BELGIUM-L~.  |  2.4041126  
+             |          0  
+DENMARK ..)  |  1.3706733  
+             |          0  
+     FRANCE  |  3.7004301  
+             |          0  
+    GERMANY  |  3.9923233  
+             |          0  
+     GREECE  | -.67124672  
+             |          0  
+    IRELAND  |  .31828691  
+             |          0  
+      ITALY  |  3.3325138  
+             |          0  
+NETHERLANDS  |  2.8792394  
+             |          0  
+   PORTUGAL  |  -.2474211  
+             |          0  
+      SPAIN  |  1.8361852  
+             |          0  
+UNITED KI..  |  3.5933072  
+             |          0  
+    AUSTRIA  |  1.1336966  
+             |          0  
+    FINLAND  |  .53576239  
+             |          0  
+    ICELAND  | -2.3648142  
+             |          0  
+     NORWAY  |  .62770294  
+             |          0  
+     SWEDEN  |  1.7574211  
+             |          0  
+SWITZERLAND  |   2.121138  
+             |          0  
+      MALTA  | -2.9465691  
+             |          0  
+    ALBANIA  | -3.2724322  
+             |          0  
+   BULGARIA  | -1.0498041  
+             |          0  
+CZECHOSLO~A  |  .57326889  
+             |          0  
+    HUNGARY  |  -.2774199  
+             |          0  
+     POLAND  |  .15398867  
+             |          0  
+    ROMANIA  | -.10363209  
+             |          0  
+FM YUGOS..)  |  .14130141  
+             |          0  
+    FM USSR  |  1.0447823  
+             |          0  
+  AUSTRALIA  |  .65242613  
+             |          0  
+NEW ZEALAND  |  .02310931  
+             |          0  
+SOLOMON I..  | -2.8935703  
+             |          0  
+       FIJI  | -3.4027518  
+             |          0  
+KIRIBATI..)  | -4.9990738  
+             |          0  
+NEW CALE..)  | -3.3500373  
+             |          0  
+PAPUA N.G..  | -2.4524892  
+             |          0  
+             |
+     impcode |
+    ALGERIA  |  .57352745  
+             |          0  
+LIBY ARAB..  |  .38857994  
+             |          0  
+    MOROCCO  |  .22538991  
+             |          0  
+WESTERN S..  | -3.5167897  
+             |          0  
+      SUDAN  | -.98785835  
+             |          0  
+    TUNISIA  | -.41698371  
+             |          0  
+      EGYPT  |  1.0348892  
+             |          0  
+   CAMEROON  | -1.2215157  
+             |          0  
+CENTRAL A..  | -3.5466691  
+             |          0  
+       CHAD  | -4.0777241  
+             |          0  
+      CONGO  | -2.4721171  
+             |          0  
+      GABON  | -1.9990867  
+             |          0  
+     ANGOLA  | -1.3413759  
+             |          0  
+    BURUNDI  | -3.5279446  
+             |          0  
+    COMOROS  | -3.9824944  
+             |          0  
+      ZAIRE  | -1.5010278  
+             |          0  
+      BENIN  | -2.0033028  
+             |          0  
+ EQ. GUINEA  | -4.7570612  
+             |          0  
+   ETHIOPIA  | -1.0160018  
+             |          0  
+   DJIBOUTI  |  -2.588784  
+             |          0  
+     GAMBIA  | -3.2177463  
+             |          0  
+      GHANA  | -1.6887491  
+             |          0  
+     GUINEA  | -2.1002991  
+             |          0  
+COTE D'IV..  | -.83940743  
+             |          0  
+      KENYA  | -.41343965  
+             |          0  
+    LIBERIA  | -.99015525  
+             |          0  
+ MADAGASCAR  |  -2.587662  
+             |          0  
+     MALAWI  |    -2.4713  
+             |          0  
+       MALI  | -2.5082113  
+             |          0  
+ MAURITANIA  | -2.7390186  
+             |          0  
+  MAURITIUS  | -1.7706572  
+             |          0  
+ MOZAMBIQUE  | -1.5848452  
+             |          0  
+      NIGER  |  -2.812801  
+             |          0  
+    NIGERIA  |  .07485721  
+             |          0  
+GUINEA-B..)  | -2.5543737  
+             |          0  
+    REUNION  | -1.5804953  
+             |          0  
+     RWANDA  | -2.9803956  
+             |          0  
+    SENEGAL  | -1.5449437  
+             |          0  
+ SEYCHELLES  |  -3.168629  
+             |          0  
+SIERRA LE..  |  -3.176418  
+             |          0  
+    SOMALIA  | -2.1895827  
+             |          0  
+   ZIMBABWE  | -1.7156446  
+             |          0  
+       TOGO  |  -2.020938  
+             |          0  
+     UGANDA  | -2.7638679  
+             |          0  
+UNTD RP T..  |  -1.205378  
+             |          0  
+BURKINA F..  |  -2.919815  
+             |          0  
+     ZAMBIA  | -1.8666896  
+             |          0  
+     CANADA  |  1.7227881  
+             |          0  
+        USA  |  4.5838584  
+             |          0  
+    BERMUDA  |  -2.330611  
+             |          0  
+  GREENLAND  | -3.6658945  
+             |          0  
+  ARGENTINA  | -.13020448  
+             |          0  
+    BOLIVIA  |  -2.219882  
+             |          0  
+     BRAZIL  |  1.2821315  
+             |          0  
+      CHILE  | -.32489095  
+             |          0  
+   COLOMBIA  |   -.585933  
+             |          0  
+    ECUADOR  | -.83024413  
+             |          0  
+     MEXICO  | -.26328992  
+             |          0  
+   PARAGUAY  | -2.7048245  
+             |          0  
+       PERU  | -.51734439  
+             |          0  
+    URUGUAY  | -1.5445734  
+             |          0  
+  VENEZUELA  |  .23895802  
+             |          0  
+ COSTA RICA  | -1.3484893  
+             |          0  
+EL SALVADOR  | -1.6946005  
+             |          0  
+  GUATEMALA  | -1.4988043  
+             |          0  
+   HONDURAS  | -1.6885233  
+             |          0  
+  NICARAGUA  | -1.1464515  
+             |          0  
+    BAHAMAS  | -.96776667  
+             |          0  
+   BARBADOS  | -1.7984729  
+             |          0  
+CAYMAN IS..  | -3.0908658  
+             |          0  
+       CUBA  | -.56813984  
+             |          0  
+DOMINICAN..  | -1.2648668  
+             |          0  
+GUADELOU..)  | -1.6497938  
+             |          0  
+      HAITI  |  -2.225656  
+             |          0  
+    JAMAICA  | -1.6478557  
+             |          0  
+NETH ANTI..  | -1.6333147  
+             |          0  
+ST KITTS..)  | -1.9227682  
+             |          0  
+TRINIDAD-~O  | -1.2713807  
+             |          0  
+TURKS CAI..  | -4.8543445  
+             |          0  
+     BELIZE  | -3.6108682  
+             |          0  
+FRENCH GU..  |  -3.362716  
+             |          0  
+     GUYANA  | -2.6742977  
+             |          0  
+     PANAMA  | -.39396348  
+             |          0  
+    SURINAM  |  -2.986608  
+             |          0  
+     ISRAEL  |  .01957022  
+             |          0  
+      JAPAN  |  3.5396393  
+             |          0  
+    BAHRAIN  | -.96721429  
+             |          0  
+     CYPRUS  | -1.0493638  
+             |          0  
+       IRAN  |  1.2379072  
+             |          0  
+       IRAQ  |  .96040528  
+             |          0  
+     JORDAN  | -.19339645  
+             |          0  
+     KUWAIT  |  .60767355  
+             |          0  
+    LEBANON  | -.61487335  
+             |          0  
+       OMAN  | -.68503019  
+             |          0  
+      QATAR  | -1.0034099  
+             |          0  
+SAUDI ARA..  |  1.8289078  
+             |          0  
+SYRN ARAB..  | -.18121999  
+             |          0  
+UNTD ARAB..  |  .62845027  
+             |          0  
+     TURKEY  |   1.161139  
+             |          0  
+      YEMEN  | -.02453363  
+             |          0  
+AFGHANISTAN  | -1.8386479  
+             |          0  
+ BANGLADESH  |  -.2548336  
+             |          0  
+     BHUTAN  | -4.8854715  
+             |          0  
+     BRUNEI  | -2.2960523  
+             |          0  
+MYANMAR ..)  | -2.0612689  
+             |          0  
+   CAMBODIA  | -4.9626624  
+             |          0  
+  SRI LANKA  | -.50931747  
+             |          0  
+  HONG KONG  |  .89338434  
+             |          0  
+      INDIA  |  1.5749533  
+             |          0  
+INDONESI..)  |  .29567775  
+             |          0  
+KOREA RP..)  |  1.1912926  
+             |          0  
+LAOS P.DE..  |  -4.924422  
+             |          0  
+   MALAYSIA  |  .61013291  
+             |          0  
+   MALDIVES  | -4.0838719  
+             |          0  
+      NEPAL  | -2.7514149  
+             |          0  
+   PAKISTAN  |  .53607354  
+             |          0  
+PHILIPPINES  | -.13749739  
+             |          0  
+  SINGAPORE  |  .99349691  
+             |          0  
+   THAILAND  |  1.0790505  
+             |          0  
+     TAIWAN  |  1.6163987  
+             |          0  
+      CHINA  |  2.2143846  
+             |          0  
+KOREA D ..)  | -1.5410615  
+             |          0  
+   MONGOLIA  | -4.2732691  
+             |          0  
+    VIETNAM  | -2.2481669  
+             |          0  
+BELGIUM-L~.  |  2.6347618  
+             |          0  
+DENMARK ..)  |   .9565007  
+             |          0  
+     FRANCE  |  3.9055549  
+             |          0  
+    GERMANY  |  4.1124567  
+             |          0  
+     GREECE  |  .85898326  
+             |          0  
+    IRELAND  |  .28620208  
+             |          0  
+      ITALY  |  3.4735426  
+             |          0  
+NETHERLANDS  |  2.8979863  
+             |          0  
+   PORTUGAL  |  1.0929194  
+             |          0  
+      SPAIN  |  2.5654614  
+             |          0  
+UNITED KI..  |    3.75347  
+             |          0  
+    AUSTRIA  |  .93687523  
+             |          0  
+    FINLAND  |  .78540647  
+             |          0  
+    ICELAND  | -2.0456462  
+             |          0  
+     NORWAY  |   .6050516  
+             |          0  
+     SWEDEN  |  1.3187973  
+             |          0  
+SWITZERLAND  |  1.6342238  
+             |          0  
+      MALTA  | -1.5566199  
+             |          0  
+    ALBANIA  | -3.0461637  
+             |          0  
+   BULGARIA  |  .41413782  
+             |          0  
+CZECHOSLO~A  |  1.5833129  
+             |          0  
+    HUNGARY  |  .88744053  
+             |          0  
+     POLAND  |  1.0457943  
+             |          0  
+    ROMANIA  |  .70993719  
+             |          0  
+FM YUGOS..)  |  1.3149236  
+             |          0  
+    FM USSR  |   2.647451  
+             |          0  
+  AUSTRALIA  |  .92516132  
+             |          0  
+NEW ZEALAND  | -.35121288  
+             |          0  
+SOLOMON I..  | -3.7265179  
+             |          0  
+       FIJI  | -2.7397287  
+             |          0  
+KIRIBATI..)  | -4.3321992  
+             |          0  
+NEW CALE..)  | -2.0589364  
+             |          0  
+PAPUA N.G..  | -2.1777548  
+             |          0  
+             |
+       _cons |  8.5304668  
+             |          0  
+---------------------------
+               legend: b/se
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. xtset year
+       panel variable:  year (balanced)
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |          0  
+      border |  .45783629  
+             |          0  
+      island |  .39055129  
+             |          0  
+    landlock |  .56138418  
+             |          0  
+       legal |  .48594879  
+             |          0  
+        lang |  .17636158  
+             |          0  
+    colonial |  1.2992357  
+             |          0  
+          cu |  1.3638706  
+             |          0  
+         fta |   .7587149  
+             |          0  
+    religion |  .10180442  
+             |          0  
+---------------------------
+               legend: b/se
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. areg ln_trade `vars' if year==1986, a(pair) vce(r)
+
+Linear regression, absorbing indicators         Number of obs     =     11,146
+Absorbed variable: pair                         No. of categories =      5,836
+                                                F(   0,   5310)   =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.8061
+                                                Adj R-squared     =     0.5931
+                                                Root MSE          =     2.0294
+
+------------------------------------------------------------------------------
+             |               Robust
+    ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       _cons |   8.095963   .0192221   421.18   0.000      8.05828    8.133646
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. areg ln_trade `vars' if year==1986, a(pair) vce(r)
+
+Linear regression, absorbing indicators         Number of obs     =     11,146
+Absorbed variable: pair                         No. of categories =      5,836
+                                                F(   0,   5310)   =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.8061
+                                                Adj R-squared     =     0.5931
+                                                Root MSE          =     2.0294
+
+------------------------------------------------------------------------------
+             |               Robust
+    ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       _cons |   8.095963   .0192221   421.18   0.000      8.05828    8.133646
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD480_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. * running regression (cluster ses at country pair)
+. xtset year
+       panel variable:  year (balanced)
+
+. quietly xtreg ln_trade `vars' ///
+> i.expcode i.impcode if year==1986, fe vce(robust)
+
+. estimates table, se keep (`vars')
+
+---------------------------
+    Variable |   active    
+-------------+-------------
+        dist | -1.1762325  
+             |          0  
+      border |  .45783629  
+             |          0  
+      island |  .39055129  
+             |          0  
+    landlock |  .56138418  
+             |          0  
+       legal |  .48594879  
+             |          0  
+        lang |  .17636158  
+             |          0  
+    colonial |  1.2992357  
+             |          0  
+          cu |  1.3638706  
+             |          0  
+         fta |   .7587149  
+             |          0  
+    religion |  .10180442  
+             |          0  
+---------------------------
+               legend: b/se
+
+. * coefficients are right, but need to figue out clustering SEs
+. * table says they cluster at the country-pair level
+. 
+. areg ln_trade `vars' if year==1986, a(pair) vce(r)
+
+Linear regression, absorbing indicators         Number of obs     =     11,146
+Absorbed variable: pair                         No. of categories =      5,836
+                                                F(  10,   5300)   =      11.48
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8140
+                                                Adj R-squared     =     0.6089
+                                                Root MSE          =     1.9895
+
+------------------------------------------------------------------------------
+             |               Robust
+    ln_trade |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        dist |  -.2423965   .1592778    -1.52   0.128    -.5546465    .0698534
+      border |   1.680449    .628168     2.68   0.007     .4489811    2.911917
+      island |  -1.263564   .5667466    -2.23   0.026    -2.374621   -.1525077
+    landlock |  -.0256466   .6318727    -0.04   0.968    -1.264377    1.213084
+       legal |  -.2270304   .2107694    -1.08   0.281    -.6402252    .1861645
+        lang |  -.5016064   .2158868    -2.32   0.020    -.9248333   -.0783795
+    colonial |   3.394763   .4619453     7.35   0.000      2.48916    4.300366
+          cu |   2.365265   1.061528     2.23   0.026     .2842342    4.446296
+         fta |   .1908044   .6646314     0.29   0.774    -1.112147    1.493755
+    religion |  -.9797876   .1445257    -6.78   0.000    -1.263118   -.6964577
+       _cons |   9.463392   .6798799    13.92   0.000     8.130547    10.79624
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. exit, clear
