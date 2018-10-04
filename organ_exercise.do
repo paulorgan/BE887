@@ -1,7 +1,7 @@
 ********************************************************************************
 * Author: Paul R. Organ
 * Purpose: BE 887 Econometric Exercise
-* Last Update: Sept 20, 2018
+* Last Update: Oct 4, 2018
 ********************************************************************************
 clear all
 set more off
@@ -60,19 +60,45 @@ if year==1986 & expcode!=141780, vce(cluster pair)
 
 local controls = "dist border island landlock legal lang colonial cu fta religion i.impcode i.expcode"
 
-margins, dydx(`vars') atmeans
+margins, dydx(`controls') atmeans
 
 * coefficients for border, island, landlock, a few others are off
 * look into this
 
 ********************************************************************************
 ** Table 1, Column 3 for 1980s panel
+* local to list variables for inclusion in regression
+local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+* running regression
+* fixed effects for exporter, importer, and year
+* standard errors clustered at the country-pair level
+quietly reg ln_trade `vars' i.expcode i.impcode i.year, vce(cluster pair)
+estimates table, se keep (`vars') stats(N r2)
+
+* signs on island and landlock are flipped?
 
 ********************************************************************************
 ** Merge in Regulation data
+* see do file 'clean_data' for small pre-cleaning steps done before this
+merge m:1 expcode using reg_costs_exp
+drop _merge
+merge m:1 impcode using reg_costs_imp
+drop _merge
+
+* generate indicators for pairs
+gen reg_costs = (exp_ind_cost + imp_ind_cost)==2
+gen reg_costs_procdays = (exp_ind_procdays + imp_ind_procdays)==2
 
 ********************************************************************************
 ** Table 2, Column 1
+* local to list variables for inclusion in regression
+local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+* regression
+quietly probit pos_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
+
+margins, dydx(`vars') atmeans
 
 ********************************************************************************
 ** Heckman Selection Correction
