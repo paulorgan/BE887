@@ -88,10 +88,29 @@ drop _merge
 
 * generate indicators for pairs
 gen reg_costs = (exp_ind_cost + imp_ind_cost)==2
+replace reg_costs = . if missing(exp_ind_cost) | missing(imp_ind_cost)
 gen reg_costs_procdays = (exp_ind_procdays + imp_ind_procdays)==2
+replace reg_costs_procdays = . if missing(exp_ind_procdays) | missing(imp_ind_procdays)
 
 ********************************************************************************
 ** Table 2, Column 1
+* drop if (1) reg cost data is missing or 
+* (2) exporter in 8 country list or (3) importer is Japan
+* Japan = 413920
+* Hong Kong = 453440
+* France = 532500
+* Germany = 532800
+* Italy = 533800
+* Netherlands = 535280
+* UK = 538260
+* Sweden = 557520
+drop if exp_ind_cost == .
+drop if imp_ind_cost == .
+drop if expcode == 413920 | expcode == 453440 | expcode == 532500 | ///
+expcode == 532800 | expcode == 533800 | expcode == 535280 | ///
+expcode == 538260 | expcode == 557520
+drop if impcode == 413920
+
 * local to list variables for inclusion in regression
 local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
@@ -102,6 +121,14 @@ margins, dydx(`vars') atmeans
 
 ********************************************************************************
 ** Heckman Selection Correction
+local fs_vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+local ss_vars = "dist border island landlock legal lang colonial cu fta religion"
+
+heckman ln_trade `ss_vars' i.expcode i.impcode if year==1986, ///
+select(pos_trade `fs_vars' i.expcode i.impcode) twostep vce(cluster pair)
+
+* this does not work
 
 ********************************************************************************
 ** Table 2, Column 4

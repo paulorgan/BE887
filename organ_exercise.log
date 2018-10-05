@@ -1,20 +1,18 @@
--------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  C:\Users\prorgan\Box\Classes\BE 887\Exercise\organ_exercise.log
   log type:  text
- opened on:   4 Oct 2018, 12:58:37
+ opened on:   4 Oct 2018, 20:02:33
 
 . 
 . * load data
 . use "data1980s_share.dta"
 
 . 
-. ********************************************************************************
-. *** Replication of Helpman, Melitz, and Rubenstein (2008)
-. ********************************************************************************
-. ** Table 1, Column 1 for 1986
-. 
-. * define landlock if BOTH countries are landocked
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
 . gen landlock = n_landlock==2
 
 . 
@@ -32,553 +30,465 @@
 . rename religion_same religion
 
 . 
-. * define country pairs
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
 . gen pair = expcode + impcode
 
 . 
-. * local to list variables for inclusion in regression
-. local vars = "dist border island landlock legal lang colonial cu fta religion"
+end of do-file
 
-. 
-. * running regression
-. * fixed effects for exporter and for importer
-. * standard errors clustered at the country-pair level
-. quietly reg ln_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
 
-. estimates table, se keep (`vars') stats(N r2)
-
----------------------------
-    Variable |   active    
--------------+-------------
-        dist | -1.1762325  
-             |  .03128487  
-      border |  .45783629  
-             |  .14801641  
-      island |  .39055129  
-             |  .12100545  
-    landlock |  .56138418  
-             |  .18813115  
-       legal |  .48594879  
-             |  .05033059  
-        lang |  .17636158  
-             |  .06105008  
-    colonial |  1.2992357  
-             |  .12070843  
-          cu |  1.3638706  
-             |  .25232677  
-         fta |   .7587149  
-             |  .22194201  
-    religion |  .10180442  
-             |  .09655859  
--------------+-------------
-           N |      11146  
-          r2 |  .70935199  
----------------------------
-               legend: b/se
-
-. 
-. ********************************************************************************
-. ** Table 1, Column 2 for 1986 (Probit)
-. 
-. * define indicator for country pairs with positive trade
 . gen pos_trade = !missing(ln_trade)
 
 . 
-. * check we get 11,146 with positive trade (footnote 21)
-. tab pos_trade if year==1986
+end of do-file
 
-  pos_trade |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |     13,660       55.07       55.07
-          1 |     11,146       44.93      100.00
-------------+-----------------------------------
-      Total |     24,806      100.00
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. merge m:1 expcode using reg_costs_exp
+(label country already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                        64,370
+        from master                    64,370  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                           183,690  (_merge==3)
+    -----------------------------------------
+
+. drop _merge
+
+. merge m:1 impcode using reg_costs_imp
+(label country already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                        64,370
+        from master                    64,370  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                           183,690  (_merge==3)
+    -----------------------------------------
+
+. drop _merge
 
 . 
-. * local to list variables for inclusion in regression
-. local vars = "dist border island landlock legal lang colonial cu fta religion"
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. * generate indicators for pairs
+. gen reg_costs = (exp_ind_cost + imp_ind_cost)==2
+
+. gen reg_costs_procdays = (exp_ind_procdays + imp_ind_procdays)==2
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. drop if expcode==413920 | expcode==453440 | expcode==532500|expcode==532800///
+invalid syntax
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. drop if expcode == 413920 | expcode == 453440 | expcode == 532500 |///
+invalid syntax
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. drop if expcode == 413920 | expcode == 453440 | expcode == 532500 ///
+> | expcode == 532800 | expcode == 533800 | expcode == 535280 | ///
+> expcode == 538260 | expcode == 557520
+(12,560 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. drop if expcode == 413920 | expcode == 453440 | expcode == 532500 | ///
+> expcode == 532800 | expcode == 533800 | expcode == 535280 | ///
+> expcode == 538260 | expcode == 557520
+(0 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. drop if impcode == 413920
+(1,500 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
 . 
 . * regression
-. quietly probit pos_trade `vars' i.expcode i.impcode ///
-> if year==1986 & expcode!=141780, vce(cluster pair)
-
-. 
-. local controls = "dist border island landlock legal lang colonial cu fta religion i
-> .impcode i.expcode"
+. quietly probit pos_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
 
 . 
 . margins, dydx(`vars') atmeans
 
-Conditional marginal effects                    Number of obs     =     24,649
+Conditional marginal effects                    Number of obs     =     23,244
 Model VCE    : Robust
 
 Expression   : Pr(pos_trade), predict()
-dy/dx w.r.t. : dist border island landlock legal lang colonial cu fta religion
-at           : dist            =    4.178846 (mean)
-               border          =    .0173638 (mean)
-               island          =     .040245 (mean)
-               landlock        =    .0205282 (mean)
-               legal           =    .3684125 (mean)
-               lang            =    .2876384 (mean)
-               colonial        =    .0096961 (mean)
-               cu              =    .0090065 (mean)
-               fta             =    .0059232 (mean)
-               religion        =    .2221174 (mean)
-               117100.exp~e    =    .0063694 (mean)
-               130120.exp~e    =    .0063694 (mean)
-               134340.exp~e    =    .0063694 (mean)
-               135040.exp~e    =    .0063694 (mean)
-               137320.exp~e    =    .0063694 (mean)
-               137360.exp~e    =    .0063694 (mean)
-               137880.exp~e    =    .0063694 (mean)
-               138180.exp~e    =    .0063694 (mean)
-               141200.exp~e    =    .0063694 (mean)
-               141400.exp~e    =    .0063694 (mean)
-               141480.exp~e    =    .0063694 (mean)
-               142660.exp~e    =    .0063694 (mean)
-               160240.exp~e    =    .0063694 (mean)
-               161080.exp~e    =    .0063694 (mean)
-               161740.exp~e    =    .0063694 (mean)
-               161800.exp~e    =    .0063694 (mean)
-               162040.exp~e    =    .0063694 (mean)
-               162260.exp~e    =    .0063694 (mean)
-               162300.exp~e    =    .0063694 (mean)
-               162620.exp~e    =    .0063694 (mean)
-               162700.exp~e    =    .0063694 (mean)
-               162880.exp~e    =    .0063694 (mean)
-               163240.exp~e    =    .0063694 (mean)
-               163840.exp~e    =    .0063694 (mean)
-               164040.exp~e    =    .0063694 (mean)
-               164300.exp~e    =    .0063694 (mean)
-               164500.exp~e    =    .0063694 (mean)
-               164540.exp~e    =    .0063694 (mean)
-               164660.exp~e    =    .0063694 (mean)
-               164780.exp~e    =    .0063694 (mean)
-               164800.exp~e    =    .0063694 (mean)
-               165080.exp~e    =    .0063694 (mean)
-               165620.exp~e    =    .0063694 (mean)
-               165660.exp~e    =    .0063694 (mean)
-               166240.exp~e    =    .0063694 (mean)
-               166380.exp~e    =    .0063694 (mean)
-               166460.exp~e    =    .0063694 (mean)
-               166860.exp~e    =    .0063694 (mean)
-               166900.exp~e    =    .0063694 (mean)
-               166940.exp~e    =    .0063694 (mean)
-               167060.exp~e    =    .0063694 (mean)
-               167160.exp~e    =    .0063694 (mean)
-               167680.exp~e    =    .0063694 (mean)
-               168000.exp~e    =    .0063694 (mean)
-               168340.exp~e    =    .0063694 (mean)
-               168540.exp~e    =    .0063694 (mean)
-               168940.exp~e    =    .0063694 (mean)
-               211240.exp~e    =    .0063694 (mean)
-               218400.exp~e    =    .0063694 (mean)
-               220600.exp~e    =    .0063694 (mean)
-               223040.exp~e    =    .0063694 (mean)
-               330320.exp~e    =    .0063694 (mean)
-               330680.exp~e    =    .0063694 (mean)
-               330760.exp~e    =    .0063694 (mean)
-               331520.exp~e    =    .0063694 (mean)
-               331700.exp~e    =    .0063694 (mean)
-               332180.exp~e    =    .0063694 (mean)
-               334840.exp~e    =    .0063694 (mean)
-               336000.exp~e    =    .0063694 (mean)
-               336040.exp~e    =    .0063694 (mean)
-               338580.exp~e    =    .0063694 (mean)
-               338620.exp~e    =    .0063694 (mean)
-               341880.exp~e    =    .0063694 (mean)
-               342220.exp~e    =    .0063694 (mean)
-               343200.exp~e    =    .0063694 (mean)
-               343400.exp~e    =    .0063694 (mean)
-               345580.exp~e    =    .0063694 (mean)
-               350440.exp~e    =    .0063694 (mean)
-               350520.exp~e    =    .0063694 (mean)
-               351360.exp~e    =    .0063694 (mean)
-               351920.exp~e    =    .0063694 (mean)
-               352140.exp~e    =    .0063694 (mean)
-               353120.exp~e    =    .0063694 (mean)
-               353320.exp~e    =    .0063694 (mean)
-               353880.exp~e    =    .0063694 (mean)
-               355320.exp~e    =    .0063694 (mean)
-               356580.exp~e    =    .0063694 (mean)
-               357800.exp~e    =    .0063694 (mean)
-               357960.exp~e    =    .0063694 (mean)
-               360840.exp~e    =    .0063694 (mean)
-               362540.exp~e    =    .0063694 (mean)
-               363280.exp~e    =    .0063694 (mean)
-               365900.exp~e    =    .0063694 (mean)
-               367400.exp~e    =    .0063694 (mean)
-               413760.exp~e    =    .0063694 (mean)
-               413920.exp~e    =    .0063694 (mean)
-               440480.exp~e    =    .0063694 (mean)
-               441960.exp~e    =    .0063694 (mean)
-               443640.exp~e    =    .0063694 (mean)
-               443680.exp~e    =    .0063694 (mean)
-               444000.exp~e    =    .0063694 (mean)
-               444140.exp~e    =    .0063694 (mean)
-               444220.exp~e    =    .0063694 (mean)
-               445120.exp~e    =    .0063694 (mean)
-               446340.exp~e    =    .0063694 (mean)
-               446820.exp~e    =    .0063694 (mean)
-               447600.exp~e    =    .0063694 (mean)
-               447840.exp~e    =    .0063694 (mean)
-               447920.exp~e    =    .0063694 (mean)
-               448870.exp~e    =    .0063694 (mean)
-               450040.exp~e    =    .0063694 (mean)
-               450500.exp~e    =    .0063694 (mean)
-               450640.exp~e    =    .0063694 (mean)
-               450960.exp~e    =    .0063694 (mean)
-               451040.exp~e    =    .0063694 (mean)
-               451160.exp~e    =    .0063694 (mean)
-               451440.exp~e    =    .0063694 (mean)
-               453440.exp~e    =    .0063694 (mean)
-               453560.exp~e    =    .0063694 (mean)
-               453600.exp~e    =    .0063694 (mean)
-               454100.exp~e    =    .0063694 (mean)
-               454180.exp~e    =    .0063694 (mean)
-               454580.exp~e    =    .0063694 (mean)
-               454620.exp~e    =    .0063694 (mean)
-               455240.exp~e    =    .0063694 (mean)
-               455860.exp~e    =    .0063694 (mean)
-               456080.exp~e    =    .0063694 (mean)
-               457020.exp~e    =    .0063694 (mean)
-               457640.exp~e    =    .0063694 (mean)
-               458960.exp~e    =    .0063694 (mean)
-               481560.exp~e    =    .0063694 (mean)
-               484080.exp~e    =    .0063694 (mean)
-               484960.exp~e    =    .0063694 (mean)
-               487040.exp~e    =    .0063694 (mean)
-               530560.exp~e    =    .0063694 (mean)
-               532080.exp~e    =    .0063694 (mean)
-               532500.exp~e    =    .0063694 (mean)
-               532800.exp~e    =    .0063694 (mean)
-               533000.exp~e    =    .0063694 (mean)
-               533720.exp~e    =    .0063694 (mean)
-               533800.exp~e    =    .0063694 (mean)
-               535280.exp~e    =    .0063694 (mean)
-               536200.exp~e    =    .0063694 (mean)
-               537240.exp~e    =    .0063694 (mean)
-               538260.exp~e    =    .0063694 (mean)
-               550400.exp~e    =    .0063694 (mean)
-               552460.exp~e    =    .0063694 (mean)
-               553520.exp~e    =    .0063694 (mean)
-               555780.exp~e    =    .0063694 (mean)
-               557520.exp~e    =    .0063694 (mean)
-               557560.exp~e    =    .0063694 (mean)
-               574700.exp~e    =    .0063694 (mean)
-               580080.exp~e    =    .0063694 (mean)
-               581000.exp~e    =    .0063694 (mean)
-               582000.exp~e    =    .0063694 (mean)
-               583480.exp~e    =    .0063694 (mean)
-               586160.exp~e    =    .0063694 (mean)
-               586420.exp~e    =    .0063694 (mean)
-               598900.exp~e    =    .0063694 (mean)
-               688100.exp~e    =    .0063694 (mean)
-               710360.exp~e    =    .0063694 (mean)
-               715540.exp~e    =    .0063694 (mean)
-               720900.exp~e    =    .0063694 (mean)
-               722420.exp~e    =    .0063694 (mean)
-               722960.exp~e    =    .0063694 (mean)
-               725400.exp~e    =    .0063694 (mean)
-               725980.exp~e    =    .0063694 (mean)
-               117100.imp~e    =    .0063289 (mean)
-               130120.imp~e    =    .0063289 (mean)
-               134340.imp~e    =    .0063289 (mean)
-               135040.imp~e    =    .0063289 (mean)
-               137320.imp~e    =    .0063289 (mean)
-               137360.imp~e    =    .0063289 (mean)
-               137880.imp~e    =    .0063289 (mean)
-               138180.imp~e    =    .0063289 (mean)
-               141200.imp~e    =    .0063289 (mean)
-               141400.imp~e    =    .0063289 (mean)
-               141480.imp~e    =    .0063289 (mean)
-               141780.imp~e    =    .0063694 (mean)
-               142660.imp~e    =    .0063289 (mean)
-               160240.imp~e    =    .0063289 (mean)
-               161080.imp~e    =    .0063289 (mean)
-               161740.imp~e    =    .0063289 (mean)
-               161800.imp~e    =    .0063289 (mean)
-               162040.imp~e    =    .0063289 (mean)
-               162260.imp~e    =    .0063289 (mean)
-               162300.imp~e    =    .0063289 (mean)
-               162620.imp~e    =    .0063289 (mean)
-               162700.imp~e    =    .0063289 (mean)
-               162880.imp~e    =    .0063289 (mean)
-               163240.imp~e    =    .0063289 (mean)
-               163840.imp~e    =    .0063289 (mean)
-               164040.imp~e    =    .0063289 (mean)
-               164300.imp~e    =    .0063289 (mean)
-               164500.imp~e    =    .0063289 (mean)
-               164540.imp~e    =    .0063289 (mean)
-               164660.imp~e    =    .0063289 (mean)
-               164780.imp~e    =    .0063289 (mean)
-               164800.imp~e    =    .0063289 (mean)
-               165080.imp~e    =    .0063289 (mean)
-               165620.imp~e    =    .0063289 (mean)
-               165660.imp~e    =    .0063289 (mean)
-               166240.imp~e    =    .0063289 (mean)
-               166380.imp~e    =    .0063289 (mean)
-               166460.imp~e    =    .0063289 (mean)
-               166860.imp~e    =    .0063289 (mean)
-               166900.imp~e    =    .0063289 (mean)
-               166940.imp~e    =    .0063289 (mean)
-               167060.imp~e    =    .0063289 (mean)
-               167160.imp~e    =    .0063289 (mean)
-               167680.imp~e    =    .0063289 (mean)
-               168000.imp~e    =    .0063289 (mean)
-               168340.imp~e    =    .0063289 (mean)
-               168540.imp~e    =    .0063289 (mean)
-               168940.imp~e    =    .0063289 (mean)
-               211240.imp~e    =    .0063289 (mean)
-               218400.imp~e    =    .0063289 (mean)
-               220600.imp~e    =    .0063289 (mean)
-               223040.imp~e    =    .0063289 (mean)
-               330320.imp~e    =    .0063289 (mean)
-               330680.imp~e    =    .0063289 (mean)
-               330760.imp~e    =    .0063289 (mean)
-               331520.imp~e    =    .0063289 (mean)
-               331700.imp~e    =    .0063289 (mean)
-               332180.imp~e    =    .0063289 (mean)
-               334840.imp~e    =    .0063289 (mean)
-               336000.imp~e    =    .0063289 (mean)
-               336040.imp~e    =    .0063289 (mean)
-               338580.imp~e    =    .0063289 (mean)
-               338620.imp~e    =    .0063289 (mean)
-               341880.imp~e    =    .0063289 (mean)
-               342220.imp~e    =    .0063289 (mean)
-               343200.imp~e    =    .0063289 (mean)
-               343400.imp~e    =    .0063289 (mean)
-               345580.imp~e    =    .0063289 (mean)
-               350440.imp~e    =    .0063289 (mean)
-               350520.imp~e    =    .0063289 (mean)
-               351360.imp~e    =    .0063289 (mean)
-               351920.imp~e    =    .0063289 (mean)
-               352140.imp~e    =    .0063289 (mean)
-               353120.imp~e    =    .0063289 (mean)
-               353320.imp~e    =    .0063289 (mean)
-               353880.imp~e    =    .0063289 (mean)
-               355320.imp~e    =    .0063289 (mean)
-               356580.imp~e    =    .0063289 (mean)
-               357800.imp~e    =    .0063289 (mean)
-               357960.imp~e    =    .0063289 (mean)
-               360840.imp~e    =    .0063289 (mean)
-               362540.imp~e    =    .0063289 (mean)
-               363280.imp~e    =    .0063289 (mean)
-               365900.imp~e    =    .0063289 (mean)
-               367400.imp~e    =    .0063289 (mean)
-               413760.imp~e    =    .0063289 (mean)
-               413920.imp~e    =    .0063289 (mean)
-               440480.imp~e    =    .0063289 (mean)
-               441960.imp~e    =    .0063289 (mean)
-               443640.imp~e    =    .0063289 (mean)
-               443680.imp~e    =    .0063289 (mean)
-               444000.imp~e    =    .0063289 (mean)
-               444140.imp~e    =    .0063289 (mean)
-               444220.imp~e    =    .0063289 (mean)
-               445120.imp~e    =    .0063289 (mean)
-               446340.imp~e    =    .0063289 (mean)
-               446820.imp~e    =    .0063289 (mean)
-               447600.imp~e    =    .0063289 (mean)
-               447840.imp~e    =    .0063289 (mean)
-               447920.imp~e    =    .0063289 (mean)
-               448870.imp~e    =    .0063289 (mean)
-               450040.imp~e    =    .0063289 (mean)
-               450500.imp~e    =    .0063289 (mean)
-               450640.imp~e    =    .0063289 (mean)
-               450960.imp~e    =    .0063289 (mean)
-               451040.imp~e    =    .0063289 (mean)
-               451160.imp~e    =    .0063289 (mean)
-               451440.imp~e    =    .0063289 (mean)
-               453440.imp~e    =    .0063289 (mean)
-               453560.imp~e    =    .0063289 (mean)
-               453600.imp~e    =    .0063289 (mean)
-               454100.imp~e    =    .0063289 (mean)
-               454180.imp~e    =    .0063289 (mean)
-               454580.imp~e    =    .0063289 (mean)
-               454620.imp~e    =    .0063289 (mean)
-               455240.imp~e    =    .0063289 (mean)
-               455860.imp~e    =    .0063289 (mean)
-               456080.imp~e    =    .0063289 (mean)
-               457020.imp~e    =    .0063289 (mean)
-               457640.imp~e    =    .0063289 (mean)
-               458960.imp~e    =    .0063289 (mean)
-               481560.imp~e    =    .0063289 (mean)
-               484080.imp~e    =    .0063289 (mean)
-               484960.imp~e    =    .0063289 (mean)
-               487040.imp~e    =    .0063289 (mean)
-               530560.imp~e    =    .0063289 (mean)
-               532080.imp~e    =    .0063289 (mean)
-               532500.imp~e    =    .0063289 (mean)
-               532800.imp~e    =    .0063289 (mean)
-               533000.imp~e    =    .0063289 (mean)
-               533720.imp~e    =    .0063289 (mean)
-               533800.imp~e    =    .0063289 (mean)
-               535280.imp~e    =    .0063289 (mean)
-               536200.imp~e    =    .0063289 (mean)
-               537240.imp~e    =    .0063289 (mean)
-               538260.imp~e    =    .0063289 (mean)
-               550400.imp~e    =    .0063289 (mean)
-               552460.imp~e    =    .0063289 (mean)
-               553520.imp~e    =    .0063289 (mean)
-               555780.imp~e    =    .0063289 (mean)
-               557520.imp~e    =    .0063289 (mean)
-               557560.imp~e    =    .0063289 (mean)
-               574700.imp~e    =    .0063289 (mean)
-               580080.imp~e    =    .0063289 (mean)
-               581000.imp~e    =    .0063289 (mean)
-               582000.imp~e    =    .0063289 (mean)
-               583480.imp~e    =    .0063289 (mean)
-               586160.imp~e    =    .0063289 (mean)
-               586420.imp~e    =    .0063289 (mean)
-               598900.imp~e    =    .0063289 (mean)
-               688100.imp~e    =    .0063289 (mean)
-               710360.imp~e    =    .0063289 (mean)
-               715540.imp~e    =    .0063289 (mean)
-               720900.imp~e    =    .0063289 (mean)
-               722420.imp~e    =    .0063289 (mean)
-               722960.imp~e    =    .0063289 (mean)
-               725400.imp~e    =    .0063289 (mean)
-               725980.imp~e    =    .0063289 (mean)
+dy/dx w.r.t. : dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays
+at           : dist            =    4.177491 (mean)
+               border          =    .0174669 (mean)
+               island          =    .0387197 (mean)
+               landlock        =    .0217691 (mean)
+               legal           =    .3754087 (mean)
+               lang            =    .2975391 (mean)
+               colonial        =    .0064103 (mean)
+               cu              =    .0094218 (mean)
+               fta             =    .0049045 (mean)
+               religion        =    .2264621 (mean)
+               reg_costs       =    .1817673 (mean)
+               reg_costs_~s    =    .0671141 (mean)
+               117100.exp~e    =    .0067114 (mean)
+               130120.exp~e    =    .0067114 (mean)
+               134340.exp~e    =    .0067114 (mean)
+               135040.exp~e    =    .0067114 (mean)
+               137320.exp~e    =    .0067114 (mean)
+               137360.exp~e    =    .0067114 (mean)
+               137880.exp~e    =    .0067114 (mean)
+               138180.exp~e    =    .0067114 (mean)
+               141200.exp~e    =    .0067114 (mean)
+               141400.exp~e    =    .0067114 (mean)
+               141480.exp~e    =    .0067114 (mean)
+               142660.exp~e    =    .0067114 (mean)
+               160240.exp~e    =    .0067114 (mean)
+               161080.exp~e    =    .0067114 (mean)
+               161740.exp~e    =    .0067114 (mean)
+               161800.exp~e    =    .0067114 (mean)
+               162040.exp~e    =    .0067114 (mean)
+               162260.exp~e    =    .0067114 (mean)
+               162300.exp~e    =    .0067114 (mean)
+               162620.exp~e    =    .0067114 (mean)
+               162700.exp~e    =    .0067114 (mean)
+               162880.exp~e    =    .0067114 (mean)
+               163240.exp~e    =    .0067114 (mean)
+               163840.exp~e    =    .0067114 (mean)
+               164040.exp~e    =    .0067114 (mean)
+               164300.exp~e    =    .0067114 (mean)
+               164500.exp~e    =    .0067114 (mean)
+               164540.exp~e    =    .0067114 (mean)
+               164660.exp~e    =    .0067114 (mean)
+               164780.exp~e    =    .0067114 (mean)
+               164800.exp~e    =    .0067114 (mean)
+               165080.exp~e    =    .0067114 (mean)
+               165620.exp~e    =    .0067114 (mean)
+               165660.exp~e    =    .0067114 (mean)
+               166240.exp~e    =    .0067114 (mean)
+               166380.exp~e    =    .0067114 (mean)
+               166460.exp~e    =    .0067114 (mean)
+               166860.exp~e    =    .0067114 (mean)
+               166900.exp~e    =    .0067114 (mean)
+               166940.exp~e    =    .0067114 (mean)
+               167060.exp~e    =    .0067114 (mean)
+               167160.exp~e    =    .0067114 (mean)
+               167680.exp~e    =    .0067114 (mean)
+               168000.exp~e    =    .0067114 (mean)
+               168340.exp~e    =    .0067114 (mean)
+               168540.exp~e    =    .0067114 (mean)
+               168940.exp~e    =    .0067114 (mean)
+               211240.exp~e    =    .0067114 (mean)
+               218400.exp~e    =    .0067114 (mean)
+               220600.exp~e    =    .0067114 (mean)
+               223040.exp~e    =    .0067114 (mean)
+               330320.exp~e    =    .0067114 (mean)
+               330680.exp~e    =    .0067114 (mean)
+               330760.exp~e    =    .0067114 (mean)
+               331520.exp~e    =    .0067114 (mean)
+               331700.exp~e    =    .0067114 (mean)
+               332180.exp~e    =    .0067114 (mean)
+               334840.exp~e    =    .0067114 (mean)
+               336000.exp~e    =    .0067114 (mean)
+               336040.exp~e    =    .0067114 (mean)
+               338580.exp~e    =    .0067114 (mean)
+               338620.exp~e    =    .0067114 (mean)
+               341880.exp~e    =    .0067114 (mean)
+               342220.exp~e    =    .0067114 (mean)
+               343200.exp~e    =    .0067114 (mean)
+               343400.exp~e    =    .0067114 (mean)
+               345580.exp~e    =    .0067114 (mean)
+               350440.exp~e    =    .0067114 (mean)
+               350520.exp~e    =    .0067114 (mean)
+               351360.exp~e    =    .0067114 (mean)
+               351920.exp~e    =    .0067114 (mean)
+               352140.exp~e    =    .0067114 (mean)
+               353120.exp~e    =    .0067114 (mean)
+               353320.exp~e    =    .0067114 (mean)
+               353880.exp~e    =    .0067114 (mean)
+               355320.exp~e    =    .0067114 (mean)
+               356580.exp~e    =    .0067114 (mean)
+               357800.exp~e    =    .0067114 (mean)
+               357960.exp~e    =    .0067114 (mean)
+               360840.exp~e    =    .0067114 (mean)
+               362540.exp~e    =    .0067114 (mean)
+               363280.exp~e    =    .0067114 (mean)
+               365900.exp~e    =    .0067114 (mean)
+               367400.exp~e    =    .0067114 (mean)
+               413760.exp~e    =    .0067114 (mean)
+               440480.exp~e    =    .0067114 (mean)
+               441960.exp~e    =    .0067114 (mean)
+               443640.exp~e    =    .0067114 (mean)
+               443680.exp~e    =    .0067114 (mean)
+               444000.exp~e    =    .0067114 (mean)
+               444140.exp~e    =    .0067114 (mean)
+               444220.exp~e    =    .0067114 (mean)
+               445120.exp~e    =    .0067114 (mean)
+               446340.exp~e    =    .0067114 (mean)
+               446820.exp~e    =    .0067114 (mean)
+               447600.exp~e    =    .0067114 (mean)
+               447840.exp~e    =    .0067114 (mean)
+               447920.exp~e    =    .0067114 (mean)
+               448870.exp~e    =    .0067114 (mean)
+               450040.exp~e    =    .0067114 (mean)
+               450500.exp~e    =    .0067114 (mean)
+               450640.exp~e    =    .0067114 (mean)
+               450960.exp~e    =    .0067114 (mean)
+               451040.exp~e    =    .0067114 (mean)
+               451160.exp~e    =    .0067114 (mean)
+               451440.exp~e    =    .0067114 (mean)
+               453560.exp~e    =    .0067114 (mean)
+               453600.exp~e    =    .0067114 (mean)
+               454100.exp~e    =    .0067114 (mean)
+               454180.exp~e    =    .0067114 (mean)
+               454580.exp~e    =    .0067114 (mean)
+               454620.exp~e    =    .0067114 (mean)
+               455240.exp~e    =    .0067114 (mean)
+               455860.exp~e    =    .0067114 (mean)
+               456080.exp~e    =    .0067114 (mean)
+               457020.exp~e    =    .0067114 (mean)
+               457640.exp~e    =    .0067114 (mean)
+               458960.exp~e    =    .0067114 (mean)
+               481560.exp~e    =    .0067114 (mean)
+               484080.exp~e    =    .0067114 (mean)
+               484960.exp~e    =    .0067114 (mean)
+               487040.exp~e    =    .0067114 (mean)
+               530560.exp~e    =    .0067114 (mean)
+               532080.exp~e    =    .0067114 (mean)
+               533000.exp~e    =    .0067114 (mean)
+               533720.exp~e    =    .0067114 (mean)
+               536200.exp~e    =    .0067114 (mean)
+               537240.exp~e    =    .0067114 (mean)
+               550400.exp~e    =    .0067114 (mean)
+               552460.exp~e    =    .0067114 (mean)
+               553520.exp~e    =    .0067114 (mean)
+               555780.exp~e    =    .0067114 (mean)
+               557560.exp~e    =    .0067114 (mean)
+               574700.exp~e    =    .0067114 (mean)
+               580080.exp~e    =    .0067114 (mean)
+               581000.exp~e    =    .0067114 (mean)
+               582000.exp~e    =    .0067114 (mean)
+               583480.exp~e    =    .0067114 (mean)
+               586160.exp~e    =    .0067114 (mean)
+               586420.exp~e    =    .0067114 (mean)
+               598900.exp~e    =    .0067114 (mean)
+               688100.exp~e    =    .0067114 (mean)
+               710360.exp~e    =    .0067114 (mean)
+               715540.exp~e    =    .0067114 (mean)
+               720900.exp~e    =    .0067114 (mean)
+               722420.exp~e    =    .0067114 (mean)
+               722960.exp~e    =    .0067114 (mean)
+               725400.exp~e    =    .0067114 (mean)
+               725980.exp~e    =    .0067114 (mean)
+               117100.imp~e    =    .0063672 (mean)
+               130120.imp~e    =    .0063672 (mean)
+               134340.imp~e    =    .0063672 (mean)
+               135040.imp~e    =    .0063672 (mean)
+               137320.imp~e    =    .0063672 (mean)
+               137360.imp~e    =    .0063672 (mean)
+               137880.imp~e    =    .0063672 (mean)
+               138180.imp~e    =    .0063672 (mean)
+               141200.imp~e    =    .0063672 (mean)
+               141400.imp~e    =    .0063672 (mean)
+               141480.imp~e    =    .0063672 (mean)
+               141780.imp~e    =    .0064103 (mean)
+               142660.imp~e    =    .0063672 (mean)
+               160240.imp~e    =    .0063672 (mean)
+               161080.imp~e    =    .0063672 (mean)
+               161740.imp~e    =    .0063672 (mean)
+               161800.imp~e    =    .0063672 (mean)
+               162040.imp~e    =    .0063672 (mean)
+               162260.imp~e    =    .0063672 (mean)
+               162300.imp~e    =    .0063672 (mean)
+               162620.imp~e    =    .0063672 (mean)
+               162700.imp~e    =    .0063672 (mean)
+               162880.imp~e    =    .0063672 (mean)
+               163240.imp~e    =    .0063672 (mean)
+               163840.imp~e    =    .0063672 (mean)
+               164040.imp~e    =    .0063672 (mean)
+               164300.imp~e    =    .0063672 (mean)
+               164500.imp~e    =    .0063672 (mean)
+               164540.imp~e    =    .0063672 (mean)
+               164660.imp~e    =    .0063672 (mean)
+               164780.imp~e    =    .0063672 (mean)
+               164800.imp~e    =    .0063672 (mean)
+               165080.imp~e    =    .0063672 (mean)
+               165620.imp~e    =    .0063672 (mean)
+               165660.imp~e    =    .0063672 (mean)
+               166240.imp~e    =    .0063672 (mean)
+               166380.imp~e    =    .0063672 (mean)
+               166460.imp~e    =    .0063672 (mean)
+               166860.imp~e    =    .0063672 (mean)
+               166900.imp~e    =    .0063672 (mean)
+               166940.imp~e    =    .0063672 (mean)
+               167060.imp~e    =    .0063672 (mean)
+               167160.imp~e    =    .0063672 (mean)
+               167680.imp~e    =    .0063672 (mean)
+               168000.imp~e    =    .0063672 (mean)
+               168340.imp~e    =    .0063672 (mean)
+               168540.imp~e    =    .0063672 (mean)
+               168940.imp~e    =    .0063672 (mean)
+               211240.imp~e    =    .0063672 (mean)
+               218400.imp~e    =    .0063672 (mean)
+               220600.imp~e    =    .0063672 (mean)
+               223040.imp~e    =    .0063672 (mean)
+               330320.imp~e    =    .0063672 (mean)
+               330680.imp~e    =    .0063672 (mean)
+               330760.imp~e    =    .0063672 (mean)
+               331520.imp~e    =    .0063672 (mean)
+               331700.imp~e    =    .0063672 (mean)
+               332180.imp~e    =    .0063672 (mean)
+               334840.imp~e    =    .0063672 (mean)
+               336000.imp~e    =    .0063672 (mean)
+               336040.imp~e    =    .0063672 (mean)
+               338580.imp~e    =    .0063672 (mean)
+               338620.imp~e    =    .0063672 (mean)
+               341880.imp~e    =    .0063672 (mean)
+               342220.imp~e    =    .0063672 (mean)
+               343200.imp~e    =    .0063672 (mean)
+               343400.imp~e    =    .0063672 (mean)
+               345580.imp~e    =    .0063672 (mean)
+               350440.imp~e    =    .0063672 (mean)
+               350520.imp~e    =    .0063672 (mean)
+               351360.imp~e    =    .0063672 (mean)
+               351920.imp~e    =    .0063672 (mean)
+               352140.imp~e    =    .0063672 (mean)
+               353120.imp~e    =    .0063672 (mean)
+               353320.imp~e    =    .0063672 (mean)
+               353880.imp~e    =    .0063672 (mean)
+               355320.imp~e    =    .0063672 (mean)
+               356580.imp~e    =    .0063672 (mean)
+               357800.imp~e    =    .0063672 (mean)
+               357960.imp~e    =    .0063672 (mean)
+               360840.imp~e    =    .0063672 (mean)
+               362540.imp~e    =    .0063672 (mean)
+               363280.imp~e    =    .0063672 (mean)
+               365900.imp~e    =    .0063672 (mean)
+               367400.imp~e    =    .0063672 (mean)
+               413760.imp~e    =    .0063672 (mean)
+               440480.imp~e    =    .0063672 (mean)
+               441960.imp~e    =    .0063672 (mean)
+               443640.imp~e    =    .0063672 (mean)
+               443680.imp~e    =    .0063672 (mean)
+               444000.imp~e    =    .0063672 (mean)
+               444140.imp~e    =    .0063672 (mean)
+               444220.imp~e    =    .0063672 (mean)
+               445120.imp~e    =    .0063672 (mean)
+               446340.imp~e    =    .0063672 (mean)
+               446820.imp~e    =    .0063672 (mean)
+               447600.imp~e    =    .0063672 (mean)
+               447840.imp~e    =    .0063672 (mean)
+               447920.imp~e    =    .0063672 (mean)
+               448870.imp~e    =    .0063672 (mean)
+               450040.imp~e    =    .0063672 (mean)
+               450500.imp~e    =    .0063672 (mean)
+               450640.imp~e    =    .0063672 (mean)
+               450960.imp~e    =    .0063672 (mean)
+               451040.imp~e    =    .0063672 (mean)
+               451160.imp~e    =    .0063672 (mean)
+               451440.imp~e    =    .0063672 (mean)
+               453440.imp~e    =    .0064103 (mean)
+               453560.imp~e    =    .0063672 (mean)
+               453600.imp~e    =    .0063672 (mean)
+               454100.imp~e    =    .0063672 (mean)
+               454180.imp~e    =    .0063672 (mean)
+               454580.imp~e    =    .0063672 (mean)
+               454620.imp~e    =    .0063672 (mean)
+               455240.imp~e    =    .0063672 (mean)
+               455860.imp~e    =    .0063672 (mean)
+               456080.imp~e    =    .0063672 (mean)
+               457020.imp~e    =    .0063672 (mean)
+               457640.imp~e    =    .0063672 (mean)
+               458960.imp~e    =    .0063672 (mean)
+               481560.imp~e    =    .0063672 (mean)
+               484080.imp~e    =    .0063672 (mean)
+               484960.imp~e    =    .0063672 (mean)
+               487040.imp~e    =    .0063672 (mean)
+               530560.imp~e    =    .0063672 (mean)
+               532080.imp~e    =    .0063672 (mean)
+               532500.imp~e    =    .0064103 (mean)
+               532800.imp~e    =    .0064103 (mean)
+               533000.imp~e    =    .0063672 (mean)
+               533720.imp~e    =    .0063672 (mean)
+               533800.imp~e    =    .0064103 (mean)
+               535280.imp~e    =    .0064103 (mean)
+               536200.imp~e    =    .0063672 (mean)
+               537240.imp~e    =    .0063672 (mean)
+               538260.imp~e    =    .0064103 (mean)
+               550400.imp~e    =    .0063672 (mean)
+               552460.imp~e    =    .0063672 (mean)
+               553520.imp~e    =    .0063672 (mean)
+               555780.imp~e    =    .0063672 (mean)
+               557520.imp~e    =    .0064103 (mean)
+               557560.imp~e    =    .0063672 (mean)
+               574700.imp~e    =    .0063672 (mean)
+               580080.imp~e    =    .0063672 (mean)
+               581000.imp~e    =    .0063672 (mean)
+               582000.imp~e    =    .0063672 (mean)
+               583480.imp~e    =    .0063672 (mean)
+               586160.imp~e    =    .0063672 (mean)
+               586420.imp~e    =    .0063672 (mean)
+               598900.imp~e    =    .0063672 (mean)
+               688100.imp~e    =    .0063672 (mean)
+               710360.imp~e    =    .0063672 (mean)
+               715540.imp~e    =    .0063672 (mean)
+               720900.imp~e    =    .0063672 (mean)
+               722420.imp~e    =    .0063672 (mean)
+               722960.imp~e    =    .0063672 (mean)
+               725400.imp~e    =    .0063672 (mean)
+               725980.imp~e    =    .0063672 (mean)
 
-------------------------------------------------------------------------------
-             |            Delta-method
-             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-        dist |  -.2629761   .0116172   -22.64   0.000    -.2857455   -.2402067
-      border |  -.1524734   .0512761    -2.97   0.003    -.2529727   -.0519742
-      island |   .1374171   .0325765     4.22   0.000     .0735684    .2012658
-    landlock |   .0719757   .0454622     1.58   0.113    -.0171287      .16108
-       legal |   .0384208   .0135264     2.84   0.005     .0119095    .0649322
-        lang |    .113132   .0165559     6.83   0.000     .0806829     .145581
-    colonial |   .1296325   .1215203     1.07   0.286    -.1085428    .3678079
-          cu |    .196003   .0573016     3.42   0.001      .083694     .308312
-         fta |   .7913377    .125833     6.29   0.000     .5447096    1.037966
-    religion |   .1038527   .0248888     4.17   0.000     .0550715    .1526339
-------------------------------------------------------------------------------
-
-. 
-. * coefficients for border, island, landlock, a few others are off
-. * look into this
-. 
-. ********************************************************************************
-. ** Table 1, Column 3 for 1980s panel
-. * local to list variables for inclusion in regression
-. local vars = "dist border island landlock legal lang colonial cu fta religion"
-
-. 
-. * running regression
-. * fixed effects for exporter, importer, and year
-. * standard errors clustered at the country-pair level
-. quietly reg ln_trade `vars' i.expcode i.impcode i.year, vce(cluster pair)
-
-. estimates table, se keep (`vars') stats(N r2)
-
----------------------------
-    Variable |   active    
--------------+-------------
-        dist | -1.2014497  
-             |  .02457864  
-      border |  .36565898  
-             |  .13188478  
-      island |   .3807576  
-             |  .09602252  
-    landlock |  .58162848  
-             |  .14841225  
-       legal |  .40648324  
-             |  .04024092  
-        lang |  .20694179  
-             |  .04738627  
-    colonial |  1.3205402  
-             |  .11046985  
-          cu |  1.3947368  
-             |  .18529763  
-         fta |    .995518  
-             |  .21360171  
-    religion | -.01803433  
-             |  .07672298  
--------------+-------------
-           N |     110697  
-          r2 |  .68187438  
----------------------------
-               legend: b/se
-
-. 
-. * signs on island and landlock are flipped?
-. 
-end of do-file
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. merge m:1 expcode using reg_costs_exp
-variable expcode does not uniquely identify observations in the using data
-r(459);
-
-end of do-file
-
-r(459);
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. merge m:1 expcode using reg_costs_exp
-(label country already defined)
-
-    Result                           # of obs.
-    -----------------------------------------
-    not matched                        64,370
-        from master                    64,370  (_merge==1)
-        from using                          0  (_merge==2)
-
-    matched                           183,690  (_merge==3)
-    -----------------------------------------
-
-. 
-end of do-file
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. merge m:1 impcode using reg_costs_imp
-variable _merge already defined
-r(110);
-
-end of do-file
-
-r(110);
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. drop _merge
-
-. 
-end of do-file
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. merge m:1 impcode using reg_costs_imp
-(label country already defined)
-
-    Result                           # of obs.
-    -----------------------------------------
-    not matched                        64,370
-        from master                    64,370  (_merge==1)
-        from using                          0  (_merge==2)
-
-    matched                           183,690  (_merge==3)
-    -----------------------------------------
-
-. 
-end of do-file
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. drop _merge
-
-. 
-end of do-file
-
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
-
-. gen reg_costs = (exp_ind_cost + imp_ind_cost)==2
+------------------------------------------------------------------------------------
+                   |            Delta-method
+                   |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+              dist |  -.2530536   .0111479   -22.70   0.000    -.2749031   -.2312041
+            border |  -.1444521   .0494182    -2.92   0.003    -.2413101   -.0475941
+            island |   .1376338    .031711     4.34   0.000     .0754815    .1997862
+          landlock |   .0749769   .0441084     1.70   0.089     -.011474    .1614278
+             legal |   .0388641   .0130578     2.98   0.003     .0132712     .064457
+              lang |   .1093145   .0159755     6.84   0.000     .0780031    .1406259
+          colonial |   .1226024   .1174855     1.04   0.297    -.1076649    .3528697
+                cu |   .1904864   .0548276     3.47   0.001     .0830263    .2979465
+               fta |   .7710181   .1216572     6.34   0.000     .5325744    1.009462
+          religion |   .0984853   .0239806     4.11   0.000     .0514842    .1454865
+         reg_costs |   -.022116   .0210944    -1.05   0.294    -.0634604    .0192283
+reg_costs_procdays |  -.0536759   .0251795    -2.13   0.033    -.1030269    -.004325
+------------------------------------------------------------------------------------
 
 . 
 end of do-file
@@ -587,405 +497,350 @@ end of do-file
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-   reg_costs |    248,060     .172942    .3781979          0          1
+   reg_costs |    234,000    .1833333    .3869404          0          1
 
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
 
-. gen reg_costs_procdays = (exp_ind_procdays + imp_ind_procdays)==2
+. replace reg_costs = . if missing(exp_ind_cost) | missing(imp_ind_cost)
+(108,650 real changes made, 108,650 to missing)
 
 . 
 end of do-file
 
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
 
-. local vars = "dist border island landlock legal lang colonial cu fta religion reg_c
-> osts reg_costs_procdays i.impcode i.expcode"
-
-. 
-. * regression
-. quietly probit pos_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair
-> )
+. replace reg_costs = . if missing(exp_ind_cost) | missing(imp_ind_cost)
+(0 real changes made)
 
 . 
-. local controls = "dist border island landlock legal lang colonial cu fta religion i
-> .impcode i.expcode"
-
-. 
-. margins, dydx(`controls') atmeans
---Break--
-r(1);
-
 end of do-file
 
---Break--
-r(1);
+. sum reg_costs
 
-. do "C:\Users\prorgan\AppData\Local\Temp\STDfdc_000000.tmp"
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   reg_costs |    125,350    .3422417    .4744619          0          1
 
-. local vars = "dist border island landlock legal lang colonial cu fta religion reg_c
-> osts reg_costs_procdays"
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. replace reg_costs_procdays = . if missing(exp_ind_procdays) | missing(imp_ind_procdays)
+(108,650 real changes made, 108,650 to missing)
+
+. 
+end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
 . 
 . * regression
-. quietly probit pos_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair
-> )
+. quietly probit pos_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
 
 . 
 . margins, dydx(`vars') atmeans
 
-Conditional marginal effects                    Number of obs     =     24,649
+Conditional marginal effects                    Number of obs     =     12,420
 Model VCE    : Robust
 
 Expression   : Pr(pos_trade), predict()
-dy/dx w.r.t. : dist border island landlock legal lang colonial cu fta religion
-               reg_costs reg_costs_procdays
-at           : dist            =    4.178846 (mean)
-               border          =    .0173638 (mean)
-               island          =     .040245 (mean)
-               landlock        =    .0205282 (mean)
-               legal           =    .3684125 (mean)
-               lang            =    .2876384 (mean)
-               colonial        =    .0096961 (mean)
-               cu              =    .0090065 (mean)
-               fta             =    .0059232 (mean)
-               religion        =    .2221174 (mean)
-               reg_costs       =    .1714065 (mean)
-               reg_costs_~s    =    .0632886 (mean)
-               117100.exp~e    =    .0063694 (mean)
-               130120.exp~e    =    .0063694 (mean)
-               134340.exp~e    =    .0063694 (mean)
-               135040.exp~e    =    .0063694 (mean)
-               137320.exp~e    =    .0063694 (mean)
-               137360.exp~e    =    .0063694 (mean)
-               137880.exp~e    =    .0063694 (mean)
-               138180.exp~e    =    .0063694 (mean)
-               141200.exp~e    =    .0063694 (mean)
-               141400.exp~e    =    .0063694 (mean)
-               141480.exp~e    =    .0063694 (mean)
-               142660.exp~e    =    .0063694 (mean)
-               160240.exp~e    =    .0063694 (mean)
-               161080.exp~e    =    .0063694 (mean)
-               161740.exp~e    =    .0063694 (mean)
-               161800.exp~e    =    .0063694 (mean)
-               162040.exp~e    =    .0063694 (mean)
-               162260.exp~e    =    .0063694 (mean)
-               162300.exp~e    =    .0063694 (mean)
-               162620.exp~e    =    .0063694 (mean)
-               162700.exp~e    =    .0063694 (mean)
-               162880.exp~e    =    .0063694 (mean)
-               163240.exp~e    =    .0063694 (mean)
-               163840.exp~e    =    .0063694 (mean)
-               164040.exp~e    =    .0063694 (mean)
-               164300.exp~e    =    .0063694 (mean)
-               164500.exp~e    =    .0063694 (mean)
-               164540.exp~e    =    .0063694 (mean)
-               164660.exp~e    =    .0063694 (mean)
-               164780.exp~e    =    .0063694 (mean)
-               164800.exp~e    =    .0063694 (mean)
-               165080.exp~e    =    .0063694 (mean)
-               165620.exp~e    =    .0063694 (mean)
-               165660.exp~e    =    .0063694 (mean)
-               166240.exp~e    =    .0063694 (mean)
-               166380.exp~e    =    .0063694 (mean)
-               166460.exp~e    =    .0063694 (mean)
-               166860.exp~e    =    .0063694 (mean)
-               166900.exp~e    =    .0063694 (mean)
-               166940.exp~e    =    .0063694 (mean)
-               167060.exp~e    =    .0063694 (mean)
-               167160.exp~e    =    .0063694 (mean)
-               167680.exp~e    =    .0063694 (mean)
-               168000.exp~e    =    .0063694 (mean)
-               168340.exp~e    =    .0063694 (mean)
-               168540.exp~e    =    .0063694 (mean)
-               168940.exp~e    =    .0063694 (mean)
-               211240.exp~e    =    .0063694 (mean)
-               218400.exp~e    =    .0063694 (mean)
-               220600.exp~e    =    .0063694 (mean)
-               223040.exp~e    =    .0063694 (mean)
-               330320.exp~e    =    .0063694 (mean)
-               330680.exp~e    =    .0063694 (mean)
-               330760.exp~e    =    .0063694 (mean)
-               331520.exp~e    =    .0063694 (mean)
-               331700.exp~e    =    .0063694 (mean)
-               332180.exp~e    =    .0063694 (mean)
-               334840.exp~e    =    .0063694 (mean)
-               336000.exp~e    =    .0063694 (mean)
-               336040.exp~e    =    .0063694 (mean)
-               338580.exp~e    =    .0063694 (mean)
-               338620.exp~e    =    .0063694 (mean)
-               341880.exp~e    =    .0063694 (mean)
-               342220.exp~e    =    .0063694 (mean)
-               343200.exp~e    =    .0063694 (mean)
-               343400.exp~e    =    .0063694 (mean)
-               345580.exp~e    =    .0063694 (mean)
-               350440.exp~e    =    .0063694 (mean)
-               350520.exp~e    =    .0063694 (mean)
-               351360.exp~e    =    .0063694 (mean)
-               351920.exp~e    =    .0063694 (mean)
-               352140.exp~e    =    .0063694 (mean)
-               353120.exp~e    =    .0063694 (mean)
-               353320.exp~e    =    .0063694 (mean)
-               353880.exp~e    =    .0063694 (mean)
-               355320.exp~e    =    .0063694 (mean)
-               356580.exp~e    =    .0063694 (mean)
-               357800.exp~e    =    .0063694 (mean)
-               357960.exp~e    =    .0063694 (mean)
-               360840.exp~e    =    .0063694 (mean)
-               362540.exp~e    =    .0063694 (mean)
-               363280.exp~e    =    .0063694 (mean)
-               365900.exp~e    =    .0063694 (mean)
-               367400.exp~e    =    .0063694 (mean)
-               413760.exp~e    =    .0063694 (mean)
-               413920.exp~e    =    .0063694 (mean)
-               440480.exp~e    =    .0063694 (mean)
-               441960.exp~e    =    .0063694 (mean)
-               443640.exp~e    =    .0063694 (mean)
-               443680.exp~e    =    .0063694 (mean)
-               444000.exp~e    =    .0063694 (mean)
-               444140.exp~e    =    .0063694 (mean)
-               444220.exp~e    =    .0063694 (mean)
-               445120.exp~e    =    .0063694 (mean)
-               446340.exp~e    =    .0063694 (mean)
-               446820.exp~e    =    .0063694 (mean)
-               447600.exp~e    =    .0063694 (mean)
-               447840.exp~e    =    .0063694 (mean)
-               447920.exp~e    =    .0063694 (mean)
-               448870.exp~e    =    .0063694 (mean)
-               450040.exp~e    =    .0063694 (mean)
-               450500.exp~e    =    .0063694 (mean)
-               450640.exp~e    =    .0063694 (mean)
-               450960.exp~e    =    .0063694 (mean)
-               451040.exp~e    =    .0063694 (mean)
-               451160.exp~e    =    .0063694 (mean)
-               451440.exp~e    =    .0063694 (mean)
-               453440.exp~e    =    .0063694 (mean)
-               453560.exp~e    =    .0063694 (mean)
-               453600.exp~e    =    .0063694 (mean)
-               454100.exp~e    =    .0063694 (mean)
-               454180.exp~e    =    .0063694 (mean)
-               454580.exp~e    =    .0063694 (mean)
-               454620.exp~e    =    .0063694 (mean)
-               455240.exp~e    =    .0063694 (mean)
-               455860.exp~e    =    .0063694 (mean)
-               456080.exp~e    =    .0063694 (mean)
-               457020.exp~e    =    .0063694 (mean)
-               457640.exp~e    =    .0063694 (mean)
-               458960.exp~e    =    .0063694 (mean)
-               481560.exp~e    =    .0063694 (mean)
-               484080.exp~e    =    .0063694 (mean)
-               484960.exp~e    =    .0063694 (mean)
-               487040.exp~e    =    .0063694 (mean)
-               530560.exp~e    =    .0063694 (mean)
-               532080.exp~e    =    .0063694 (mean)
-               532500.exp~e    =    .0063694 (mean)
-               532800.exp~e    =    .0063694 (mean)
-               533000.exp~e    =    .0063694 (mean)
-               533720.exp~e    =    .0063694 (mean)
-               533800.exp~e    =    .0063694 (mean)
-               535280.exp~e    =    .0063694 (mean)
-               536200.exp~e    =    .0063694 (mean)
-               537240.exp~e    =    .0063694 (mean)
-               538260.exp~e    =    .0063694 (mean)
-               550400.exp~e    =    .0063694 (mean)
-               552460.exp~e    =    .0063694 (mean)
-               553520.exp~e    =    .0063694 (mean)
-               555780.exp~e    =    .0063694 (mean)
-               557520.exp~e    =    .0063694 (mean)
-               557560.exp~e    =    .0063694 (mean)
-               574700.exp~e    =    .0063694 (mean)
-               580080.exp~e    =    .0063694 (mean)
-               581000.exp~e    =    .0063694 (mean)
-               582000.exp~e    =    .0063694 (mean)
-               583480.exp~e    =    .0063694 (mean)
-               586160.exp~e    =    .0063694 (mean)
-               586420.exp~e    =    .0063694 (mean)
-               598900.exp~e    =    .0063694 (mean)
-               688100.exp~e    =    .0063694 (mean)
-               710360.exp~e    =    .0063694 (mean)
-               715540.exp~e    =    .0063694 (mean)
-               720900.exp~e    =    .0063694 (mean)
-               722420.exp~e    =    .0063694 (mean)
-               722960.exp~e    =    .0063694 (mean)
-               725400.exp~e    =    .0063694 (mean)
-               725980.exp~e    =    .0063694 (mean)
-               117100.imp~e    =    .0063289 (mean)
-               130120.imp~e    =    .0063289 (mean)
-               134340.imp~e    =    .0063289 (mean)
-               135040.imp~e    =    .0063289 (mean)
-               137320.imp~e    =    .0063289 (mean)
-               137360.imp~e    =    .0063289 (mean)
-               137880.imp~e    =    .0063289 (mean)
-               138180.imp~e    =    .0063289 (mean)
-               141200.imp~e    =    .0063289 (mean)
-               141400.imp~e    =    .0063289 (mean)
-               141480.imp~e    =    .0063289 (mean)
-               141780.imp~e    =    .0063694 (mean)
-               142660.imp~e    =    .0063289 (mean)
-               160240.imp~e    =    .0063289 (mean)
-               161080.imp~e    =    .0063289 (mean)
-               161740.imp~e    =    .0063289 (mean)
-               161800.imp~e    =    .0063289 (mean)
-               162040.imp~e    =    .0063289 (mean)
-               162260.imp~e    =    .0063289 (mean)
-               162300.imp~e    =    .0063289 (mean)
-               162620.imp~e    =    .0063289 (mean)
-               162700.imp~e    =    .0063289 (mean)
-               162880.imp~e    =    .0063289 (mean)
-               163240.imp~e    =    .0063289 (mean)
-               163840.imp~e    =    .0063289 (mean)
-               164040.imp~e    =    .0063289 (mean)
-               164300.imp~e    =    .0063289 (mean)
-               164500.imp~e    =    .0063289 (mean)
-               164540.imp~e    =    .0063289 (mean)
-               164660.imp~e    =    .0063289 (mean)
-               164780.imp~e    =    .0063289 (mean)
-               164800.imp~e    =    .0063289 (mean)
-               165080.imp~e    =    .0063289 (mean)
-               165620.imp~e    =    .0063289 (mean)
-               165660.imp~e    =    .0063289 (mean)
-               166240.imp~e    =    .0063289 (mean)
-               166380.imp~e    =    .0063289 (mean)
-               166460.imp~e    =    .0063289 (mean)
-               166860.imp~e    =    .0063289 (mean)
-               166900.imp~e    =    .0063289 (mean)
-               166940.imp~e    =    .0063289 (mean)
-               167060.imp~e    =    .0063289 (mean)
-               167160.imp~e    =    .0063289 (mean)
-               167680.imp~e    =    .0063289 (mean)
-               168000.imp~e    =    .0063289 (mean)
-               168340.imp~e    =    .0063289 (mean)
-               168540.imp~e    =    .0063289 (mean)
-               168940.imp~e    =    .0063289 (mean)
-               211240.imp~e    =    .0063289 (mean)
-               218400.imp~e    =    .0063289 (mean)
-               220600.imp~e    =    .0063289 (mean)
-               223040.imp~e    =    .0063289 (mean)
-               330320.imp~e    =    .0063289 (mean)
-               330680.imp~e    =    .0063289 (mean)
-               330760.imp~e    =    .0063289 (mean)
-               331520.imp~e    =    .0063289 (mean)
-               331700.imp~e    =    .0063289 (mean)
-               332180.imp~e    =    .0063289 (mean)
-               334840.imp~e    =    .0063289 (mean)
-               336000.imp~e    =    .0063289 (mean)
-               336040.imp~e    =    .0063289 (mean)
-               338580.imp~e    =    .0063289 (mean)
-               338620.imp~e    =    .0063289 (mean)
-               341880.imp~e    =    .0063289 (mean)
-               342220.imp~e    =    .0063289 (mean)
-               343200.imp~e    =    .0063289 (mean)
-               343400.imp~e    =    .0063289 (mean)
-               345580.imp~e    =    .0063289 (mean)
-               350440.imp~e    =    .0063289 (mean)
-               350520.imp~e    =    .0063289 (mean)
-               351360.imp~e    =    .0063289 (mean)
-               351920.imp~e    =    .0063289 (mean)
-               352140.imp~e    =    .0063289 (mean)
-               353120.imp~e    =    .0063289 (mean)
-               353320.imp~e    =    .0063289 (mean)
-               353880.imp~e    =    .0063289 (mean)
-               355320.imp~e    =    .0063289 (mean)
-               356580.imp~e    =    .0063289 (mean)
-               357800.imp~e    =    .0063289 (mean)
-               357960.imp~e    =    .0063289 (mean)
-               360840.imp~e    =    .0063289 (mean)
-               362540.imp~e    =    .0063289 (mean)
-               363280.imp~e    =    .0063289 (mean)
-               365900.imp~e    =    .0063289 (mean)
-               367400.imp~e    =    .0063289 (mean)
-               413760.imp~e    =    .0063289 (mean)
-               413920.imp~e    =    .0063289 (mean)
-               440480.imp~e    =    .0063289 (mean)
-               441960.imp~e    =    .0063289 (mean)
-               443640.imp~e    =    .0063289 (mean)
-               443680.imp~e    =    .0063289 (mean)
-               444000.imp~e    =    .0063289 (mean)
-               444140.imp~e    =    .0063289 (mean)
-               444220.imp~e    =    .0063289 (mean)
-               445120.imp~e    =    .0063289 (mean)
-               446340.imp~e    =    .0063289 (mean)
-               446820.imp~e    =    .0063289 (mean)
-               447600.imp~e    =    .0063289 (mean)
-               447840.imp~e    =    .0063289 (mean)
-               447920.imp~e    =    .0063289 (mean)
-               448870.imp~e    =    .0063289 (mean)
-               450040.imp~e    =    .0063289 (mean)
-               450500.imp~e    =    .0063289 (mean)
-               450640.imp~e    =    .0063289 (mean)
-               450960.imp~e    =    .0063289 (mean)
-               451040.imp~e    =    .0063289 (mean)
-               451160.imp~e    =    .0063289 (mean)
-               451440.imp~e    =    .0063289 (mean)
-               453440.imp~e    =    .0063289 (mean)
-               453560.imp~e    =    .0063289 (mean)
-               453600.imp~e    =    .0063289 (mean)
-               454100.imp~e    =    .0063289 (mean)
-               454180.imp~e    =    .0063289 (mean)
-               454580.imp~e    =    .0063289 (mean)
-               454620.imp~e    =    .0063289 (mean)
-               455240.imp~e    =    .0063289 (mean)
-               455860.imp~e    =    .0063289 (mean)
-               456080.imp~e    =    .0063289 (mean)
-               457020.imp~e    =    .0063289 (mean)
-               457640.imp~e    =    .0063289 (mean)
-               458960.imp~e    =    .0063289 (mean)
-               481560.imp~e    =    .0063289 (mean)
-               484080.imp~e    =    .0063289 (mean)
-               484960.imp~e    =    .0063289 (mean)
-               487040.imp~e    =    .0063289 (mean)
-               530560.imp~e    =    .0063289 (mean)
-               532080.imp~e    =    .0063289 (mean)
-               532500.imp~e    =    .0063289 (mean)
-               532800.imp~e    =    .0063289 (mean)
-               533000.imp~e    =    .0063289 (mean)
-               533720.imp~e    =    .0063289 (mean)
-               533800.imp~e    =    .0063289 (mean)
-               535280.imp~e    =    .0063289 (mean)
-               536200.imp~e    =    .0063289 (mean)
-               537240.imp~e    =    .0063289 (mean)
-               538260.imp~e    =    .0063289 (mean)
-               550400.imp~e    =    .0063289 (mean)
-               552460.imp~e    =    .0063289 (mean)
-               553520.imp~e    =    .0063289 (mean)
-               555780.imp~e    =    .0063289 (mean)
-               557520.imp~e    =    .0063289 (mean)
-               557560.imp~e    =    .0063289 (mean)
-               574700.imp~e    =    .0063289 (mean)
-               580080.imp~e    =    .0063289 (mean)
-               581000.imp~e    =    .0063289 (mean)
-               582000.imp~e    =    .0063289 (mean)
-               583480.imp~e    =    .0063289 (mean)
-               586160.imp~e    =    .0063289 (mean)
-               586420.imp~e    =    .0063289 (mean)
-               598900.imp~e    =    .0063289 (mean)
-               688100.imp~e    =    .0063289 (mean)
-               710360.imp~e    =    .0063289 (mean)
-               715540.imp~e    =    .0063289 (mean)
-               720900.imp~e    =    .0063289 (mean)
-               722420.imp~e    =    .0063289 (mean)
-               722960.imp~e    =    .0063289 (mean)
-               725400.imp~e    =    .0063289 (mean)
-               725980.imp~e    =    .0063289 (mean)
+dy/dx w.r.t. : dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays
+at           : dist            =    4.181964 (mean)
+               border          =    .0225443 (mean)
+               island          =    .0097424 (mean)
+               landlock        =    .0371981 (mean)
+               legal           =    .3617552 (mean)
+               lang            =    .2537037 (mean)
+               colonial        =    .0086957 (mean)
+               cu              =    .0086957 (mean)
+               fta             =    .0066023 (mean)
+               religion        =    .2147038 (mean)
+               reg_costs       =    .3401771 (mean)
+               reg_costs_~s    =    .1256039 (mean)
+               117100.exp~e    =    .0092593 (mean)
+               130120.exp~e    =    .0092593 (mean)
+               135040.exp~e    =    .0092593 (mean)
+               137880.exp~e    =    .0092593 (mean)
+               138180.exp~e    =    .0092593 (mean)
+               141200.exp~e    =    .0092593 (mean)
+               141400.exp~e    =    .0092593 (mean)
+               141480.exp~e    =    .0092593 (mean)
+               160240.exp~e    =    .0092593 (mean)
+               161080.exp~e    =    .0092593 (mean)
+               162040.exp~e    =    .0092593 (mean)
+               162300.exp~e    =    .0092593 (mean)
+               162880.exp~e    =    .0092593 (mean)
+               163240.exp~e    =    .0092593 (mean)
+               163840.exp~e    =    .0092593 (mean)
+               164040.exp~e    =    .0092593 (mean)
+               164500.exp~e    =    .0092593 (mean)
+               164540.exp~e    =    .0092593 (mean)
+               164660.exp~e    =    .0092593 (mean)
+               164780.exp~e    =    .0092593 (mean)
+               165080.exp~e    =    .0092593 (mean)
+               165620.exp~e    =    .0092593 (mean)
+               165660.exp~e    =    .0092593 (mean)
+               166460.exp~e    =    .0092593 (mean)
+               166860.exp~e    =    .0092593 (mean)
+               166940.exp~e    =    .0092593 (mean)
+               167160.exp~e    =    .0092593 (mean)
+               167680.exp~e    =    .0092593 (mean)
+               168000.exp~e    =    .0092593 (mean)
+               168340.exp~e    =    .0092593 (mean)
+               168540.exp~e    =    .0092593 (mean)
+               168940.exp~e    =    .0092593 (mean)
+               211240.exp~e    =    .0092593 (mean)
+               218400.exp~e    =    .0092593 (mean)
+               330320.exp~e    =    .0092593 (mean)
+               330680.exp~e    =    .0092593 (mean)
+               330760.exp~e    =    .0092593 (mean)
+               331520.exp~e    =    .0092593 (mean)
+               331700.exp~e    =    .0092593 (mean)
+               332180.exp~e    =    .0092593 (mean)
+               334840.exp~e    =    .0092593 (mean)
+               336000.exp~e    =    .0092593 (mean)
+               336040.exp~e    =    .0092593 (mean)
+               338580.exp~e    =    .0092593 (mean)
+               338620.exp~e    =    .0092593 (mean)
+               341880.exp~e    =    .0092593 (mean)
+               342220.exp~e    =    .0092593 (mean)
+               343200.exp~e    =    .0092593 (mean)
+               343400.exp~e    =    .0092593 (mean)
+               345580.exp~e    =    .0092593 (mean)
+               352140.exp~e    =    .0092593 (mean)
+               353320.exp~e    =    .0092593 (mean)
+               353880.exp~e    =    .0092593 (mean)
+               365900.exp~e    =    .0092593 (mean)
+               413760.exp~e    =    .0092593 (mean)
+               443640.exp~e    =    .0092593 (mean)
+               444000.exp~e    =    .0092593 (mean)
+               444140.exp~e    =    .0092593 (mean)
+               444220.exp~e    =    .0092593 (mean)
+               445120.exp~e    =    .0092593 (mean)
+               446820.exp~e    =    .0092593 (mean)
+               447600.exp~e    =    .0092593 (mean)
+               447840.exp~e    =    .0092593 (mean)
+               447920.exp~e    =    .0092593 (mean)
+               448870.exp~e    =    .0092593 (mean)
+               450500.exp~e    =    .0092593 (mean)
+               450640.exp~e    =    .0092593 (mean)
+               451160.exp~e    =    .0092593 (mean)
+               451440.exp~e    =    .0092593 (mean)
+               453560.exp~e    =    .0092593 (mean)
+               453600.exp~e    =    .0092593 (mean)
+               454100.exp~e    =    .0092593 (mean)
+               454180.exp~e    =    .0092593 (mean)
+               454580.exp~e    =    .0092593 (mean)
+               454620.exp~e    =    .0092593 (mean)
+               455240.exp~e    =    .0092593 (mean)
+               455860.exp~e    =    .0092593 (mean)
+               456080.exp~e    =    .0092593 (mean)
+               457020.exp~e    =    .0092593 (mean)
+               457640.exp~e    =    .0092593 (mean)
+               458960.exp~e    =    .0092593 (mean)
+               481560.exp~e    =    .0092593 (mean)
+               484960.exp~e    =    .0092593 (mean)
+               487040.exp~e    =    .0092593 (mean)
+               530560.exp~e    =    .0092593 (mean)
+               532080.exp~e    =    .0092593 (mean)
+               533000.exp~e    =    .0092593 (mean)
+               533720.exp~e    =    .0092593 (mean)
+               536200.exp~e    =    .0092593 (mean)
+               537240.exp~e    =    .0092593 (mean)
+               550400.exp~e    =    .0092593 (mean)
+               552460.exp~e    =    .0092593 (mean)
+               555780.exp~e    =    .0092593 (mean)
+               557560.exp~e    =    .0092593 (mean)
+               580080.exp~e    =    .0092593 (mean)
+               581000.exp~e    =    .0092593 (mean)
+               582000.exp~e    =    .0092593 (mean)
+               583480.exp~e    =    .0092593 (mean)
+               586160.exp~e    =    .0092593 (mean)
+               586420.exp~e    =    .0092593 (mean)
+               598900.exp~e    =    .0092593 (mean)
+               688100.exp~e    =    .0092593 (mean)
+               710360.exp~e    =    .0092593 (mean)
+               715540.exp~e    =    .0092593 (mean)
+               720900.exp~e    =    .0092593 (mean)
+               722420.exp~e    =    .0092593 (mean)
+               722960.exp~e    =    .0092593 (mean)
+               725980.exp~e    =    .0092593 (mean)
+               117100.imp~e    =    .0086151 (mean)
+               130120.imp~e    =    .0086151 (mean)
+               135040.imp~e    =    .0086151 (mean)
+               137880.imp~e    =    .0086151 (mean)
+               138180.imp~e    =    .0086151 (mean)
+               141200.imp~e    =    .0086151 (mean)
+               141400.imp~e    =    .0086151 (mean)
+               141480.imp~e    =    .0086151 (mean)
+               141780.imp~e    =    .0086957 (mean)
+               160240.imp~e    =    .0086151 (mean)
+               161080.imp~e    =    .0086151 (mean)
+               162040.imp~e    =    .0086151 (mean)
+               162300.imp~e    =    .0086151 (mean)
+               162880.imp~e    =    .0086151 (mean)
+               163240.imp~e    =    .0086151 (mean)
+               163840.imp~e    =    .0086151 (mean)
+               164040.imp~e    =    .0086151 (mean)
+               164500.imp~e    =    .0086151 (mean)
+               164540.imp~e    =    .0086151 (mean)
+               164660.imp~e    =    .0086151 (mean)
+               164780.imp~e    =    .0086151 (mean)
+               165080.imp~e    =    .0086151 (mean)
+               165620.imp~e    =    .0086151 (mean)
+               165660.imp~e    =    .0086151 (mean)
+               166460.imp~e    =    .0086151 (mean)
+               166860.imp~e    =    .0086151 (mean)
+               166940.imp~e    =    .0086151 (mean)
+               167160.imp~e    =    .0086151 (mean)
+               167680.imp~e    =    .0086151 (mean)
+               168000.imp~e    =    .0086151 (mean)
+               168340.imp~e    =    .0086151 (mean)
+               168540.imp~e    =    .0086151 (mean)
+               168940.imp~e    =    .0086151 (mean)
+               211240.imp~e    =    .0086151 (mean)
+               218400.imp~e    =    .0086151 (mean)
+               330320.imp~e    =    .0086151 (mean)
+               330680.imp~e    =    .0086151 (mean)
+               330760.imp~e    =    .0086151 (mean)
+               331520.imp~e    =    .0086151 (mean)
+               331700.imp~e    =    .0086151 (mean)
+               332180.imp~e    =    .0086151 (mean)
+               334840.imp~e    =    .0086151 (mean)
+               336000.imp~e    =    .0086151 (mean)
+               336040.imp~e    =    .0086151 (mean)
+               338580.imp~e    =    .0086151 (mean)
+               338620.imp~e    =    .0086151 (mean)
+               341880.imp~e    =    .0086151 (mean)
+               342220.imp~e    =    .0086151 (mean)
+               343200.imp~e    =    .0086151 (mean)
+               343400.imp~e    =    .0086151 (mean)
+               345580.imp~e    =    .0086151 (mean)
+               352140.imp~e    =    .0086151 (mean)
+               353320.imp~e    =    .0086151 (mean)
+               353880.imp~e    =    .0086151 (mean)
+               365900.imp~e    =    .0086151 (mean)
+               413760.imp~e    =    .0086151 (mean)
+               443640.imp~e    =    .0086151 (mean)
+               444000.imp~e    =    .0086151 (mean)
+               444140.imp~e    =    .0086151 (mean)
+               444220.imp~e    =    .0086151 (mean)
+               445120.imp~e    =    .0086151 (mean)
+               446820.imp~e    =    .0086151 (mean)
+               447600.imp~e    =    .0086151 (mean)
+               447840.imp~e    =    .0086151 (mean)
+               447920.imp~e    =    .0086151 (mean)
+               448870.imp~e    =    .0086151 (mean)
+               450500.imp~e    =    .0086151 (mean)
+               450640.imp~e    =    .0086151 (mean)
+               451160.imp~e    =    .0086151 (mean)
+               451440.imp~e    =    .0086151 (mean)
+               453440.imp~e    =    .0086957 (mean)
+               453560.imp~e    =    .0086151 (mean)
+               453600.imp~e    =    .0086151 (mean)
+               454100.imp~e    =    .0086151 (mean)
+               454180.imp~e    =    .0086151 (mean)
+               454580.imp~e    =    .0086151 (mean)
+               454620.imp~e    =    .0086151 (mean)
+               455240.imp~e    =    .0086151 (mean)
+               455860.imp~e    =    .0086151 (mean)
+               456080.imp~e    =    .0086151 (mean)
+               457020.imp~e    =    .0086151 (mean)
+               457640.imp~e    =    .0086151 (mean)
+               458960.imp~e    =    .0086151 (mean)
+               481560.imp~e    =    .0086151 (mean)
+               484960.imp~e    =    .0086151 (mean)
+               487040.imp~e    =    .0086151 (mean)
+               530560.imp~e    =    .0086151 (mean)
+               532080.imp~e    =    .0086151 (mean)
+               532500.imp~e    =    .0086957 (mean)
+               532800.imp~e    =    .0086957 (mean)
+               533000.imp~e    =    .0086151 (mean)
+               533720.imp~e    =    .0086151 (mean)
+               533800.imp~e    =    .0086957 (mean)
+               535280.imp~e    =    .0086957 (mean)
+               536200.imp~e    =    .0086151 (mean)
+               537240.imp~e    =    .0086151 (mean)
+               538260.imp~e    =    .0086957 (mean)
+               550400.imp~e    =    .0086151 (mean)
+               552460.imp~e    =    .0086151 (mean)
+               555780.imp~e    =    .0086151 (mean)
+               557520.imp~e    =    .0086957 (mean)
+               557560.imp~e    =    .0086151 (mean)
+               580080.imp~e    =    .0086151 (mean)
+               581000.imp~e    =    .0086151 (mean)
+               582000.imp~e    =    .0086151 (mean)
+               583480.imp~e    =    .0086151 (mean)
+               586160.imp~e    =    .0086151 (mean)
+               586420.imp~e    =    .0086151 (mean)
+               598900.imp~e    =    .0086151 (mean)
+               688100.imp~e    =    .0086151 (mean)
+               710360.imp~e    =    .0086151 (mean)
+               715540.imp~e    =    .0086151 (mean)
+               720900.imp~e    =    .0086151 (mean)
+               722420.imp~e    =    .0086151 (mean)
+               722960.imp~e    =    .0086151 (mean)
+               725980.imp~e    =    .0086151 (mean)
 
 ------------------------------------------------------------------------------------
                    |            Delta-method
                    |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------------+----------------------------------------------------------------
-              dist |   -.262792   .0116049   -22.64   0.000    -.2855372   -.2400469
-            border |  -.1508564   .0513872    -2.94   0.003    -.2515734   -.0501394
-            island |   .1453981   .0329261     4.42   0.000     .0808641    .2099321
-          landlock |   .0746317   .0457798     1.63   0.103    -.0150951    .1643584
-             legal |   .0399765   .0135323     2.95   0.003     .0134537    .0664992
-              lang |   .1142266   .0165758     6.89   0.000     .0817388    .1467145
-          colonial |    .131066   .1213042     1.08   0.280    -.1066859    .3688179
-                cu |   .1975866   .0572182     3.45   0.001     .0854411    .3097321
-               fta |   .7980135   .1256882     6.35   0.000      .551669    1.044358
-          religion |   .1033351   .0249049     4.15   0.000     .0545225    .1521478
-         reg_costs |  -.0265116   .0218753    -1.21   0.226    -.0693864    .0163631
-reg_costs_procdays |  -.0578063   .0261362    -2.21   0.027    -.1090322   -.0065804
+              dist |   -.219316   .0156698   -14.00   0.000    -.2500283   -.1886037
+            border |  -.0899836   .0679946    -1.32   0.186    -.2232505    .0432834
+            island |   .1948268   .0661965     2.94   0.003     .0650841    .3245695
+          landlock |   .0598828   .0496047     1.21   0.227    -.0373405    .1571062
+             legal |   .0544748   .0189486     2.87   0.004     .0173362    .0916134
+              lang |   .1017293   .0225745     4.51   0.000     .0574842    .1459745
+          colonial |  -.0091246   .1303394    -0.07   0.944    -.2645852     .246336
+                cu |   .2762624   .0682312     4.05   0.000     .1425317    .4099932
+               fta |    .977447   .1891783     5.17   0.000     .6066644     1.34823
+          religion |   .1467343   .0338114     4.34   0.000     .0804651    .2130034
+         reg_costs |  -.1068333   .0353733    -3.02   0.003    -.1761637   -.0375029
+reg_costs_procdays |  -.0667762    .029518    -2.26   0.024    -.1246303    -.008922
 ------------------------------------------------------------------------------------
 
 . 
 end of do-file
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. local fs_vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+. 
+. local ss_vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. heckman ln_trade `ss_vars' i.expcode i.impcode if year==1986, ///
+> select(pos_trade `fs_vars' i.expcode i.impcode) twostep
+matsize too small
+    You have attempted to create a matrix with too many rows or columns or attempted to fit a model with too many variables.  You need to increase matsize; it is currently 400.  Use set matsize; see help 
+    matsize.
+
+    If you are using factor variables and included an interaction that has lots of missing cells, either increase matsize or set emptycells drop to reduce the required matrix size; see help set emptycells.
+
+    If you are using factor variables, you might have accidentally treated a continuous variable as a categorical, resulting in lots of categories.  Use the c. operator on such variables.
+r(908);
+
+end of do-file
+
+r(908);
+
+. do "C:\Users\prorgan\AppData\Local\Temp\STD1124_000000.tmp"
+
+. local fs_vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+. 
+. local ss_vars = "dist border island landlock legal lang colonial cu fta religion"
+
+. 
+. heckman ln_trade `ss_vars' i.expcode i.impcode if year==1986, ///
+> select(pos_trade `fs_vars' i.expcode i.impcode) twostep vce(cluster pair)
+vcetype 'cluster' not allowed
+r(198);
+
+end of do-file
+
+r(198);
 
 . exit, clear
