@@ -1,7 +1,7 @@
 ********************************************************************************
 * Author: Paul R. Organ
 * Purpose: BE 887 Econometric Exercise
-* Last Update: Oct 4, 2018
+* Last Update: Oct 6, 2018
 ********************************************************************************
 clear all
 set more off
@@ -92,6 +92,8 @@ replace reg_costs = . if missing(exp_ind_cost) | missing(imp_ind_cost)
 gen reg_costs_procdays = (exp_ind_procdays + imp_ind_procdays)==2
 replace reg_costs_procdays = . if missing(exp_ind_procdays) | missing(imp_ind_procdays)
 
+save "merged_data.dta"
+
 ********************************************************************************
 ** Table 2, Column 1
 * drop if (1) reg cost data is missing or 
@@ -121,28 +123,86 @@ margins, dydx(`vars') atmeans
 
 ********************************************************************************
 ** Heckman Selection Correction
+set matsize 10000
+
 local fs_vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
 local ss_vars = "dist border island landlock legal lang colonial cu fta religion"
 
 heckman ln_trade `ss_vars' i.expcode i.impcode if year==1986, ///
-select(pos_trade `fs_vars' i.expcode i.impcode) twostep vce(cluster pair)
+select(pos_trade = `fs_vars' i.expcode i.impcode) vce(cluster pair)
 
-* this does not work
+* this gets close, obs count still off?
 
 ********************************************************************************
 ** Table 2, Column 4
+* predict probability of selection (z_ij)
+predict psel if year==1986, xb
 
+gen mills = exp(-.5*psel^2)/(sqrt(2*_pi)*normprob(psel))
+
+gen z = invnormal(psel)
+gen z2 = z^2
+gen z3 = z^3
+
+local vars = "dist border island landlock legal lang colonial cu fta religion mills z z2 z3"
+
+* running regression
+* fixed effects for exporter, importer, and year
+* standard errors clustered at the country-pair level
+quietly reg ln_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
+estimates table, se keep(`vars') stats(N r2)
+
+* not working
 
 ********************************************************************************
 *** Alternative Specifications and Tests using data from HMR (2008)
 ********************************************************************************
 ** Santos-Silva and Tenreyro (2006) Approach
+* reload merged data
+clear all
+use "merged_data.dta"
+
+* replace missing ln_trade with 0, convert to levels
+replace ln_trade = 0 if missing(ln_trade)
+gen trade = exp(ln_trade)
+
+* run same regression as in part 4
+local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+poisson trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
 
 ********************************************************************************
 ** Adding one to all trade flows
+gen trade_plus_one = trade + 1
+gen ln_trade_poorman = ln(trade_plus_one)
+
+local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+reg ln_trade_poorman `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
+* distance coefficient grows in magnitude
 
 ********************************************************************************
 ** Fixed Effects
+clear all
+use "merged_data.dta"
+
+* importer, exporter, year FE
+quietly reg ln_trade fta i.expcode i.impcode
+estimates table, se keep(fta)
+
+* importer*year, exporter*year,
+egen exp_year = group(expcode year)
+egen imp_year = group(impcode year)
+
+quietly reg ln_trade fta i.exp_year i.imp_year
+estimates table, se keep(fta)
+* estimate drops slightly
+
+* importer*year, exporter*year, importer*exporter
+set matsize 11000
+quietly reg ln_trade fta i.exp_year i.imp_year i.pair
+estimates table, se keep(fta)
+* too many interactions
 
 ********************************************************************************
