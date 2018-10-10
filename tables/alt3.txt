@@ -1,0 +1,14 @@
+	(1)	(2)
+VARIABLES	ln_trade	ln_trade
+		
+fta	3.376***	3.370***
+	0.062	0.063
+Constant	8.726***	8.730***
+	0.109	0.326
+		
+Observations	110,697	110,697
+R-squared	0.589	0.603
+Im and Ex FE	Y	N
+Im*Year and Ex*Year FE	N	Y
+Im*Ex FE	N	N
+*** p<0.01, ** p<0.05, * p<0.1		

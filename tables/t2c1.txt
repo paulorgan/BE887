@@ -1,0 +1,20 @@
+	(1)	(2)
+	y1	
+VARIABLES	coef	se
+		
+dist	-0.219***	0.016
+border	-0.090	0.068
+island	-0.195***	0.066
+landlock	-0.060	0.050
+legal	0.054***	0.019
+lang	0.102***	0.023
+colonial	-0.009	0.130
+cu	0.276***	0.068
+fta	0.977***	0.189
+religion	0.147***	0.034
+reg_costs	-0.107***	0.035
+reg_costs_procdays	-0.067**	0.030
+		
+Observations	12,420	
+*** p<0.01, ** p<0.05, * p<0.1		
+Note: All predictors at their mean value		

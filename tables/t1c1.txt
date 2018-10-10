@@ -1,0 +1,19 @@
+	(1)	(2)
+	ln_trade	
+VARIABLES	coef	se
+		
+dist	-1.176***	0.031
+border	0.458***	0.148
+island	-0.391***	0.121
+landlock	-0.561***	0.188
+legal	0.486***	0.050
+lang	0.176***	0.061
+colonial	1.299***	0.121
+cu	1.364***	0.252
+fta	0.759***	0.222
+religion	0.102	0.097
+Constant	14.581***	0.522
+		
+Observations	11,146	
+R-squared	0.709	
+*** p<0.01, ** p<0.05, * p<0.1		

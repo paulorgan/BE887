@@ -1,0 +1,13 @@
+	(1)	(2)
+	ln_trade	
+VARIABLES	coef	se
+		
+dist	2.245	0.000
+religion	-1.149	0.000
+mills	-123.935	0.000
+z	-15.969	0.000
+Constant	51.081	0.000
+		
+Observations	5	
+R-squared	1.000	
+*** p<0.01, ** p<0.05, * p<0.1		

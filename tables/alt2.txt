@@ -1,0 +1,21 @@
+	(1)	(2)
+	ln_trade_poorman	
+VARIABLES	coef	se
+		
+dist	-1.091***	0.054
+border	0.477	0.293
+island	-0.329	0.241
+landlock	-0.716***	0.148
+legal	0.268***	0.067
+lang	0.578***	0.079
+colonial	0.890***	0.240
+cu	0.744**	0.336
+fta	0.263	0.341
+religion	0.588***	0.128
+reg_costs	-0.131	0.104
+reg_costs_procdays	-0.280**	0.109
+Constant	10.342***	0.622
+		
+Observations	13,572	
+R-squared	0.752	
+*** p<0.01, ** p<0.05, * p<0.1		
