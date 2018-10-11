@@ -1,7 +1,7 @@
 ********************************************************************************
 * Author: Paul R. Organ
 * Purpose: BE 887 Econometric Exercise
-* Last Update: Oct 9, 2018
+* Last Update: Oct 11, 2018
 ********************************************************************************
 clear all
 set more off
@@ -11,16 +11,16 @@ cd "C:\Users\prorgan\Box\Classes\BE 887\Exercise"
 log using organ_exercise.log, replace
 
 * load data
-use "data1980s_share.dta"
+use "data\data1980s_share.dta"
 
 ********************************************************************************
-*** Replication of Helpman, Melitz, and Rubenstein (2008)
+*** Data Cleaning
 ********************************************************************************
-** Table 1, Column 1 for 1986
+
+* data cleaning for HMR Rep parts 1, 2, and 3 and Alt Specs part 3
 
 * define landlock if we don't have two landlocked countries
 gen landlock = n_landlock!=2
-
 * define island if we don't have two island countries
 gen island = n_islands!=2
 
@@ -30,68 +30,37 @@ rename legalsystem_same legal
 rename common_lang lang
 rename religion_same religion
 
-* define country pairs
-gen pair = expcode + impcode
+** create id we can use for clustering
+* convert to strings
+gen impcode_str = impcode
+gen expcode_str = expcode
+tostring impcode_str, replace
+tostring expcode_str, replace
 
-* local to list variables for inclusion in regression
-local vars = "dist border island landlock legal lang colonial cu fta religion"
+* create id for pairs (need exp-imp and imp-exp to be same, so we do conditional)
+gen newid = cond(impcode_str <= expcode_str, impcode_str, expcode_str) ///
+	+ cond(impcode_str >= expcode_str, impcode_str, expcode_str) 
 
-* running regression
-* fixed effects for exporter and for importer
-* standard errors clustered at the country-pair level
-quietly reg ln_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
-estimates table, se keep(`vars') stats(N r2)
+* create pair variable we will use for clustering
+egen pair = group(newid)
 
-* write to file for use in tex
-outreg2 using "tables/t1c1.tex", keep(`vars') ///
- side stats(coef se) noparen dec(3) replace
-
-********************************************************************************
-** Table 1, Column 2 for 1986 (Probit)
+* drop temporary variables
+drop newid impcode_str expcode_str
 
 * define indicator for country pairs with positive trade
 gen pos_trade = !missing(ln_trade)
 
-* check we get 11,146 with positive trade (footnote 21)
-tab pos_trade if year==1986
-
-* local to list variables for inclusion in regression
-local vars = "dist border island landlock legal lang colonial cu fta religion"
-
-* regression
-quietly probit pos_trade `vars' i.expcode i.impcode ///
-if year==1986 & expcode!=141780, vce(cluster pair)
-
-local controls = "dist border island landlock legal lang colonial cu fta religion i.impcode i.expcode"
-
-margins, dydx(`controls') atmeans post
-
-* write to file for use in tex
-outreg2 using "tables/t1c2.tex", keep(`vars') ///
- side stats(coef se) noparen dec(3) replace ///
- addnote(Note: All predictors at their mean value)
+* save data
+save "data\cleaned_part1.dta", replace
 
 ********************************************************************************
-** Table 1, Column 3 for 1980s panel
-* local to list variables for inclusion in regression
-local vars = "dist border island landlock legal lang colonial cu fta religion"
+* data cleaning for HMR Rep parts 4, 5, and 6, and Alt Specs parts 1 and 2
 
-* running regression
-* fixed effects for exporter, importer, and year
-* standard errors clustered at the country-pair level
-quietly reg ln_trade `vars' i.expcode i.impcode i.year, vce(cluster pair)
-estimates table, se keep (`vars') stats(N r2)
-
-* write to file for use in tex
-outreg2 using "tables/t1c3.tex", keep(`vars') ///
- side stats(coef se) noparen dec(3) replace
-
-********************************************************************************
 ** Merge in Regulation data
 * see do file 'clean_data' for small pre-cleaning steps done before this
-merge m:1 expcode using reg_costs_exp
+merge m:1 expcode using "data\reg_costs_exp.dta"
 drop _merge
-merge m:1 impcode using reg_costs_imp
+merge m:1 impcode using "data\reg_costs_imp.dta"
 drop _merge
 
 * generate indicators for pairs
@@ -100,10 +69,6 @@ replace reg_costs = . if missing(exp_ind_cost) | missing(imp_ind_cost)
 gen reg_costs_procdays = (exp_ind_procdays + imp_ind_procdays)==2
 replace reg_costs_procdays = . if missing(exp_ind_procdays) | missing(imp_ind_procdays)
 
-save "merged_data.dta", replace
-
-********************************************************************************
-** Table 2, Column 1
 * drop if (1) reg cost data is missing or 
 * (2) exporter in 8 country list or (3) importer is Japan
 * Japan = 413920
@@ -121,64 +86,132 @@ expcode == 532800 | expcode == 533800 | expcode == 535280 | ///
 expcode == 538260 | expcode == 557520
 drop if impcode == 413920
 
+save "data\cleaned_part2.dta", replace
+
+********************************************************************************
+*** HMR Replication
+********************************************************************************
+
+** Replication of Table 1, Columns 1, 2, and 3
+
+clear all
+use "data\cleaned_part1.dta"
+
+* Column 1
+* local to list variables for inclusion in regression
+local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+* running regression
+* fixed effects for exporter and for importer
+* standard errors clustered at the country-pair level
+quietly reg ln_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
+
+* write to file for use in tex
+outreg2 using "tables/t1.tex", keep(`vars') ///
+ stats(coef se) dec(3) replace
+ 
+********************************************************************************
+* Column 2
+* local to list variables for inclusion in regression
+local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+* regression (exclude Congo)
+quietly probit pos_trade `vars' i.expcode i.impcode ///
+if year==1986 & expcode!=141780, vce(cluster pair)
+
+local controls = "dist border island landlock legal lang colonial cu fta religion i.impcode i.expcode"
+
+margins, dydx(`controls') atmeans post
+
+* write to file for use in tex
+outreg2 using "tables/t1.tex", keep(`vars') ///
+ stats(coef se) dec(3) append ///
+ addnote(Note: All predictors at their mean value)
+ 
+********************************************************************************
+* Column 3
+* local to list variables for inclusion in regression
+local vars = "dist border island landlock legal lang colonial cu fta religion"
+
+* running regression
+* fixed effects for exporter, importer, and year
+* standard errors clustered at the country-pair level
+quietly reg ln_trade `vars' i.expcode i.impcode i.year, vce(cluster pair)
+
+* write to file for use in tex
+outreg2 using "tables/t1.tex", keep(`vars') ///
+ stats(coef se) dec(3) append
+
+********************************************************************************
+** Replication of Table II, Column 1
+
+clear all
+use "data\cleaned_part2.dta"
+
+keep if year==1986
+
 * local to list variables for inclusion in regression
 local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
 * regression
-quietly probit pos_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
+quietly probit pos_trade `vars' i.expcode i.impcode, vce(cluster pair)
 
 margins, dydx(`vars') atmeans post
 
 * write to file for use in tex
 outreg2 using "tables/t2c1.tex", keep(`vars') ///
- side stats(coef se) noparen dec(3) replace ///
+ side noparen stats(coef se) dec(3) replace ///
  addnote(Note: All predictors at their mean value)
-
-********************************************************************************
-** Heckman Selection Correction
-set matsize 10000
-
+ 
+ ********************************************************************************
+** Heckman Correction Model and Table II, Column 4
 local fs_vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
-
 local ss_vars = "dist border island landlock legal lang colonial cu fta religion"
 
-heckman ln_trade `ss_vars' i.expcode i.impcode if year==1986, ///
-select(pos_trade = `fs_vars' i.expcode i.impcode) vce(cluster pair)
+heckman ln_trade `ss_vars' i.expcode i.impcode, ///
+select(pos_trade = `fs_vars' i.expcode i.impcode) twostep
 
 * write to file for use in tex
 outreg2 using "tables/t2c2.tex", keep(`fs_vars') ///
- side stats(coef se) noparen dec(3) replace
-
-********************************************************************************
+ stats(coef se) dec(3) replace
+ 
+ ********************************************************************************
 ** Table 2, Column 4
+* local to list variables for inclusion in regression
+local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
+
+* regression
+probit pos_trade `vars' i.expcode i.impcode, vce(cluster pair)
+
 * predict probability of selection (z_ij)
-predict psel if year==1986, xb
+predict psel
 
-gen mills = exp(-.5*psel^2)/(sqrt(2*_pi)*normprob(psel))
-
+* generate z variables
 gen z = invnormal(psel)
 gen z2 = z^2
 gen z3 = z^3
 
-local vars = "dist border island landlock legal lang colonial cu fta religion mills z z2 z3"
+* calculate inv mills ratio
+gen lambda = normalden(z)/psel
+
+* define variables
+local vars = "dist border island landlock legal lang colonial cu fta religion lambda z z2 z3"
 
 * running regression
-* fixed effects for exporter, importer, and year
-* standard errors clustered at the country-pair level
-quietly reg ln_trade `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
-estimates table, se keep(`vars') stats(N r2)
+* fixed effects for exporter, importer
+quietly reg ln_trade `vars' i.expcode i.impcode
 
 * write to file for use in tex
 outreg2 using "tables/t2c4.tex", keep(`vars') ///
- side stats(coef se) noparen dec(3) replace
+ side noparen stats(coef se) dec(3) replace
 
 ********************************************************************************
-*** Alternative Specifications and Tests using data from HMR (2008)
+*** Alternative Specifications and Tests
 ********************************************************************************
+
 ** Santos-Silva and Tenreyro (2006) Approach
-* reload merged data
 clear all
-use "merged_data.dta"
+use "data\cleaned_part2.dta"
 
 * replace missing ln_trade with 0, convert to levels
 replace ln_trade = 0 if missing(ln_trade)
@@ -201,7 +234,6 @@ gen ln_trade_poorman = ln(trade_plus_one)
 local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
 reg ln_trade_poorman `vars' i.expcode i.impcode if year==1986, vce(cluster pair)
-* distance coefficient grows in magnitude
 
 * write to file for use in tex
 outreg2 using "tables/alt2.tex", keep(`vars') ///
@@ -210,31 +242,26 @@ outreg2 using "tables/alt2.tex", keep(`vars') ///
 ********************************************************************************
 ** Fixed Effects
 clear all
-use "merged_data.dta"
+use "data\cleaned_part2.dta"
 
-* test different combinations of FE, writing to tex file
+set matsize 11000
 
 * importer, exporter, year FE
-quietly reg ln_trade fta i.expcode i.impcode
-outreg2 using "tables/alt3.tex", keep(fta) stats(coef se) noparen dec(3) replace ///
+quietly reghdfe ln_trade fta, a(expcode impcode) vce(r)
+outreg2 using "tables/alt3.tex", keep(fta) stats(coef se) dec(3) replace ///
  addtext(Importer and Exporter FE, Y, Im*Year and Ex*Year FE, N, Importer*Exporter FE, N)
 
 * importer*year, exporter*year,
 egen exp_year = group(expcode year)
 egen imp_year = group(impcode year)
 
-set matsize 11000
-
-quietly reg ln_trade fta i.exp_year i.imp_year
-outreg2 using "tables/alt3.tex", keep(fta) stats(coef se) noparen dec(3) append ///
+quietly reghdfe ln_trade fta, a(exp_year imp_year) vce(r)
+outreg2 using "tables/alt3.tex", keep(fta) stats(coef se) dec(3) append ///
  addtext(Importer and Exporter FE, N, Im*Year and Ex*Year FE, Y, Importer*Exporter FE, N)
 
 * importer*year, exporter*year, importer*exporter
-set matsize 11000
-quietly reg ln_trade fta i.exp_year i.imp_year i.pair
-outreg2 using "tables/alt3.tex", keep(fta) ///
- stats(coef se) noparen dec(3) append
-
-* too many interactions
+quietly reghdfe ln_trade fta, a(exp_year imp_year pair) vce(r)
+outreg2 using "tables/alt3.tex", keep(fta) stats(coef se) dec(3) append ///
+ addtext(Importer and Exporter FE, N, Im*Year and Ex*Year FE, Y, Importer*Exporter FE, Y)
 
 ********************************************************************************
