@@ -1,7 +1,7 @@
 ********************************************************************************
 * Author: Paul R. Organ
 * Purpose: BE 887 Econometric Exercise
-* Last Update: Oct 11, 2018
+* Last Update: Oct 17, 2018
 ********************************************************************************
 clear all
 set more off
@@ -163,39 +163,44 @@ outreg2 using "tables/t2c1.tex", keep(`vars') ///
  side noparen stats(coef se) dec(3) replace ///
  addnote(Note: All predictors at their mean value)
  
- ********************************************************************************
+********************************************************************************
 ** Heckman Correction Model and Table II, Column 4
+set matsize 11000
+
 local fs_vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 local ss_vars = "dist border island landlock legal lang colonial cu fta religion"
 
 heckman ln_trade `ss_vars' i.expcode i.impcode, ///
-select(pos_trade = `fs_vars' i.expcode i.impcode) twostep
+select(pos_trade = `fs_vars' i.expcode i.impcode) twostep mills(mills_heckman)
 
 * write to file for use in tex
 outreg2 using "tables/t2c2.tex", keep(`fs_vars') ///
  stats(coef se) dec(3) replace
  
- ********************************************************************************
+********************************************************************************
 ** Table 2, Column 4
-* local to list variables for inclusion in regression
+* local to list variables for inclusion in probit
 local vars = "dist border island landlock legal lang colonial cu fta religion reg_costs reg_costs_procdays"
 
 * regression
 probit pos_trade `vars' i.expcode i.impcode, vce(cluster pair)
 
-* predict probability of selection (z_ij)
-predict psel
+* predict probability of selection
+predict rho
 
-* generate z variables
-gen z = invnormal(psel)
-gen z2 = z^2
-gen z3 = z^3
+* generate zhat variable
+gen zhat = invnormal(rho)
 
-* calculate inv mills ratio
-gen lambda = normalden(z)/psel
+* generate mills ratio
+gen mills=normalden(zhat)/normal(zhat)
 
-* define variables
-local vars = "dist border island landlock legal lang colonial cu fta religion lambda z z2 z3"
+* generate zbar variables
+gen zbar = zhat + mills
+gen zbar2 = zbar^2
+gen zbar3 = zbar^3
+
+* define variables for "polynomial" regression
+local vars = "dist border island landlock legal lang colonial cu fta religion mills zbar zbar2 zbar3"
 
 * running regression
 * fixed effects for exporter, importer

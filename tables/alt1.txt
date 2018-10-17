@@ -2,19 +2,19 @@
 	trade	
 VARIABLES	coef	se
 		
-dist	-0.643***	0.062
-border	0.736***	0.153
-island	0.429*	0.240
-landlock	-0.542*	0.290
-legal	0.286***	0.087
-lang	-0.163	0.114
-colonial	0.245	0.153
-cu	-0.683	0.560
-fta	0.250**	0.108
-religion	-0.243	0.190
-reg_costs	-0.241	0.151
-reg_costs_procdays	-0.290	0.184
-Constant	14.408***	0.668
+dist	-0.550***	0.097
+border	0.924***	0.242
+island	0.129	0.300
+landlock	-0.238	0.349
+legal	0.447***	0.099
+lang	0.072	0.112
+colonial	-0.040	0.181
+cu	0.070	0.432
+fta	0.306*	0.162
+religion	-0.378*	0.201
+reg_costs	-0.042	0.147
+reg_costs_procdays	-0.182	0.194
+Constant	13.104***	0.858
 		
-Observations	13,572	
+Observations	12,535	
 *** p<0.01, ** p<0.05, * p<0.1		
